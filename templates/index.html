@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if not user %}
+
+  <div class="container">
+    <div class="mt-1">
+      <h1></h1>
+    </div>
+    <p class="">You need to log in to see this page</p>
+
+    <a type="button" class="" href="/auth">Login</a>
+  </div>
+
+{% else %}
+
+	<div class="">
+
+
+	  <h1> Hi {{ user.display_name }} :) Your country is {{ user.country }} </h1>
+
+    <hr class=""/>
+
+	  <div class="">
+      <div class="">
+
+        <section class="">
+
+          {% if user.images %}
+            <img src="{{user.images[0].url}}" class="img-square">
+          {% else %}
+            <img src="http://bit.ly/2nXRRfX" class="img-square">
+          {% endif %}
+
+        </section>
+      </div>
+      <div class="">
+    <h3> Get Tracks' Audio Features: </h3>
+    <hr class=""/>
+    {% if audio_features %}
+    <div class=''>
+        <div class=''>
+            <h4>Track 1:</h4>
+            <ul>
+                <li>Acousticness: {{ audio_features[0].acousticness }}</li>
+                <li>Danceability: {{ audio_features[0].danceability }}</li>
+                <li>Energy: {{ audio_features[0].energy }}</li>
+                <li>Instrumentalness: {{ audio_features[0].instrumentalness }}</li>
+                <li>Key: {{ audio_features[0].key }}</li>
+                <li>Liveness: {{ audio_features[0].liveness }}</li>
+                <li>Loudness: {{ audio_features[0].loudness }}</li>
+                <li>Mode: {{ audio_features[0].mode }}</li>
+                <li>Speechiness: {{ audio_features[0].speechiness }}</li>
+                <li>Tempo: {{ audio_features[0].tempo }}</li>
+                <li>Time Signature: {{ audio_features[0].time_signature }}</li>
+                <li>Valence: {{ audio_features[0].valence }}</li>
+            </ul>
+        </div>
+    </div>
+    {% else %}
+    <p>No audio features found.</p>
+    {% endif %}
+</div>
+
+      <div class="">
+
+        <h3> Your playlists: </h3>
+        <hr class=""/>
+
+        {% for play in playlists %}
+          <div class=''>
+            <a href="{{ play.external_urls.spotify }}">
+
+              <div class=''>
+                <span>{{ play.name }} </span>
+                {% if play.images %}
+                  <img src="{{play.images[0].url}}" alt="{{play.name}}" class="">
+                {% else %}
+                  <img src="http://bit.ly/2nXRRfX" class="">
+                {% endif %}
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      </div>
+
+
+      <div class="">
+
+        <h3> Recently played:</h3>
+        <hr class=""/>
+
+        {% for track in recently_played %}
+          <div class=''>
+            <a href="{{track.track.external_urls.spotify}}">
+
+              <div class=''>
+                <span>{{track.track.name}}</span>
+              </div>
+
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+        <div class="">
+
+        <h3> Top saved tracks:</h3>
+        <hr class=""/>
+
+        {% for track in top %}
+          <div class=''>
+            <a href="{{track.external_urls.spotify}}">
+
+              <div class=''>
+                <span>{{track.name}}</span>
+              </div>
+
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      </div>
+        <div class="">
+
+        <h3> Your Library:</h3>
+        <hr class=""/>
+
+        {% for track in library %}
+          <div class=''>
+            <a href="{{track.track.external_urls.spotify}}">
+
+              <div class=''>
+                <span>{{track.track.name}}</span>
+                <span>{{track.track.added_at}}</span>
+              </div>
+
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+
+{% endif %}
+
+
+{% endblock %}

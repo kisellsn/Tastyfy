@@ -61,9 +61,6 @@ def profile():
                                    library=library["items"],
                                    audio_features=audio_features['audio_features'])
 
-
-    #else:
-
     return render_template('index.html')
 
 

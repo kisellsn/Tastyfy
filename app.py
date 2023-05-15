@@ -48,10 +48,9 @@ def profile():
         # get user recently played tracks
         recently_played = spotify.get_users_recently_played(auth_header)
         top = spotify.get_users_top(auth_header, 'tracks')
-        #top = spotify.get_users_top(auth_header, 'artists')
         library = spotify.get_users_saved_tracks(auth_header)
-        #print(library)
         audio_features = spotify.get_users_audio_features(auth_header)
+        recommendations = spotify.get_recommendations(auth_header)
         if valid_token(recently_played):
             return render_template("index.html",
                                    user=profile_data,
@@ -59,7 +58,8 @@ def profile():
                                    recently_played=recently_played["items"],
                                    top=top["items"],
                                    library=library["items"],
-                                   audio_features=audio_features['audio_features'])
+                                   audio_features=audio_features['audio_features'],
+                                   recommendations=recommendations["tracks"])
 
 
     #else:

@@ -5,6 +5,7 @@ import requests
 import sys
 import string
 import random
+from collections import Counter
 try:
     import urllib.request, urllib.error
     import urllib.parse as urllibparse
@@ -86,7 +87,6 @@ def authorize(auth_token):
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     return auth_header
 
-# ------------------ USER RELATED REQUETS  ---------- #
 
 
 # spotify endpoints
@@ -100,7 +100,17 @@ USER_LIBRARY_ENDPOINT = "{}/{}".format(USER_PROFILE_ENDPOINT, 'tracks')
 AUDIO_FEATURES_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'audio-features')
 BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
                                               'featured-playlists')
+RECOMMENDATIONS_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'recommendations')
 
+# ------------------ USERS ---------------------------
+GET_USER_ENDPOINT = '{}/{}'.format(SPOTIFY_API_URL, 'users')
+
+def get_user_profile(user_id):
+    url = "{}/{id}".format(GET_USER_ENDPOINT, id=user_id)
+    resp = requests.get(url)
+    return resp.json()
+
+# ------------------ USER RELATED REQUETS  ---------- #
 
 
 def get_users_profile(auth_header):
@@ -154,34 +164,63 @@ def get_featured_playlists(auth_header):
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
-# ---------------- 2. ARTISTS ------------------------
-# https://developer.spotify.com/web-api/artist-endpoints/
+
+#---------------------RECOMMENDATIONS--------------------
+
+def get_recommendations(auth_header, market=None):
+    top_artists = get_users_top(auth_header, 'artists')
+    artists_ids = ','.join([artist['id'] for artist in top_artists['items'][0:1]])
+    seed_artists = "seed_artists=" + artists_ids
+
+    top_tracks = get_users_top(auth_header, 'tracks')
+    tracks_ids = ','.join([track['id'] for track in top_tracks['items'][0:2]])
+    seed_tracks = "seed_tracks=" + tracks_ids
+
+    genress=[]
+    for artist in top_artists['items']:
+        for genre in artist['genres']:
+            genress.append(genre)
+    counter = Counter(genress)
+    top_two_genre_names = ','.join([genre[0] for genre in counter.most_common(2)])
+    seed_genres = "seed_genres=" + top_two_genre_names
+
+    limit ="limit=" + '9'
+    if market==None:
+        url = '{}?{}&{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, limit, seed_artists, seed_genres,
+                                         seed_tracks)
+    else:
+        market = "market=" + market
+        url = '{}?{}&{}&{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, limit, market, seed_artists, seed_genres, seed_tracks)
+    resp = requests.get(url, headers=auth_header)
+    print(url)
+    print(resp.json())
+    return resp.json()
+
+
+
+
+# ---------------- ARTISTS ------------------------
 
 GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
 
 
-# https://developer.spotify.com/web-api/get-artist/
 def get_artist(artist_id):
     url = "{}/{id}".format(GET_ARTIST_ENDPOINT, id=artist_id)
     resp = requests.get(url)
     return resp.json()
 
-
-# https://developer.spotify.com/web-api/get-several-artists/
 def get_several_artists(list_of_ids):
     url = "{}/?ids={ids}".format(GET_ARTIST_ENDPOINT, ids=','.join(list_of_ids))
     resp = requests.get(url)
     return resp.json()
 
 
-# https://developer.spotify.com/web-api/get-artists-albums/
 def get_artists_albums(artist_id):
     url = "{}/{id}/albums".format(GET_ARTIST_ENDPOINT, id=artist_id)
     resp = requests.get(url)
     return resp.json()
 
 
-# https://developer.spotify.com/web-api/get-artists-top-tracks/
 def get_artists_top_tracks(artist_id, country='US'):
     url = "{}/{id}/top-tracks".format(GET_ARTIST_ENDPOINT, id=artist_id)
     myparams = {'country': country}
@@ -189,15 +228,12 @@ def get_artists_top_tracks(artist_id, country='US'):
     return resp.json()
 
 
-# https://developer.spotify.com/web-api/get-related-artists/
 def get_related_artists(artist_id):
     url = "{}/{id}/related-artists".format(GET_ARTIST_ENDPOINT, id=artist_id)
     resp = requests.get(url)
     return resp.json()
 
-
-# ----------------- 3. SEARCH ------------------------
-# https://developer.spotify.com/web-api/search-item/
+# -----------------SEARCH ------------------------
 
 SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
 
@@ -215,60 +251,41 @@ def search(search_type, name):
 
 
 
-# ---------------- 5. ALBUMS ------------------------
-# https://developer.spotify.com/web-api/album-endpoints/
-
+# ---------------- ALBUMS ------------------------
 GET_ALBUM_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'albums')  # /<id>
 
 
-# https://developer.spotify.com/web-api/get-album/
 def get_album(album_id):
     url = "{}/{id}".format(GET_ALBUM_ENDPOINT, id=album_id)
     resp = requests.get(url)
     return resp.json()
 
 
-# https://developer.spotify.com/web-api/get-several-albums/
 def get_several_albums(list_of_ids):
     url = "{}/?ids={ids}".format(GET_ALBUM_ENDPOINT, ids=','.join(list_of_ids))
     resp = requests.get(url)
     return resp.json()
 
 
-# https://developer.spotify.com/web-api/get-albums-tracks/
 def get_albums_tracks(album_id):
     url = "{}/{id}/tracks".format(GET_ALBUM_ENDPOINT, id=album_id)
     resp = requests.get(url)
     return resp.json()
 
 
-# ------------------ 6. USERS ---------------------------
-# https://developer.spotify.com/web-api/user-profile-endpoints/
-
-GET_USER_ENDPOINT = '{}/{}'.format(SPOTIFY_API_URL, 'users')
 
 
-# https://developer.spotify.com/web-api/get-users-profile/
-def get_user_profile(user_id):
-    url = "{}/{id}".format(GET_USER_ENDPOINT, id=user_id)
-    resp = requests.get(url)
-    return resp.json()
 
-
-# ---------------- 7. TRACKS ------------------------
-# https://developer.spotify.com/web-api/track-endpoints/
+# ---------------- TRACKS ------------------------
 
 GET_TRACK_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'tracks')  # /<id>
 
 
-# https://developer.spotify.com/web-api/get-track/
 def get_track(track_id):
     url = "{}/{id}".format(GET_TRACK_ENDPOINT, id=track_id)
     resp = requests.get(url)
     return resp.json()
 
-
-# https://developer.spotify.com/web-api/get-several-tracks/
 def get_several_tracks(list_of_ids):
     url = "{}/?ids={ids}".format(GET_TRACK_ENDPOINT, ids=','.join(list_of_ids))
     resp = requests.get(url)

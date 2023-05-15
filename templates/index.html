@@ -132,8 +132,43 @@
             <a href="{{track.track.external_urls.spotify}}">
 
               <div class=''>
-                <span>{{track.track.name}}</span>
-                <span>{{track.track.added_at}}</span>
+                  <span>{{track.track.name}}</span>
+                  <span>{{track.track.added_at}}</span>
+                  <div>
+                      {% if track.track.album.images %}
+                      <img src="{{ track.track.album.images[0].url}}" alt="{{track.name}}" class="img-playlist">
+                      {% else %}
+                      <img src="http://bit.ly/2nXRRfX" class="img-search">
+                      {% endif %}
+          </div>
+              </div>
+
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+
+
+        <div class="">
+
+        <h3> Your Recommendations:</h3>
+        <hr class=""/>
+
+        {% for track in recommendations %}
+          <div class=''>
+            <a href="{{track.external_urls.spotify}}">
+
+              <div class=''>
+                  <span>{{track.name}}</span>
+                  <span>{{track.added_at}}</span>
+                  <div>
+                      {% if track.album.images %}
+                      <img src="{{ track.album.images[0].url}}" alt="{{track.name}}" class="img-playlist">
+                      {% else %}
+                      <img src="http://bit.ly/2nXRRfX" class="img-search">
+                      {% endif %}
+          </div>
               </div>
 
             </a>

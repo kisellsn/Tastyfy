@@ -167,13 +167,13 @@ def get_featured_playlists(auth_header):
 
 #---------------------RECOMMENDATIONS--------------------
 
-def get_recommendations(auth_header, market=None):
+def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, market=None):
     top_artists = get_users_top(auth_header, 'artists')
-    artists_ids = ','.join([artist['id'] for artist in top_artists['items'][0:1]])
+    artists_ids = ','.join([artist['id'] for artist in top_artists['items'][0:a_count]])
     seed_artists = "seed_artists=" + artists_ids
 
     top_tracks = get_users_top(auth_header, 'tracks')
-    tracks_ids = ','.join([track['id'] for track in top_tracks['items'][0:2]])
+    tracks_ids = ','.join([track['id'] for track in top_tracks['items'][0:t_count]])
     seed_tracks = "seed_tracks=" + tracks_ids
 
     genress=[]
@@ -181,10 +181,10 @@ def get_recommendations(auth_header, market=None):
         for genre in artist['genres']:
             genress.append(genre)
     counter = Counter(genress)
-    top_two_genre_names = ','.join([genre[0] for genre in counter.most_common(2)])
+    top_two_genre_names = ','.join([genre[0] for genre in counter.most_common(g_count)])
     seed_genres = "seed_genres=" + top_two_genre_names
 
-    limit ="limit=" + '9'
+    limit ="limit=" + str(limit)
     if market==None:
         url = '{}?{}&{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, limit, seed_artists, seed_genres,
                                          seed_tracks)
@@ -194,6 +194,24 @@ def get_recommendations(auth_header, market=None):
     resp = requests.get(url, headers=auth_header)
     print(url)
     print(resp.json())
+    return resp.json()
+
+
+# -----------------SEARCH ------------------------
+
+SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
+
+
+def search(auth_header,name, search_type='track'):
+    if search_type not in ['artist', 'track', 'album', 'playlist']:
+        print('invalid input')
+        return None
+    type="type="+search_type
+    q = "q=" + name
+    url = '{}?{}&{}'.format(SEARCH_ENDPOINT, q, type)
+    resp = requests.get(url,  headers=auth_header)
+    print(url)
+    print(resp)
     return resp.json()
 
 
@@ -232,22 +250,6 @@ def get_related_artists(artist_id):
     url = "{}/{id}/related-artists".format(GET_ARTIST_ENDPOINT, id=artist_id)
     resp = requests.get(url)
     return resp.json()
-
-# -----------------SEARCH ------------------------
-
-SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
-
-
-# https://developer.spotify.com/web-api/search-item/
-def search(search_type, name):
-    if search_type not in ['artist', 'track', 'album', 'playlist']:
-        print('invalid type')
-        return None
-    myparams = {'type': search_type}
-    myparams['q'] = name
-    resp = requests.get(SEARCH_ENDPOINT, params=myparams)
-    return resp.json()
-
 
 
 

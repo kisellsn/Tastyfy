@@ -47,10 +47,10 @@ def profile():
 
         # get user recently played tracks
         recently_played = spotify.get_users_recently_played(auth_header)
-        top = spotify.get_users_top(auth_header, 'tracks')
+        top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
         library = spotify.get_users_saved_tracks(auth_header)
         audio_features = spotify.get_users_audio_features(auth_header)
-        recommendations = spotify.get_recommendations(auth_header)
+        recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2) #market (tracks+artists+genres<=5)
         if valid_token(recently_played):
             return render_template("index.html",
                                    user=profile_data,
@@ -61,12 +61,28 @@ def profile():
                                    audio_features=audio_features['audio_features'],
                                    recommendations=recommendations["tracks"])
 
-
-    #else:
-
     return render_template('index.html')
 
+@app.route('/search')
+def search():
+    try:
+        name = request.args['name']
+        return make_search(name)
+    except:
+        return render_template('search.html')
+def make_search(name):
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        data = spotify.search(auth_header, name)
+        api_url = data["track" + 's']['href']
+        items = data["track" + 's']['items']
 
+        return render_template('search.html',
+                               name=name,
+                               results=items,
+                               api_url=api_url,
+                               search_type="track")
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=spotify.PORT)

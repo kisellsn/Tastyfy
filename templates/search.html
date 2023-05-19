@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<section>
+  <div class="container">
+
+    {% if not name or not search_type %}
+
+      <div class="container">
+
+        <div class='row'>
+          <h1>Search</h1>
+          <p>
+            Get Spotify catalog information about artists, albums,
+            tracks or playlists that match a keyword string.
+          </p>
+          <hr class="half-rule"/>
+        </div>
+
+        <div class='row'>
+          <form action="{{ url_for('search') }}" method='GET'>
+            <div >
+
+                  <div>
+                    <label>Make a search:</label>
+                    <div style='padding-left: 0px;'>
+                      <div >
+                        <span>
+                          <input type="text" name='name' placeholder="Search for...?">
+                          <button class="btn btn-default" type="submit">Go!</button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+    {% else %}
+
+        <h3>Searching for {{ search_type }} with the name of:
+          <em>{{ name }}</em>
+        </h3>
+
+        <hr class="half-rule"/> 
+
+        <div>
+            {% for track in results %}
+               <a href="{{ track.external_urls.spotify }}">{{ track.name }} - {{ track.artists[0].name }}</a>
+               <br>
+            {% endfor %}
+        </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,6 +1,8 @@
 from __future__ import print_function
 import base64
 import json
+import pickle
+
 import requests
 import sys
 import string
@@ -38,7 +40,7 @@ CLIENT_SECRET = CLIENT['secret']
 CLIENT_SIDE_URL = "http://localhost"
 PORT = 8000
 REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
-SCOPE = "user-read-private user-read-email user-library-read playlist-modify-public playlist-modify-private user-read-recently-played user-top-read"
+SCOPE = "user-read-private user-read-email ugc-image-upload user-library-read playlist-modify-public playlist-modify-private user-read-recently-played user-top-read user-library-modify"
 STATE = generate_random_string(16)
 
 
@@ -47,7 +49,8 @@ auth_query_parameters = {
     "redirect_uri": REDIRECT_URI,
     "scope": SCOPE,
     "state": STATE,
-    "client_id": CLIENT_ID
+    "client_id": CLIENT_ID,
+    "show_dialog": "True"
 }
 
 # python 3
@@ -108,6 +111,7 @@ GET_USER_ENDPOINT = '{}/{}'.format(SPOTIFY_API_URL, 'users')
 def get_user_profile(user_id):
     url = "{}/{id}".format(GET_USER_ENDPOINT, id=user_id)
     resp = requests.get(url)
+    print(resp.json())
     return resp.json()
 
 # ------------------ USER RELATED REQUETS  ---------- #
@@ -148,13 +152,15 @@ def get_users_audio_features(auth_header):
     url = "{}?{}".format(AUDIO_FEATURES_ENDPOINT,params)
     resp = requests.get(url, headers=auth_header)
     print(url)
-    print(resp.json())
     return resp.json()
 
 
-def get_users_recently_played(auth_header):
-    url = USER_RECENTLY_PLAYED_ENDPOINT
+def get_users_recently_played(auth_header,limit):
+    url = "{}?{limit}".format(USER_RECENTLY_PLAYED_ENDPOINT, limit="limit="+str(limit))
     resp = requests.get(url, headers=auth_header)
+    #print("get_users_recently_played")
+   # with open('data.json', 'w') as file:
+      #  json.dump(resp.json(), file)
     return resp.json()
 
 
@@ -197,6 +203,23 @@ def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, marke
     return resp.json()
 
 
+#---------------Save Tracks for Current User---------------
+
+def save_track(auth_header, tracks):
+    ids = ','.join([track['id'] for track in tracks['tracks']])
+    url = "{}?{}".format(USER_LIBRARY_ENDPOINT, "ids="+ids)
+    auth_header["Content-Type"] = "application/json"
+    resp = requests.put(url, headers=auth_header)
+    return resp
+
+
+
+
+
+
+
+
+
 # -----------------SEARCH ------------------------
 
 SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
@@ -210,9 +233,71 @@ def search(auth_header,name, search_type='track'):
     q = "q=" + name
     url = '{}?{}&{}'.format(SEARCH_ENDPOINT, q, type)
     resp = requests.get(url,  headers=auth_header)
-    print(url)
-    print(resp)
     return resp.json()
+
+
+
+#-----------------Generate Playlist-------------------------
+
+
+def generate_playlist_tracks(auth_header, tracks):
+
+    tracks_ids = ','.join([track["track"]['id'] for track in tracks['items'][0:5]])
+    seed_tracks = "seed_tracks=" + tracks_ids
+
+    seed_artists = "seed_artists="
+    seed_genres = "seed_genres="
+    url = '{}?{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, seed_artists, seed_genres,
+                                         seed_tracks)
+
+    resp = requests.get(url, headers=auth_header)
+    return resp.json()
+
+
+def create_playlist(auth_header, user_id, name,description=None):
+    user_playlists = get_users_playlists(auth_header)["items"]
+    if all(play["name"] != name for play in user_playlists):
+        url = "{}/{id}/{playlists}".format(GET_USER_ENDPOINT, id=user_id, playlists="playlists")
+        data = json.dumps({
+            "name": name,
+            "description": description
+        })
+        auth_header["Content-Type"] = "application/json"
+        resp = requests.post(url, data=data, headers=auth_header)
+    else:
+        matching_playlist = next((play for play in user_playlists if play["name"] == name), None)
+        return matching_playlist["id"]
+    return resp.json()["id"]
+
+def set_image(auth_header, playlist_id):
+    url = "{}/{playlists}/{id}/{images}".format(SPOTIFY_API_URL, id=playlist_id, playlists="playlists",
+                                                       images="images")
+    auth_header["Content-Type"] = "image/jpeg"
+    with open('static/imgs/image.jpg', 'rb') as image_file:
+        encoded_image_data = base64.b64encode(image_file.read())
+
+    encoded_image_string = encoded_image_data.decode('utf-8')
+    resp = requests.put(url, data=encoded_image_string, headers=auth_header)
+    print(resp)
+    return resp
+
+def add_playlist_tracks(auth_header, playlist_id, tracks):
+    uris = ','.join([track['uri'] for track in tracks['tracks']])
+    url = "{}/{playlists}/{id}/{tracks}?{uris}".format(SPOTIFY_API_URL, id=playlist_id, playlists="playlists", tracks="tracks", uris="uris="+uris)
+
+    data = json.dumps({
+        "position": 0
+    })
+    auth_header["Content-Type"] = "application/json"
+    resp = requests.post(url, data=data, headers=auth_header)
+    return resp
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, g, render_template, session, url_for
 from spotify_requests import spotify
+from analysis import analysis
 
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
@@ -41,16 +42,24 @@ def profile():
         auth_header = session['auth_header']
         # get profile data
         profile_data = spotify.get_users_profile(auth_header)
-
         # get user playlist data
         playlist_data = spotify.get_users_playlists(auth_header)
-
         # get user recently played tracks
-        recently_played = spotify.get_users_recently_played(auth_header)
+        recently_played = spotify.get_users_recently_played(auth_header, 50)
         top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
         library = spotify.get_users_saved_tracks(auth_header)
         audio_features = spotify.get_users_audio_features(auth_header)
-        recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2) #market (tracks+artists+genres<=5)
+        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2) #market (tracks+artists+genres<=5)
+
+        #tracks= spotify.generate_playlist_tracks(auth_header, recently_played)
+        playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")
+        #spotify.add_playlist_tracks(auth_header, playlist_id, tracks)
+        spotify.set_image(auth_header, playlist_id)
+
+        #spotify.save_track(auth_header, recommendations)
+
+
+        analysis.visualize_top_artists(recently_played)
         if valid_token(recently_played):
             return render_template("index.html",
                                    user=profile_data,
@@ -83,6 +92,11 @@ def make_search(name):
                                api_url=api_url,
                                search_type="track")
     return render_template('index.html')
+
+@app.route("/logout")
+def logout():
+    return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=spotify.PORT)

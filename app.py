@@ -54,7 +54,7 @@ def profile():
         #tracks= spotify.generate_playlist_tracks(auth_header, recently_played)
         playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")
         #spotify.add_playlist_tracks(auth_header, playlist_id, tracks)
-        spotify.set_image(auth_header, playlist_id)
+        #spotify.set_image(auth_header, playlist_id)
 
         #spotify.save_track(auth_header, recommendations)
 

@@ -17,11 +17,13 @@ def visualize_top_artists(json_data):
     streaming_history = normalize_history(json_data)
     artists_count = streaming_history.groupby(['Artist']).agg(Count=('Artist', 'count')).reset_index()
     artists_count.rename(columns={'Count': 'Tracks listened'}, inplace=True)
+    artists_count = artists_count.sort_values(by=['Tracks listened'], ascending=False).head(15)
 
     color_continuous_scale = ['#2F0F43', '#522278', '#613D9C']
+
     fig = px.pie(artists_count, values='Tracks listened', names='Artist',
-                 color_discrete_sequence=px.colors.diverging.PRGn, hole=0.65)
-    fig.update_traces(textfont=dict(size=25))
+                 color_discrete_sequence=color_continuous_scale, hole=0.65)
+    fig.update_traces(textfont=dict(size=25), hovertemplate=' <br>   %{label}   <br> ')
 
     big_circle = dict(
         type='circle',
@@ -43,8 +45,7 @@ def visualize_top_artists(json_data):
             'paper_bgcolor': 'rgba(0,0,0,0)'
         },
         shapes=[big_circle, small_circle], showlegend=False,
-        hoverlabel=dict(bgcolor="black", font_size=16, font_family="Helvetica", align='auto')
+        hoverlabel=dict(bgcolor="black", font_size=20, font_family="Helvetica")
     )
 
     fig.show()
-    plotly.offline.plot(fig, filename='profile.html', config={'displayModeBar': False})

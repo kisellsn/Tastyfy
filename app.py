@@ -45,16 +45,16 @@ def profile():
         # get user playlist data
         playlist_data = spotify.get_users_playlists(auth_header)
         # get user recently played tracks
-        recently_played = spotify.get_users_recently_played(auth_header, 50)
+        recently_played = spotify.get_users_recently_played(auth_header, 10)
         top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
         library = spotify.get_users_saved_tracks(auth_header)
         audio_features = spotify.get_users_audio_features(auth_header)
         recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2) #market (tracks+artists+genres<=5)
 
         #tracks= spotify.generate_playlist_tracks(auth_header, recently_played)
-        playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")
+        #playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")
         #spotify.add_playlist_tracks(auth_header, playlist_id, tracks)
-        spotify.set_image(auth_header, playlist_id)
+        #spotify.set_image(auth_header, playlist_id)
 
         #spotify.save_track(auth_header, recommendations)
 
@@ -70,7 +70,7 @@ def profile():
                                    audio_features=audio_features['audio_features'],
                                    recommendations=recommendations["tracks"])
 
-    return render_template('index.html')
+    return redirect(url_for('index'))
 
 @app.route('/search')
 def search():

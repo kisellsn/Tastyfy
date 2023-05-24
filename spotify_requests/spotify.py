@@ -130,11 +130,14 @@ def get_users_playlists(auth_header):
 
 
 
-def get_users_top(auth_header, t):
+def get_users_top(auth_header, t, term='medium_term'):
     if t not in ['artists', 'tracks']:
         print('invalid type')
         return None
-    url = "{}/{type}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t)
+    if term not in ['medium_term', 'short_term', 'long_term']:
+        print('invalid type')
+        return None
+    url = "{}/{type}?{time_range}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t, time_range="time_range="+term)
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
@@ -158,9 +161,6 @@ def get_users_audio_features(auth_header):
 def get_users_recently_played(auth_header,limit):
     url = "{}?{limit}".format(USER_RECENTLY_PLAYED_ENDPOINT, limit="limit="+str(limit))
     resp = requests.get(url, headers=auth_header)
-    #print("get_users_recently_played")
-   # with open('data.json', 'w') as file:
-      #  json.dump(resp.json(), file)
     return resp.json()
 
 

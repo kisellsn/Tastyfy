@@ -1,7 +1,7 @@
-from flask import Flask, request, redirect, g, render_template, session, url_for, jsonify
+from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from spotify_requests import spotify
 from analysis import analysis
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'

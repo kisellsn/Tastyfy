@@ -9,6 +9,21 @@ import About from './components/About/About';
 import Menu from './components/Menu/Menu';
 
 function App() {
+
+  const [data, setData] = useState([{}])
+
+  useEffect(() => {
+    fetch('/members').then(
+      res => res.json()
+    ).then(
+      data => {
+        setData(data)
+        console.log(data)
+      }
+    )
+  })
+
+
   return (
     <HelmetProvider>
       <StyledEngineProvider injectFirst>

@@ -65,6 +65,7 @@ def profile():
         if valid_token(recently_played):
             return profile_data,playlist_data["items"],recently_played["items"],top["items"],library["items"],audio_features['audio_features'],recommendations["tracks"]
 
+
     return redirect(url_for('index'))
 
 @app.route('/search')

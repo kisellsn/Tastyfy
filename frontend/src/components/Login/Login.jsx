@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import VectorSmartObject1Image from 'src/assets/images/start1_Vector_Smart_Object_1.png';
 import Vector1Image from 'src/assets/images/start1_Vector_1.png';
 import './Login.scss'
 
 function Login(props) {
+
   const navigate = useNavigate();
 
-  const Analytics = () => {
-    navigate('/menu');
+  const handleAuth = () => {
+    axios.get('/auth')
+      .then(response => {
+        // Handle successful authentication
+        navigate('/menu');
+      })
+      .catch(error => {
+        // Handle authentication error
+        console.error('Authentication failed', error);
+      });
   };
+
+  // useEffect(() => {
+  //   handleAuth();
+  // }, []);
 
   return (
     <div id='main' className={props.className}>
@@ -20,7 +34,7 @@ function Login(props) {
         alt={'Vector Smart Object 1'}
       />
       <div id='Group2'>
-        <div id='Rectangle4' onClick={Analytics}>
+        <div id='Rectangle4' onClick={handleAuth}>
           <div id='LogIn'>{`Log In`}</div>
           <img id='Vector1' src={Vector1Image} loading="lazy" alt={'Vector'} />
         </div>

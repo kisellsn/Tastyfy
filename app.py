@@ -6,14 +6,13 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
 CORS(app)
-app.config['CORS_HEADERS'] = 'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin'
+# app.config['CORS_HEADERS'] = 'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin'
 
 # ----------------------- AUTH -------------------------
 
 @app.route("/auth")
 def auth():
     return redirect(spotify.AUTH_URL)
-
 
 @app.route("/callback/")
 def callback():

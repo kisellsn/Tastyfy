@@ -10,19 +10,18 @@ import Menu from './components/Menu/Menu';
 
 function App() {
 
-  const [data, setData] = useState([{}])
+  // const [data, setData] = useState([{}])
 
-  useEffect(() => {
-    fetch('/profile').then(
-      res => res.json()
-    ).then(
-      data => {
-        setData(data)
-        console.log(data)
-      }
-    )
-  })
-
+  // useEffect(() => {
+  //   fetch('/auth').then(
+  //     res => res.json()
+  //   ).then(
+  //     data => {
+  //       setData(data)
+  //       console.log(data)
+  //     }
+  //   )
+  // })
 
   return (
     <HelmetProvider>

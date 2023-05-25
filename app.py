@@ -63,14 +63,7 @@ def profile():
 
         analysis.visualize_top_artists(recently_played)
         if valid_token(recently_played):
-            return render_template("index.html",
-                                   user=profile_data,
-                                   playlists=playlist_data["items"],
-                                   recently_played=recently_played["items"],
-                                   top=top["items"],
-                                   library=library["items"],
-                                   audio_features=audio_features['audio_features'],
-                                   recommendations=recommendations["tracks"])
+            return profile_data,playlist_data["items"],recently_played["items"],top["items"],library["items"],audio_features['audio_features'],recommendations["tracks"]
 
     return redirect(url_for('index'))
 

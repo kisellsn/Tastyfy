@@ -38,7 +38,7 @@ CLIENT_SECRET = CLIENT['secret']
 
 # server side parameter
 CLIENT_SIDE_URL = "http://localhost"
-PORT = 8000
+PORT = 3000
 REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
 SCOPE = "user-read-private user-read-email ugc-image-upload user-library-read playlist-modify-public playlist-modify-private user-read-recently-played user-top-read user-library-modify"
 STATE = generate_random_string(16)

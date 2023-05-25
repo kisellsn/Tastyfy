@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, g, render_template, session, url_for
+from flask import Flask, request, redirect, g, render_template, session, url_for, jsonify
 from spotify_requests import spotify
 from analysis import analysis
 from flask_cors import CORS, cross_origin
@@ -63,9 +63,15 @@ def profile():
 
         analysis.visualize_top_artists(recently_played)
         if valid_token(recently_played):
-            return profile_data,playlist_data["items"],recently_played["items"],top["items"],library["items"],audio_features['audio_features'],recommendations["tracks"]
-
-
+            return jsonify({
+                "user": profile_data,
+                "playlists": playlist_data["items"],
+                "recently_played": recently_played["items"],
+                "top": top["items"],
+                "library": library["items"],
+                "audio_features": audio_features['audio_features'],
+                "recommendations": recommendations["tracks"]
+            })
     return redirect(url_for('index'))
 
 @app.route('/search')

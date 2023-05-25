@@ -68,19 +68,6 @@ function Menu(props) {
         </div>
         <div className='recommendationContainer'>
           <div id='titleA'><h4>Recommendations from selected region</h4></div>
-          <div id='recomendation'>
-            <div className='rec_content'>
-                {
-                  recSongs?.length === 0 ?
-                      <p className='no_song'>
-                          Not found
-                      </p>
-                  :
-                  recSongs?.map(song => (
-                          <Song2 key={song.id} song={song} />
-                ))}
-            </div>
-          </div>
           <div id='listing'>
             <div className='countries' >
               {/* <div className='selecting'>Select country</div>
@@ -124,7 +111,20 @@ function Menu(props) {
               }}
             />
               </div>
+          </div>
+          <div id='recomendation'>
+            <div className='rec_content'>
+                {
+                  recSongs?.length === 0 ?
+                      <p className='no_song'>
+                          Not found
+                      </p>
+                  :
+                  recSongs?.map(song => (
+                          <Song2 key={song.id} song={song} />
+                ))}
             </div>
+          </div>
           </div>
         </div>
       </div>

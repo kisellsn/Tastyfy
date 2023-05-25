@@ -6,12 +6,11 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
 CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['CORS_HEADERS'] = 'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin'
 
 # ----------------------- AUTH -------------------------
 
 @app.route("/auth")
-@cross_origin()
 def auth():
     return redirect(spotify.AUTH_URL)
 
@@ -34,14 +33,12 @@ def valid_token(resp):
 
 
 @app.route("/")
-@cross_origin()
 def index():
     return render_template('index.html')
 
 
 
 @app.route('/profile')
-@cross_origin()
 def profile():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -78,7 +75,6 @@ def profile():
     return redirect(url_for('index'))
 
 @app.route('/search')
-@cross_origin()
 def search():
     try:
         name = request.args['name']
@@ -100,7 +96,6 @@ def make_search(name):
     return render_template('index.html')
 
 @app.route("/logout")
-@cross_origin()
 def logout():
     return redirect(url_for('index'))
 

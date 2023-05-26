@@ -11,7 +11,7 @@ def visualize_top_artists(json_data, is_top=False):
     artists_count = streaming_history.groupby(['Artist']).agg(Count=('Artist', 'count')).reset_index()
     artists_count.rename(columns={'Count': 'Tracks listened'}, inplace=True)
     artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
-    
+
     artists_count = __make_others_section(artists_count)
 
     __plot_pie_chart(artists_count)
@@ -19,7 +19,7 @@ def visualize_top_artists(json_data, is_top=False):
 
 def __normalize_history(json_data):
     df = pd.json_normalize(json_data['items'])
-    df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
+    df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
     df = df[['played_at', 'artist', 'track.name', 'track.album.name']]
     df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']
@@ -29,7 +29,7 @@ def __normalize_history(json_data):
 
 def __normalize_top(json_data):
     df = pd.json_normalize(json_data['items'])
-    df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
+    df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
     df = df[['artist', 'name', 'album.name']]
     df.columns = ['Artist', 'Track Name', 'Album Name']

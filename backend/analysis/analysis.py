@@ -31,7 +31,7 @@ def __normalize_top(json_data):
     df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
     df = df[['artist', 'name', 'album.name']]
-    df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']
+    df.columns = ['Artist', 'Track Name', 'Album Name']
     pd.set_option('display.max_columns', None)
     return df
 

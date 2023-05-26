@@ -10,7 +10,10 @@ CORS(app)
 
 @app.route("/api/auth")
 def auth():
-    return redirect(spotify.AUTH_URL)
+    return jsonify({
+        "link": spotify.AUTH_URL
+    })
+    #return redirect(spotify.AUTH_URL)
 
 
 @app.route("/callback/")

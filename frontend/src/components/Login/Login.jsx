@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import VectorSmartObject1Image from 'src/assets/images/start1_Vector_Smart_Object_1.png';
 import Vector1Image from 'src/assets/images/start1_Vector_1.png';
 import './Login.scss'
+import { useNavigate } from 'react-router-dom';
 
 
 function Login(props) {
-
+  // const navigate = useNavigate();
   const handleAuth = async () => {
     try {
       const response = await axios.get('/api/auth');
@@ -16,7 +17,6 @@ function Login(props) {
       console.error('Authentication failed', error);
     }
   };
-
 
   return (
     <div id='main' className={props.className}>

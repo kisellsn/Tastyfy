@@ -10,19 +10,6 @@ import Menu from './components/Menu/Menu';
 
 function App() {
 
-  // const [data, setData] = useState([{}])
-
-  // useEffect(() => {
-  //   fetch('/auth').then(
-  //     res => res.json()
-  //   ).then(
-  //     data => {
-  //       setData(data)
-  //       console.log(data)
-  //     }
-  //   )
-  // })
-
   return (
     <HelmetProvider>
       <StyledEngineProvider injectFirst>

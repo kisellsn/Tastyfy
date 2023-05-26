@@ -13,7 +13,7 @@ def auth():
     return jsonify({
         "link": spotify.AUTH_URL
     })
-    #return redirect(spotify.AUTH_URL)
+    # return redirect(spotify.AUTH_URL)
 
 
 @app.route("/callback/")

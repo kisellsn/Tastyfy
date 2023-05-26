@@ -13,7 +13,7 @@ def auth():
     return jsonify({
         "link": spotify.AUTH_URL
     })
-    # return redirect(spotify.AUTH_URL)
+    #return redirect(spotify.AUTH_URL)
 
 
 @app.route("/callback/")
@@ -21,8 +21,10 @@ def callback():
     auth_token = request.args['code']
     auth_header = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
-
-    return redirect(url_for('profile'))
+    return jsonify({
+        "link": url_for('profile')
+    })
+    #return redirect(url_for('profile'))
 
 
 def valid_token(resp):
@@ -51,7 +53,7 @@ def profile():
         top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
         library = spotify.get_users_saved_tracks(auth_header)
         audio_features = spotify.get_users_audio_features(auth_header)
-        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2) #market (tracks+artists+genres<=5)
+        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="UA") #market (tracks+artists+genres<=5)
 
         #tracks= spotify.generate_playlist_tracks(auth_header, recently_played)
         #playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")

@@ -10,7 +10,7 @@ function Login(props) {
   const navigate = useNavigate();
 
   const handleAuth = () => {
-    axios.get('/auth')
+    axios.get('/api/auth')
       .then(response => {
         // Handle successful authentication
         navigate('/menu');

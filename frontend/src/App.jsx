@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Redirect } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import questTheme from 'src/MyDesignSystemLightTheme';
@@ -18,6 +18,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/about" element={<About />} />
             <Route path="/menu" element={<Menu />} />
+            <Redirect path="/callback" to="/menu" />
           </Routes>
         </ThemeProvider>
         <Footer/>

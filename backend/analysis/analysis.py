@@ -10,6 +10,7 @@ def visualize_top_artists(json_data, is_top=False):
 
     artists_count = streaming_history.groupby(['Artist']).agg(Count=('Artist', 'count')).reset_index()
     artists_count.rename(columns={'Count': 'Tracks listened'}, inplace=True)
+    artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
 
     artists_count = __make_others_section(artists_count)
 
@@ -31,7 +32,7 @@ def __normalize_top(json_data):
     df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
     df = df[['artist', 'name', 'album.name']]
-    df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']
+    df.columns = ['Artist', 'Track Name', 'Album Name']
     pd.set_option('display.max_columns', None)
     return df
 
@@ -46,7 +47,7 @@ def __make_others_section(artists_count):
         artists_count.drop(artists_count.tail(3).index, inplace=True)
         new_row = pd.DataFrame({'Artist': 'Others', 'Tracks listened': column_sum}, index=[len(artists_count)])
         artists_count = pd.concat([artists_count, new_row])
-        return artists_count.sort_values(by=['Tracks listened'], ascending=False)
+        return artists_count
     else:
         return artists_count.head(10)
 

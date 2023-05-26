@@ -8,7 +8,7 @@ app.secret_key = 'some secret key ;)'
 CORS(app)
 # ----------------------- AUTH -------------------------
 
-@app.route("/auth")
+@app.route("/api/auth")
 def auth():
     return redirect(spotify.AUTH_URL)
 
@@ -19,7 +19,6 @@ def callback():
     auth_header = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
 
-    #return profile()
     return redirect(url_for('profile'))
 
 
@@ -36,7 +35,7 @@ def index():
 
 
 
-@app.route('/profile')
+@app.route('/api/profile')
 def profile():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -72,7 +71,7 @@ def profile():
             })
     return redirect(url_for('index'))
 
-@app.route('/search')
+@app.route('/api/search')
 def search():
     try:
         name = request.args['name']
@@ -86,14 +85,14 @@ def make_search(name):
         api_url = data["track" + 's']['href']
         items = data["track" + 's']['items']
 
-        return render_template('search.html',
-                               name=name,
-                               results=items,
-                               api_url=api_url,
-                               search_type="track")
-    return render_template('index.html')
+        return jsonify({
+            "name": name,
+            "results": items,
+            "api_url":api_url
+        })
+    return redirect(url_for('index'))
 
-@app.route("/logout")
+@app.route("/api/logout")
 def logout():
     return redirect(url_for('index'))
 

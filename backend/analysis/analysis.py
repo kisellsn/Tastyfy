@@ -11,7 +11,7 @@ def visualize_top_artists(json_data, is_top=False):
     artists_count = streaming_history.groupby(['Artist']).agg(Count=('Artist', 'count')).reset_index()
     artists_count.rename(columns={'Count': 'Tracks listened'}, inplace=True)
     artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
-
+    
     artists_count = __make_others_section(artists_count)
 
     __plot_pie_chart(artists_count)

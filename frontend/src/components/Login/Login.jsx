@@ -1,25 +1,11 @@
-import React, { useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import axios from 'axios';
 import VectorSmartObject1Image from 'src/assets/images/start1_Vector_Smart_Object_1.png';
 import Vector1Image from 'src/assets/images/start1_Vector_1.png';
 import './Login.scss'
-import { useNavigate } from 'react-router-dom';
+
 
 function Login(props) {
-
-  // const navigate = useNavigate();
-
-  // const handleAuth = () => {
-  //   axios.get('/api/auth')
-  //     .then(response => {
-  //       navigate('/menu');
-  //     })
-  //     .catch(error => {
-  //       console.error('Authentication failed', error);
-  //     });
-  // };
-  const navigate = useNavigate();
 
   const handleAuth = async () => {
     try {
@@ -31,12 +17,6 @@ function Login(props) {
     }
   };
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('success')) {
-      navigate('/menu'); // Redirect to /menu if 'success' parameter is present in the URL
-    }
-  }, []);
 
   return (
     <div id='main' className={props.className}>

@@ -188,14 +188,27 @@ def get_featured_playlists(auth_header,limit=10,country=None, locale=None):
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 def get_playlists_tracks(auth_header, playlists):
+    items = []
+    '''
     tracks=[]
     for playlist in playlists["items"]:
         items=get_playlist_items(auth_header,playlist["id"])["items"]
         for item in items:
             tracks.append(item["track"])
+    all_data=[]
+    for json_str in tracks:
+        data = json.loads(json_str)
+        all_data.append(data)
+    concatenated_json = json.dumps(all_data)
+    print(concatenated_json)
+    return concatenated_json
+    '''
+    for playlist in playlists["items"]:
+        items.append(get_playlist_items(auth_header, playlist["id"]))
 
-    #print(tracks[0])
-    return tracks
+    concatenated_json = json.dumps(items)
+    print(concatenated_json)
+    return concatenated_json
 
 
 def get_playlist_items(auth_header, playlist_id):

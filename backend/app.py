@@ -40,9 +40,45 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/api/user/profile')
+def get_profile():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
 
-@app.route('/api/profile')
-def profile():
+        profile_data = spotify.get_users_profile(auth_header)
+        return jsonify({"user": profile_data})
+
+
+@app.route('/api/user/diagram')
+def get_diagram():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+#????????????????????????????????????????????
+        term = request.args['term']
+        if term in ['medium_term', 'short_term', 'long_term']:
+            top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
+            fig = analysis.visualize_top_artists(top)
+        elif term == 'current':
+            recently_played = spotify.get_users_recently_played(auth_header, 50)
+            fig = analysis.visualize_top_artists(recently_played)
+        return fig
+
+@app.route('/api/user/top_or_recently')
+def get_top_or_recently():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+#????????????????????????????????????????????
+        term = request.args['term']
+        if term in ['medium_term', 'short_term', 'long_term']:
+            top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
+            return jsonify({"top": top["items"]})
+        elif term == 'current':
+            recently_played = spotify.get_users_recently_played(auth_header, 10)
+            return jsonify({"recently_played": recently_played["items"]})
+
+
+@app.route('/profile')
+def p():
     if 'auth_header' in session:
         auth_header = session['auth_header']
 

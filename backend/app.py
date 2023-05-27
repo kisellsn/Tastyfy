@@ -50,7 +50,7 @@ def get_profile():
 
 
 @app.route('/api/user/diagram')
-def get_diagram():
+def diagram():
     if 'auth_header' in session:
         auth_header = session['auth_header']
 #????????????????????????????????????????????
@@ -64,7 +64,7 @@ def get_diagram():
         return fig
 
 @app.route('/api/user/top_or_recently')
-def get_top_or_recently():
+def user_tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
 #????????????????????????????????????????????
@@ -76,6 +76,14 @@ def get_top_or_recently():
             recently_played = spotify.get_users_recently_played(auth_header, 10)
             return jsonify({"recently_played": recently_played["items"]})
 
+@app.route('/api/user/recommendations')
+def recommendations():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+
+        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2,
+                                                      market="UA")  # market (tracks+artists+genres<=5)
+        return jsonify({"recommendations": recommendations["tracks"]})
 
 @app.route('/profile')
 def p():

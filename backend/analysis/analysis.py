@@ -91,7 +91,7 @@ def __plot_pie_chart(artists_count):
         hoverlabel=dict(bgcolor="black", font_size=20, font_family="Helvetica")
     )
 
-    fig.show()
+    return fig
 
 
 def __draw_circles():

@@ -1,11 +1,11 @@
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
-from flask_cors import CORS
+#from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
-CORS(app)
+#CORS(app)
 # ----------------------- AUTH -------------------------
 
 @app.route("/api/auth")
@@ -47,9 +47,14 @@ def profile():
 
         playlists = spotify.get_featured_playlists(auth_header, country="PL")
         playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
+        analysis.get_artist_ids(playlists_tracks)
+
+        genres = spotify.get_user_genres()
+
+
+
 
         playlist_data = spotify.get_users_playlists(auth_header)
-
         recently_played = spotify.get_users_recently_played(auth_header, 10)
 
         top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists

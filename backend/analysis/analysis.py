@@ -17,10 +17,19 @@ def visualize_top_artists(json_data, is_top=False):
     __plot_pie_chart(artists_count)
 
 
-def get_artist_ids(json_data):
-    df = pd.DataFrame(json_data)
-    df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
-    df = df.explode('artist')
+
+
+
+
+def get_artist_ids(list_of_playlists):
+    ids = []
+
+    for playlist in list_of_playlists:
+        df = pd.json_normalize(playlist['items'])
+        df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
+        df = df.explode('artist')
+        ids.extend(df['artist_id'].values.tolist())
+
     return df['artist_id'].values.tolist()
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Redirect } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import questTheme from 'src/MyDesignSystemLightTheme';
@@ -11,19 +11,18 @@ import Menu from './components/Menu/Menu';
 function App() {
 
   return (
-    <HelmetProvider>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={questTheme}>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/menu" element={<Menu />} />
-            <Redirect path="/callback" to="/menu" />
-          </Routes>
-        </ThemeProvider>
-        <Footer/>
-      </StyledEngineProvider>
-    </HelmetProvider>
+      <HelmetProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={questTheme}>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/menu" element={<Menu />} />
+            </Routes>
+            <Footer />
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </HelmetProvider>
   );
 }
 

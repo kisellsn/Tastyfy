@@ -31,7 +31,7 @@ def callback():
 def valid_token(resp):
     return resp is not None and not 'error' in resp
 
-@app.route("/code")
+@app.route("/token")
 def get_code():
     if 'auth_header' in session:
         return make_response(jsonify(session['auth_header']), 200)
@@ -45,7 +45,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/api/user/profile')
+@app.route('/api/user')
 def get_profile():
     if 'auth_header' in session:
         auth_header = session['auth_header']

@@ -17,9 +17,20 @@ def visualize_top_artists(json_data, is_top=False):
     __plot_pie_chart(artists_count)
 
 
+def get_artist_ids(json_data):
+    df = pd.json_normalize(json_data['items'])
+    df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
+    df = df.explode('artist')
+    return df['artist_id'].values.tolist()
+
+
+def get_recommendations_from_region(liked_tracks_json, trends_from_region):
+    pass
+
+
 def __normalize_history(json_data):
     df = pd.json_normalize(json_data['items'])
-    df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
+    df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
     df = df[['played_at', 'artist', 'track.name', 'track.album.name']]
     df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']

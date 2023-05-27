@@ -1,19 +1,19 @@
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
-from flask_cors import CORS
+#from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
-CORS(app)
+#CORS(app)
 # ----------------------- AUTH -------------------------
 
 @app.route("/api/auth")
 def auth():
-    return jsonify({
-        "link": spotify.AUTH_URL
-    })
-    #return redirect(spotify.AUTH_URL)
+    # return jsonify({
+    #     "link": spotify.AUTH_URL
+    # })
+    return redirect(spotify.AUTH_URL)
 
 
 @app.route("/callback/")

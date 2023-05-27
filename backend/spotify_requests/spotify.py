@@ -40,7 +40,7 @@ CLIENT_SECRET = CLIENT['secret']
 CLIENT_SIDE_URL = "http://localhost"
 CLIENT_PORT = 3000
 PORT = 8000
-REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, CLIENT_PORT)
+REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
 SCOPE = "user-read-private user-read-email ugc-image-upload user-library-read playlist-modify-public playlist-modify-private user-read-recently-played user-top-read user-library-modify"
 STATE = generate_random_string(16)
 
@@ -86,10 +86,12 @@ def authorize(auth_token):
     # tokens are returned to the app
     response_data = json.loads(post_request.text)
     access_token = response_data["access_token"]
+    refresh_token = response_data["refresh_token"]
 
     # use the access token to access Spotify API
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
-    return auth_header
+    refresh_header = {"Authorization": "Bearer {}".format(refresh_token)}
+    return auth_header,refresh_header
 
 
 
@@ -102,8 +104,7 @@ USER_RECENTLY_PLAYED_ENDPOINT = "{}/{}/{}".format(USER_PROFILE_ENDPOINT,
                                                   'player', 'recently-played')
 USER_LIBRARY_ENDPOINT = "{}/{}".format(USER_PROFILE_ENDPOINT, 'tracks')
 AUDIO_FEATURES_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'audio-features')
-BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
-                                              'featured-playlists')
+
 RECOMMENDATIONS_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'recommendations')
 
 # ------------------ USERS ---------------------------
@@ -166,8 +167,36 @@ def get_users_recently_played(auth_header,limit):
 
 
 
-def get_featured_playlists(auth_header):
-    url = BROWSE_FEATURED_PLAYLISTS
+#-----------------Featured Playlist-------------------------
+BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
+                                              'featured-playlists')
+PLAYLIST_ITEMS = "{}/{}".format(SPOTIFY_API_URL, 'playlists')
+def get_featured_playlists(auth_header,limit=10,country=None, locale=None):
+    if country == None:
+        if locale == None:
+            url = "{}?{limit}".format(BROWSE_FEATURED_PLAYLISTS, limit="limit=" + str(limit))
+        else:
+            url = "{}?{locale}&{limit}".format(BROWSE_FEATURED_PLAYLISTS, locale="locale=" + locale,
+                                                limit="limit=" + str(limit))
+    else:
+        if locale == None:
+            url = "{}?{country}&{limit}".format(BROWSE_FEATURED_PLAYLISTS,country="country="+country, limit="limit=" + str(limit))
+        else:
+            url = "{}?{country}&{locale}&{limit}".format(BROWSE_FEATURED_PLAYLISTS,country="country="+country, locale="locale=" + locale,
+                                                limit="limit=" + str(limit))
+
+    resp = requests.get(url, headers=auth_header)
+    return resp.json()
+def get_playlists_tracks(auth_header, playlists):
+    tracks=[]
+    for playlist in playlists["items"]:
+        tracks.append(get_playlist_items(auth_header,playlist["id"])["items"])
+    print(tracks)
+    return tracks
+
+
+def get_playlist_items(auth_header, playlist_id):
+    url = "{}/{playlist_id}/{tracks}?{limit}".format(PLAYLIST_ITEMS,playlist_id=playlist_id,tracks="tracks",limit="limit=50")
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 

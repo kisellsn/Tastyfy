@@ -10,10 +10,7 @@ CORS(app)
 
 @app.route("/api/auth")
 def auth():
-    return jsonify({
-        "link": spotify.AUTH_URL
-    })
-    #return redirect(spotify.AUTH_URL)
+    return redirect(spotify.AUTH_URL)
 
 
 @app.route("/callback/")
@@ -25,7 +22,7 @@ def callback():
     #return jsonify({
     #    "profile": url_for('profile')
     #})
-    return redirect("http://localhost:3000/menu")
+    return redirect(url_for('profile'))
 
 
 def valid_token(resp):

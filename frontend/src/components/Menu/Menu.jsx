@@ -44,10 +44,10 @@ function Menu(props) {
     };
 
 
-  let songs = [{id:'1',artist: 'Hector'},{id:'2',artist: 'Anya'},{id:'3',artist: 'Masha'},{id:'4',artist: 'IcE'},{id:'5',artist: 'IcE'},{id:'5',artist: 'IcE'}];
-  let recSongs = [{id:'1',artist: 'Hector',title:'FFF'}, {id:'2',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'}];
-  // songs = []
-  // recSongs = []
+  // let songs = [{id:'1',artist: 'Hector'},{id:'2',artist: 'Anya'},{id:'3',artist: 'Masha'},{id:'4',artist: 'IcE'},{id:'5',artist: 'IcE'},{id:'5',artist: 'IcE'}];
+  // let recSongs = [{id:'1',artist: 'Hector',title:'FFF'}, {id:'2',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'}];
+  let songs = []
+  let recSongs = []
 
   const [value, setValue] = useState('')
   const [userInfo, setUserInfo] = useState('');
@@ -67,13 +67,14 @@ function Menu(props) {
     if (!code) {
       flag = 0;
       return;
-    } else flag = 1
+    }
     const user = registerSpotify(code);
-    // const user = null;
+    // const user = 1;
     setUserInfo(user);
+    flag = 1;
     }, []);
 
-  if (flag===0) {
+  if (flag==0) {
     return <Navigate to={'/'} />;
   }
 

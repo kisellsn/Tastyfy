@@ -31,6 +31,7 @@ def callback():
 def valid_token(resp):
     return resp is not None and not 'error' in resp
 
+@app.route("/code")
 def get_code():
     if 'auth_header' in session:
         return make_response(jsonify(session['auth_header']), 200)

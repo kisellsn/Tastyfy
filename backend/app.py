@@ -34,7 +34,7 @@ def valid_token(resp):
 def get_code():
     if 'auth_header' in session:
         return make_response(jsonify(session['auth_header']), 200)
-    return make_response(404)
+    return make_response('token not found',404)
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -50,7 +50,7 @@ def get_profile():
         auth_header = session['auth_header']
 
         profile_data = spotify.get_users_profile(auth_header)
-        res = make_response(jsonify(profile_data), 200)
+        res = make_response(profile_data, 200)
         res.set_cookie('auth_header', auth_header)
 
         return res

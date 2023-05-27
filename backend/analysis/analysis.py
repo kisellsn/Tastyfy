@@ -19,7 +19,7 @@ def visualize_top_artists(json_data, is_top=False):
 
 def __normalize_history(json_data):
     df = pd.json_normalize(json_data['items'])
-    df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
+    df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
     df = df[['played_at', 'artist', 'track.name', 'track.album.name']]
     df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']

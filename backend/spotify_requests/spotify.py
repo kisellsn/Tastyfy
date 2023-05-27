@@ -113,7 +113,7 @@ GET_USER_ENDPOINT = '{}/{}'.format(SPOTIFY_API_URL, 'users')
 def get_user_profile(user_id):
     url = "{}/{id}".format(GET_USER_ENDPOINT, id=user_id)
     resp = requests.get(url)
-    print(resp.json())
+    #print(resp.json())
     return resp.json()
 
 # ------------------ USER RELATED REQUETS  ---------- #
@@ -156,7 +156,7 @@ def get_users_audio_features(auth_header):
     params = "ids="+ track_ids
     url = "{}?{}".format(AUDIO_FEATURES_ENDPOINT,params)
     resp = requests.get(url, headers=auth_header)
-    print(url)
+    #print(url)
     return resp.json()
 
 
@@ -190,8 +190,11 @@ def get_featured_playlists(auth_header,limit=10,country=None, locale=None):
 def get_playlists_tracks(auth_header, playlists):
     tracks=[]
     for playlist in playlists["items"]:
-        tracks.append(get_playlist_items(auth_header,playlist["id"])["items"])
-    print(tracks)
+        items=get_playlist_items(auth_header,playlist["id"])["items"]
+        for item in items:
+            tracks.append(item["track"])
+
+    #print(tracks[0])
     return tracks
 
 

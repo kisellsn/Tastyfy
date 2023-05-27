@@ -45,6 +45,9 @@ def profile():
 
         profile_data = spotify.get_users_profile(auth_header)
 
+        playlists = spotify.get_featured_playlists(auth_header, country="PL")
+        playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
+
         playlist_data = spotify.get_users_playlists(auth_header)
 
         recently_played = spotify.get_users_recently_played(auth_header, 10)
@@ -64,8 +67,6 @@ def profile():
 
         #spotify.save_track(auth_header, recommendations)
 
-        playlists = spotify.get_featured_playlists(auth_header, country="PL")
-        playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
 
         analysis.visualize_top_artists(recently_played)
         if valid_token(recently_played):

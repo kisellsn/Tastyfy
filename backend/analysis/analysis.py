@@ -18,13 +18,13 @@ def visualize_top_artists(json_data, is_top=False):
 
 
 def get_artist_ids(json_data):
-    df = pd.json_normalize(json_data['items'])
+    df = pd.DataFrame(json_data)
     df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
     df = df.explode('artist')
     return df['artist_id'].values.tolist()
 
 
-def get_recommendations_from_region(liked_tracks_json, trends_from_region):
+def get_recommendations_from_region(liked_genres_json, playlists_content):
     pass
 
 

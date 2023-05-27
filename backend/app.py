@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, session, url_for, jsonify
+from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
 from flask_cors import CORS
@@ -13,7 +13,7 @@ def auth():
      return jsonify({
          "link": spotify.AUTH_URL
      })
-     return redirect(spotify.AUTH_URL)
+     #return redirect(spotify.AUTH_URL)
 
 
 @app.route("/callback/")
@@ -31,6 +31,10 @@ def callback():
 def valid_token(resp):
     return resp is not None and not 'error' in resp
 
+def get_code():
+    if 'auth_header' in session:
+        return make_response(jsonify(session['auth_header']), 200)
+    return make_response(404)
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -46,7 +50,10 @@ def get_profile():
         auth_header = session['auth_header']
 
         profile_data = spotify.get_users_profile(auth_header)
-        return jsonify({"user": profile_data})
+        res = make_response(jsonify(profile_data), 200)
+        res.set_cookie('auth_header', auth_header)
+
+        return res
 
 
 @app.route('/api/user/diagram')
@@ -85,49 +92,6 @@ def recommendations():
                                                       market="UA")  # market (tracks+artists+genres<=5)
         return jsonify({"recommendations": recommendations["tracks"]})
 
-@app.route('/profile')
-def p():
-    if 'auth_header' in session:
-        auth_header = session['auth_header']
-
-        profile_data = spotify.get_users_profile(auth_header)
-
-        playlist_data = spotify.get_users_playlists(auth_header)
-
-        recently_played = spotify.get_users_recently_played(auth_header, 10)
-
-        top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
-
-        library = spotify.get_users_saved_tracks(auth_header)
-
-        audio_features = spotify.get_users_audio_features(auth_header)
-
-        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="UA") #market (tracks+artists+genres<=5)
-
-        #tracks= spotify.generate_playlist_tracks(auth_header, recently_played)
-        #playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")
-        #spotify.add_playlist_tracks(auth_header, playlist_id, tracks)
-        #spotify.set_image(auth_header, playlist_id)
-
-        #spotify.save_track(auth_header, recommendations)
-
-        playlists = spotify.get_featured_playlists(auth_header, country="PL")
-        playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
-
-        analysis.visualize_top_artists(recently_played)
-        if valid_token(recently_played):
-            return jsonify({
-                "user": profile_data,
-                "playlists": playlist_data["items"],
-                "recently_played": recently_played["items"],
-                "top": top["items"],
-                "library": library["items"],
-                "audio_features": audio_features['audio_features'],
-                "recommendations": recommendations["tracks"]
-            })
-    return jsonify({
-        "index": url_for('index')
-    })
 
 @app.route('/api/search')
 def search():
@@ -150,9 +114,10 @@ def make_search(name):
         })
     return redirect(url_for('index'))
 
-@app.route("/api/logout")
+@app.route("/logout")
 def logout():
-    return redirect(url_for('index'))
+    session.clear()
+    return 'True'
 
 
 if __name__ == "__main__":

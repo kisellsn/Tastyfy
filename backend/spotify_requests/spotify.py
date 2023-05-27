@@ -207,8 +207,9 @@ def get_playlists_tracks(auth_header, playlists):
         items.append(get_playlist_items(auth_header, playlist["id"]))
 
     concatenated_json = json.dumps(items)
-    print(concatenated_json)
-    return concatenated_json
+
+    return items
+
 
 
 def get_playlist_items(auth_header, playlist_id):
@@ -216,6 +217,19 @@ def get_playlist_items(auth_header, playlist_id):
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
+def get_artist(artist_id):
+    url = "{}/{id}".format(GET_ARTIST_ENDPOINT, id=artist_id)
+    resp = requests.get(url)
+    return resp.json()
+
+
+def get_user_genres(auth_header):
+    top_artists = get_users_top(auth_header, 'artists')
+    genress = []
+    for artist in top_artists['items']:
+        for genre in artist['genres']:
+            genress.append(genre)
+    return genress
 
 #---------------------RECOMMENDATIONS--------------------
 

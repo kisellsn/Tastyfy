@@ -47,9 +47,14 @@ def profile():
 
         playlists = spotify.get_featured_playlists(auth_header, country="PL")
         playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
+        analysis.get_artist_ids(playlists_tracks)
+
+        genres = spotify.get_user_genres()
+
+
+
 
         playlist_data = spotify.get_users_playlists(auth_header)
-
         recently_played = spotify.get_users_recently_played(auth_header, 10)
 
         top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists

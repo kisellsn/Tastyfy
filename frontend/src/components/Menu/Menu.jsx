@@ -20,7 +20,6 @@ function Menu(props) {
   const [value, setValue] = useState('')
   const [userInfo, setUserInfo] = useState('');
   const options = useMemo(() => countryList().getData(), [])
-  const flagRef = useRef(0);
 
   const changeHandler = value => {
     setValue(value)
@@ -29,26 +28,15 @@ function Menu(props) {
   useEffect(() => {
     const code = getToken();
     if (userInfo) {
-      console.log('2')
-      flagRef.current = 1;
       return;
     }
     if (!code) {
-      console.log('3')
-      flagRef.current = 0;
-      return;
+      return <Navigate to={'/'} />;
     }
-    // const user = registerSpotify(code);
-    const user = getToken();
+    const user = registerSpotify();
+    if(!user) return <Navigate to={'/'} />;
     setUserInfo(user);
-    console.log('4')
-    flagRef.current = 1;
     }, [userInfo]);
-
-  if (flagRef.current==1) {
-    console.log('1')
-    return <Navigate to={'/'} />;
-  }
 
   return (
     <div id='analytics' className={props.className}>

@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useState } from 'react';
+import { React, useEffect, useMemo, useRef, useState } from 'react';
 import avatar from '../../assets/images/menu/avatar.png'
 import VectorImage from 'src/assets/images/menu/menu_Vector.png';
 import './Menu.scss';
@@ -8,41 +8,9 @@ import Song2 from './Song2';
 import countryList from 'react-select-country-list';
 import Select from 'react-select'
 import { Navigate } from 'react-router-dom';
-// import { getToken, registerSpotify } from 'src/util/functions';
-import axios from 'axios';
+import { getToken, registerSpotify } from 'src/util/functions';
 
 function Menu(props) {
-
-  const removeHashParams = (value) => {
-    if (typeof value !== 'string') return '';
-    const split = value.split('#');
-    return split[0];
-  }
-  const config = { 
-    headers: {  
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    }
-  }
-  const registerSpotify = async (code) => {
-    try {
-        const response = await axios.post('/api/user', { code: removeHashParams(code) }, config);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-    };
-    
-  const getToken = async () => {
-    try {
-        const response = await axios.get('/token');
-        return response.data;
-    } catch (error) {
-        console.error('404', error);
-    }
-    };
-
 
   // let songs = [{id:'1',artist: 'Hector'},{id:'2',artist: 'Anya'},{id:'3',artist: 'Masha'},{id:'4',artist: 'IcE'},{id:'5',artist: 'IcE'},{id:'5',artist: 'IcE'}];
   // let recSongs = [{id:'1',artist: 'Hector',title:'FFF'}, {id:'2',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'}];
@@ -52,7 +20,7 @@ function Menu(props) {
   const [value, setValue] = useState('')
   const [userInfo, setUserInfo] = useState('');
   const options = useMemo(() => countryList().getData(), [])
-  let flag = 0;
+  const flagRef = useRef(0);
 
   const changeHandler = value => {
     setValue(value)
@@ -60,21 +28,25 @@ function Menu(props) {
 
   useEffect(() => {
     const code = getToken();
-    // const code = null;
-    if (!userInfo) {
-      flag = 0;
-    }
-    if (!code) {
-      flag = 0;
+    if (userInfo) {
+      console.log('2')
+      flagRef.current = 1;
       return;
     }
-    const user = registerSpotify(code);
-    // const user = 1;
+    if (!code) {
+      console.log('3')
+      flagRef.current = 0;
+      return;
+    }
+    // const user = registerSpotify(code);
+    const user = getToken();
     setUserInfo(user);
-    flag = 1;
-    }, []);
+    console.log('4')
+    flagRef.current = 1;
+    }, [userInfo]);
 
-  if (flag==0) {
+  if (flagRef.current==1) {
+    console.log('1')
     return <Navigate to={'/'} />;
   }
 

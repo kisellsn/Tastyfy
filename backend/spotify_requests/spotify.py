@@ -133,13 +133,14 @@ def get_users_playlists(auth_header):
 
 
 def get_users_top(auth_header, t, term='medium_term'):
+
     if t not in ['artists', 'tracks']:
         print('invalid type')
         return None
     if term not in ['medium_term', 'short_term', 'long_term']:
         print('invalid type')
         return None
-    url = "{}/{type}?{time_range}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t, time_range="time_range="+term)
+    url = "{}/{type}?{time_range}&{limit}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t, time_range="time_range="+term,limit="limit=50")
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
@@ -217,6 +218,9 @@ def get_playlist_items(auth_header, playlist_id):
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
+
+GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
+
 def get_artist(artist_id):
     url = "{}/{id}".format(GET_ARTIST_ENDPOINT, id=artist_id)
     resp = requests.get(url)
@@ -224,11 +228,19 @@ def get_artist(artist_id):
 
 
 def get_user_genres(auth_header):
-    top_artists = get_users_top(auth_header, 'artists')
-    genress = []
-    for artist in top_artists['items']:
-        for genre in artist['genres']:
-            genress.append(genre)
+    top_tracks = get_users_top(auth_header, 'tracks')
+    artists = [track['artists'] for track in top_tracks['items']]
+    print(artists)
+    genres = []
+    genres_track = []
+    for artists_track in artists:
+        print(artists_track)
+        for artist in artists_track:
+            artistobj = get_artist(artist['id'])
+            print(artistobj)
+            genres_track.append(artistobj['genres'])
+        genres.append(genres_track)
+    print(genress)
     return genress
 
 #---------------------RECOMMENDATIONS--------------------
@@ -364,13 +376,7 @@ def add_playlist_tracks(auth_header, playlist_id, tracks):
 
 # ---------------- ARTISTS ------------------------
 
-GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
 
-
-def get_artist(artist_id):
-    url = "{}/{id}".format(GET_ARTIST_ENDPOINT, id=artist_id)
-    resp = requests.get(url)
-    return resp.json()
 
 def get_several_artists(list_of_ids):
     url = "{}/?ids={ids}".format(GET_ARTIST_ENDPOINT, ids=','.join(list_of_ids))

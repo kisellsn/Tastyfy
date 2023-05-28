@@ -77,7 +77,7 @@ def diagram():
 def user_tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        term = request.args['code']
+        term = request.args['term']
         if term in ['medium_term', 'short_term', 'long_term']:
             top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
             return jsonify({"top": top["items"]})
@@ -89,17 +89,18 @@ def user_tracks():
 
 @app.route('/api/user/recommendations', methods=('GET', 'POST'))
 def recommendations():
-
     if 'auth_header' in session:
         auth_header = session['auth_header']
         if request.method == 'POST':
-            market = request.args['code']
-            recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2,
-                                                      market=market) #(tracks+artists+genres<=5)
-        else: recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2)
-
-        res = make_response(jsonify(recommendations["tracks"]), 403)
-    else: res = make_response("token not in session", 403)
+            data = request.json
+            market = data.get('code')
+            recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2, market=market) #(tracks+artists+genres<=5)
+            res = make_response(jsonify(recommendations["tracks"]), 200)
+        else:
+            recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2)
+            res = make_response(jsonify(recommendations["tracks"]), 200)
+    else:
+        res = make_response("token not in session", 403)
     return res
 
 

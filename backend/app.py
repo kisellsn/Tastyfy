@@ -57,7 +57,7 @@ def get_profile():
     return res
 
 
-@app.route('/api/user/diagram')
+@app.route('/api/user/diagram', methods=('GET', 'POST'))
 def diagram():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -69,32 +69,36 @@ def diagram():
         elif term == 'current':
             recently_played = spotify.get_users_recently_played(auth_header, 50)
             fig = analysis.visualize_top_artists(recently_played)
-        res = make_response(fig, 200)
+        res = make_response(fig, 200) #????????????????????????????????????????????
     else: res = make_response("token not in session", 403)
     return res
 
-@app.route('/api/user/top_or_recently')
+@app.route('/api/user/top_or_recently', methods=('GET', 'POST'))
 def user_tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        term = request.args['term']
+        term = request.args['term']  #?????????????????
         if term in ['medium_term', 'short_term', 'long_term']:
             top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
             return jsonify({"top": top["items"]})
         elif term == 'current':
-            recently_played = spotify.get_users_recently_played(auth_header, 10)
-            return jsonify({"recently_played": recently_played["items"]})
+            recently_played = spotify.get_users_recently_played(auth_header, 10) #LIMIT = ??????
+            res = make_response(jsonify(recently_played["items"]), 200)
     else: res = make_response("token not in session", 403)
     return res
 
-@app.route('/api/user/recommendations')
+@app.route('/api/user/recommendations', methods=('GET', 'POST'))
 def recommendations():
+
     if 'auth_header' in session:
         auth_header = session['auth_header']
+        if request.method == 'POST':
+            market = request.json #?????????????????
+            recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2,
+                                                      market=market) #(tracks+artists+genres<=5)
+        else: recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2)
 
-        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2,
-                                                      market="UA")  # market (tracks+artists+genres<=5)
-        return jsonify({"recommendations": recommendations["tracks"]})
+        res = make_response(jsonify(recommendations["tracks"]), 403)
     else: res = make_response("token not in session", 403)
     return res
 

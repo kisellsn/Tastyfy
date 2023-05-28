@@ -11,7 +11,7 @@ function About(props) {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate('/');
+    navigate('/menu');
   };
   return (
     <div id='mainA' className={props.className}>

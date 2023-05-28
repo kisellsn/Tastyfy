@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useRef, useState } from 'react';
+import { React, useEffect, useMemo, useState } from 'react';
 import avatar from '../../assets/images/menu/avatar.png'
 import VectorImage from 'src/assets/images/menu/menu_Vector.png';
 import './Menu.scss';
@@ -7,7 +7,7 @@ import Song1 from './Song1';
 import Song2 from './Song2';
 import countryList from 'react-select-country-list';
 import Select from 'react-select'
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getToken, registerSpotify } from 'src/util/functions';
 
 function Menu(props) {
@@ -19,24 +19,28 @@ function Menu(props) {
 
   const [value, setValue] = useState('')
   const [userInfo, setUserInfo] = useState('');
+  const [userName, setUserName] = useState('');
   const options = useMemo(() => countryList().getData(), [])
 
   const changeHandler = value => {
     setValue(value)
   }
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const code = getToken();
-    if (userInfo) {
+    if (userName) {
       return;
     }
-    if (!code) {
-      return <Navigate to={'/'} />;
-    }
-    const user = registerSpotify();
-    if(!user) return <Navigate to={'/'} />;
-    setUserInfo(user);
-    }, [userInfo]);
+    getToken().then(token => {
+      if (!token.Authorization) navigate('/');
+    })
+
+    registerSpotify().then(user => {
+      if (!user) navigate('/');
+      setUserInfo(user);
+      setUserName(user.display_name);
+    });
+  })
 
   return (
     <div id='analytics' className={props.className}>

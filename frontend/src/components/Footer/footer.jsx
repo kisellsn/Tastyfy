@@ -1,11 +1,22 @@
 
 import React from 'react';
-import { Link} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import VectorImage from 'src/assets/images/start1_Vector.png';
 import './footer.scss';
+import axios from 'axios';
+
 
 function Footer() {
+    const navigate = useNavigate();
     const currentPage = window.location.pathname;
+    const handleLogOut = async () => {
+        try {
+          await axios.get('/logout');
+          navigate('/');
+        } catch (error) {
+          console.error('Error', error);
+        }
+      };
 
     return (
         <div className={`footer ${currentPage === '/about' ? 'about' : ''}`}>
@@ -16,13 +27,13 @@ function Footer() {
                 {currentPage === '/about' ? (
                     <React.Fragment>
                         Privacy<br/>
-                        FAQ<br/>
+                        <div style={{ position: 'absolute' }}onClick={handleLogOut}>LogOut</div><br/>
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
                         <Link to="/about">About</Link><br/>
                         Privacy<br/>
-                        FAQ<br/>
+                        <div style={{ position: 'absolute' }} onClick={handleLogOut}>LogOut</div><br/>
                     </React.Fragment>
                 )}
             </div>

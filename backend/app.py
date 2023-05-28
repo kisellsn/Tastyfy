@@ -61,15 +61,17 @@ def get_profile():
 def diagram():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-#????????????????????????????????????????????
-        term = request.args['term']
-        if term in ['medium_term', 'short_term', 'long_term']:
-            top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
-            fig = analysis.visualize_top_artists(top)
-        elif term == 'current':
-            recently_played = spotify.get_users_recently_played(auth_header, 50)
-            fig = analysis.visualize_top_artists(recently_played)
-        res = make_response(fig, 200) #????????????????????????????????????????????
+        if request.method == 'POST':
+            data = request.json
+            term = data.get('term')
+            if term in ['medium_term', 'short_term', 'long_term']:
+                top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
+                fig = analysis.visualize_top_artists(top)
+            elif term == 'current':
+                recently_played = spotify.get_users_recently_played(auth_header, 50)
+                fig = analysis.visualize_top_artists(recently_played)
+            res = make_response(fig, 200)  # ????????????????????????????????????????????
+
     else: res = make_response("token not in session", 403)
     return res
 
@@ -77,13 +79,16 @@ def diagram():
 def user_tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        term = request.args['term']
-        if term in ['medium_term', 'short_term', 'long_term']:
-            top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
-            return jsonify({"top": top["items"]})
-        elif term == 'current':
-            recently_played = spotify.get_users_recently_played(auth_header, 10) #LIMIT = ??????
-            res = make_response(jsonify(recently_played["items"]), 200)
+        if request.method == 'POST':
+            data = request.json
+            term = data.get('term')
+            if term in ['medium_term', 'short_term', 'long_term']:
+                top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
+                return jsonify({"top": top["items"]})
+            elif term == 'current':
+                recently_played = spotify.get_users_recently_played(auth_header, 10)  # LIMIT = ??????
+                res = make_response(jsonify(recently_played["items"]), 200)
+
     else: res = make_response("token not in session", 403)
     return res
 

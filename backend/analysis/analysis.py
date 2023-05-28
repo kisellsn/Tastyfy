@@ -1,7 +1,5 @@
 import pandas as pd
 import plotly.express as px
-from plotly.offline import plot
-
 
 def visualize_top_artists(json_data, is_top=False):
     if is_top:
@@ -14,8 +12,7 @@ def visualize_top_artists(json_data, is_top=False):
     artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
 
     artists_count = __make_others_section(artists_count)
-
-    return plot(__plot_pie_chart(artists_count), output_type='div')
+    return __plot_pie_chart(artists_count).to_html()
 
 
 def visualize_genres_barchart(genres_complex_list):
@@ -133,7 +130,7 @@ def __plot_pie_chart(artists_count):
         hoverlabel=dict(bgcolor="black", font_size=20, font_family="Helvetica")
     )
 
-    fig.show()
+    return fig
 
 
 def __draw_circles():

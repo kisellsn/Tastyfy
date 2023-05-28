@@ -20,7 +20,7 @@ export const getToken = async () => {
 
 export const getRecommendations = async(code) => {
     try {
-        const response = await axios.post('/api/user/recommendations', { market: code });
+        const response = await axios.post('/api/user/recommendations', { code: code });
         return response.data;
     } catch (error) {
         console.error('Error', error);

@@ -24,8 +24,10 @@ export const getRecommendations = async(code) => {
         return response.data;
     } catch (error) {
         console.error('Error', error);
+        throw error;
     }
 }
+
 
 export const sircleDiagram = async() => {
     try {

@@ -24,6 +24,7 @@ function Menu(props) {
       if (!user) navigate('/');
       setUserInfo(user);
       setUserName(user.display_name);
+      // setUserImage()
     });
   })
 
@@ -32,7 +33,6 @@ function Menu(props) {
   // let recSongs = [{id:'1',artist: 'Hector',title:'FFF'}, {id:'2',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'}];
   let songs = []
   let recSongs = []
-
   const [value, setValue] = useState('')
   const [rec, setRec] = useState([])
   const [topSong, setTopSong] = useState([])
@@ -60,7 +60,11 @@ function Menu(props) {
             <div className='menuItem'>Analytics</div>
             <div className='menuItem PG'>Playlist Generator</div>
           </div>
+          {/* {if user.images */}
+          {/* {userInfo.images ? (): */}
+          {/* // <img id='avatar' src={userInfo.images[0].url} loading="lazy" alt={'Avatar'}/> */}
           <img id='avatar' src={avatar} loading="lazy" alt={'Avatar'} />
+          {/* // } */}
       </div>
       <div id='analyze'>
         <div className='musicContainer'>

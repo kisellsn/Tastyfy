@@ -121,6 +121,7 @@
 #info{
     display: flex;
     flex-direction: row;
+    width: 100%;
     // justify-content: space-between;
     color: rgba(255, 255, 255, 1);
     
@@ -157,7 +158,7 @@
 
 #grafficA{
     width:35%;
-    align-items: center;
+    align-items: left;
     margin: 3%;
     margin-left: 8%;
     margin-right: 7%;

@@ -8,7 +8,8 @@ import Song2 from './Song2';
 import countryList from 'react-select-country-list';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
-import { getRecommendations, getToken, registerSpotify } from 'src/util/functions';
+import { getRecommendations, getToken, getTops, registerSpotify } from 'src/util/functions';
+import PlotComponent from '../PlotComponent/PlotComponent';
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState('');
@@ -34,6 +35,7 @@ function Menu(props) {
 
   const [value, setValue] = useState('')
   const [rec, setRec] = useState([])
+  const [topSong, setTopSong] = useState([])
   const options = useMemo(() => countryList().getData(), [])
   // let country = ''
   const changeHandler = value => {
@@ -41,8 +43,14 @@ function Menu(props) {
     const recommandations = getRecommendations(value.value);
     setRec(recommandations);
     setValue(value);
-    recSongs = rec
+    recSongs = rec;
   }
+
+  useEffect(() => {
+    setTopSong(getTops())
+    songs = topSong;
+  }, []);
+
 
   return (
     <div id='analytics' className={props.className}>
@@ -71,7 +79,8 @@ function Menu(props) {
           <div id='titleA'><h4>Current Top Artist</h4></div>
           <div id='info'>
             <div id='grafficA'>
-              <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} />
+              {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
+              <PlotComponent />
             </div>
             <div className={`song_content ${songs?.length === 0  ? 'center' : ''}`} >
               {

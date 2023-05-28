@@ -25,4 +25,22 @@ export const getRecommendations = async(code) => {
     } catch (error) {
         console.error('Error', error);
     }
+}
+
+export const sircleDiagram = async() => {
+    try {
+        const response = await axios.post('/api/user/diagram', { term: 'current' });
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
     }
+}
+
+export const getTops = async() => {
+    try {
+        const response = await axios.post('/api/user/top_or_recently', { term: 'current' });
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}

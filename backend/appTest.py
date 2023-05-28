@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
@@ -47,9 +49,10 @@ def profile():
 
         playlists = spotify.get_featured_playlists(auth_header, country="PL")
         playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
-        analysis.get_artist_ids(playlists_tracks)
+        #analysis.get_artist_ids(playlists_tracks)
 
-        genres = spotify.get_user_genres()
+        genres = spotify.get_user_genres(auth_header)
+        analysis.visualize_genres_barchart(genres)
 
 
 
@@ -72,7 +75,9 @@ def profile():
 
         #spotify.save_track(auth_header, recommendations)
 
-
+        print(is_valid_json(recommendations["tracks"]))
+        print(is_valid_json(recently_played["items"]))
+        print(is_valid_json(top["items"]))
         analysis.visualize_top_artists(recently_played)
         if valid_token(recently_played):
             return jsonify({
@@ -87,6 +92,13 @@ def profile():
     return jsonify({
         "index": url_for('index')
     })
+
+def is_valid_json(obj):
+    try:
+        json.dumps(obj)
+        return True
+    except ValueError:
+        return False
 
 @app.route('/api/search')
 def search():

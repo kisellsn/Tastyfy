@@ -75,6 +75,17 @@ def diagram():
     else: res = make_response("token not in session", 403)
     return res
 
+@app.route('/api/user/top_genres')
+def top_genres():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        genres = spotify.get_user_genres(auth_header)
+        fig = analysis.visualize_genres_barchart(genres)
+
+        res = make_response(fig, 200)
+    else: res = make_response("token not in session", 403)
+    return res
+
 @app.route('/api/user/top_or_recently', methods=('GET', 'POST'))
 def user_tracks():
     if 'auth_header' in session:

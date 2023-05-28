@@ -221,27 +221,22 @@ def get_playlist_items(auth_header, playlist_id):
 
 GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
 
-def get_artist(artist_id):
+def get_artist(auth_header,artist_id):
     url = "{}/{id}".format(GET_ARTIST_ENDPOINT, id=artist_id)
-    resp = requests.get(url)
+    resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
 def get_user_genres(auth_header):
     top_tracks = get_users_top(auth_header, 'tracks')
     artists = [track['artists'] for track in top_tracks['items']]
-    print(artists)
     genres = []
-    genres_track = []
     for artists_track in artists:
-        print(artists_track)
         for artist in artists_track:
-            artistobj = get_artist(artist['id'])
-            print(artistobj)
-            genres_track.append(artistobj['genres'])
-        genres.append(genres_track)
-    print(genress)
-    return genress
+            artistobj = get_artist(auth_header,artist['id'])
+            if artistobj['genres']: genres.append(artistobj['genres'])
+    print(genres)
+    return genres
 
 #---------------------RECOMMENDATIONS--------------------
 
@@ -270,8 +265,6 @@ def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, marke
         market = "market=" + market
         url = '{}?{}&{}&{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, limit, market, seed_artists, seed_genres, seed_tracks)
     resp = requests.get(url, headers=auth_header)
-    print(url)
-    print(resp.json())
     return resp.json()
 
 

@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+from plotly.offline import plot
 
 
 def visualize_top_artists(json_data, is_top=False):
@@ -14,7 +15,7 @@ def visualize_top_artists(json_data, is_top=False):
 
     artists_count = __make_others_section(artists_count)
 
-    __plot_pie_chart(artists_count)
+    return plot(__plot_pie_chart(artists_count), output_type='div')
 
 
 def visualize_genres_barchart(genres_complex_list):
@@ -68,7 +69,7 @@ def get_artist_ids(list_of_playlists):
     for playlist in list_of_playlists:
         df = pd.json_normalize(playlist['items'])
         df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
-        df = df.explode('artist')
+        df = df.explode('artist_id')
         ids.extend(df['artist_id'].values.tolist())
 
     return df['artist_id'].values.tolist()
@@ -155,8 +156,8 @@ def __draw_circles():
 
 def convert_genres(genres_complex_list):
     genres_uncounted = unpack(genres_complex_list)
-    genres = pd.DataFrame.from_dict({item: genres_uncounted.count(item) for item in set(genres_uncounted)},
-                                    columns=['Genre', 'Count'])
+    genres = pd.DataFrame.from_dict({item: genres_uncounted.count(item) for item in set(genres_uncounted)})
+    genres.columns = ['Genre', 'Count']
 
     genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100)
 

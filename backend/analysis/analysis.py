@@ -17,8 +17,49 @@ def visualize_top_artists(json_data, is_top=False):
     __plot_pie_chart(artists_count)
 
 
+def visualize_genres_barchart(genres_complex_list):
+    genres = convert_genres(genres_complex_list)
+
+    color_continuous_scale = ['#011476', '#191274', '#251172', '#2e0f70', '#360d6e',
+                              '#3c0b6c', '#420a69', '#470867', '#4c0765', '#500663']
+
+    fig = px.bar(
+        genres.head(10),
+        x='Item',
+        y='% of total',
+        color='% of total',
+        color_continuous_scale=color_continuous_scale,
+        text='Item',
+        labels={'% of total': 'Percent of total listened'},
+        title='',
+    )
+
+    fig.update_traces(
+        textangle=-90,
+        textposition='inside',
+        insidetextanchor='middle',
+        marker_line_color='rgba(0, 0, 0, 0)'
+    )
+
+    fig.update_layout(
+        plot_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
+        paper_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
+        coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
+        showlegend=False,
+        xaxis=dict(visible=False, showticklabels=False),
+        yaxis=dict(showgrid=False, tickfont=dict(color='white', size=20)),
+        font=dict(color='white', size=25),
+    )
+
+    fig.show(config={'staticPlot': True})
 
 
+def unpack(genres_complex_list):
+    genres_uncounted = []
+    for genre in genres_complex_list:
+        genres_uncounted.extend(genre)
+
+    return genres_uncounted
 
 
 def get_artist_ids(list_of_playlists):
@@ -110,3 +151,15 @@ def __draw_circles():
     )
 
     return big_circle, small_circle
+
+
+def convert_genres(genres_complex_list):
+    genres_uncounted = unpack(genres_complex_list)
+    genres = pd.DataFrame.from_dict({item: genres_uncounted.count(item) for item in set(genres_uncounted)},
+                                    columns=['Genre', 'Count'])
+
+    genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100)
+
+    genres.sort_values(by='Count', inplace=True, ascending=False)
+
+    return genres

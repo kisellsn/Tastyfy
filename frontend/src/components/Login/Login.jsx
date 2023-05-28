@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 import VectorSmartObject1Image from 'src/assets/images/start1_Vector_Smart_Object_1.png';
 import Vector1Image from 'src/assets/images/start1_Vector_1.png';
 import './Login.scss'
-import { useNavigate } from 'react-router-dom';
 
 
 function Login(props) {
-  // const navigate = useNavigate();
+
   const handleAuth = async () => {
     try {
       const response = await axios.get('/api/auth');
       const { link } = response.data;
-      window.location.href = link; // Redirect the user to the authorization link on Spotify
+      window.location.href = link;
     } catch (error) {
       console.error('Authentication failed', error);
     }

@@ -8,9 +8,24 @@ import Song2 from './Song2';
 import countryList from 'react-select-country-list';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
-import { getToken, registerSpotify } from 'src/util/functions';
+import { getRecommendations, getToken, registerSpotify } from 'src/util/functions';
 
 function Menu(props) {
+  const [userInfo, setUserInfo] = useState('');
+  const [userName, setUserName] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userName) return;
+    getToken().then(token => {
+      if (!token.Authorization) navigate('/');
+    })
+    registerSpotify().then(user => {
+      if (!user) navigate('/');
+      setUserInfo(user);
+      setUserName(user.display_name);
+    });
+  })
+
 
   // let songs = [{id:'1',artist: 'Hector'},{id:'2',artist: 'Anya'},{id:'3',artist: 'Masha'},{id:'4',artist: 'IcE'},{id:'5',artist: 'IcE'},{id:'5',artist: 'IcE'}];
   // let recSongs = [{id:'1',artist: 'Hector',title:'FFF'}, {id:'2',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'}];
@@ -18,29 +33,16 @@ function Menu(props) {
   let recSongs = []
 
   const [value, setValue] = useState('')
-  const [userInfo, setUserInfo] = useState('');
-  const [userName, setUserName] = useState('');
+  const [rec, setRec] = useState([])
   const options = useMemo(() => countryList().getData(), [])
-
+  // let country = ''
   const changeHandler = value => {
-    setValue(value)
+    console.log('I need country code, ', value.value)
+    const recommandations = getRecommendations(value.value);
+    setRec(recommandations);
+    setValue(value);
+    recSongs = rec
   }
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (userName) {
-      return;
-    }
-    getToken().then(token => {
-      if (!token.Authorization) navigate('/');
-    })
-
-    registerSpotify().then(user => {
-      if (!user) navigate('/');
-      setUserInfo(user);
-      setUserName(user.display_name);
-    });
-  })
 
   return (
     <div id='analytics' className={props.className}>

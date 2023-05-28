@@ -17,3 +17,12 @@ export const getToken = async () => {
         console.error('Error', error);
     }
     };
+
+export const getRecommendations = async(code) => {
+    try {
+        const response = await axios.post('/api/user/recommendations', { market: code });
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+    }

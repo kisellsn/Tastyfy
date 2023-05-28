@@ -69,13 +69,14 @@ def diagram():
         elif term == 'current':
             recently_played = spotify.get_users_recently_played(auth_header, 50)
             fig = analysis.visualize_top_artists(recently_played)
-        return fig
+        res = make_response(fig, 200)
+    else: res = make_response("token not in session", 403)
+    return res
 
 @app.route('/api/user/top_or_recently')
 def user_tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-#????????????????????????????????????????????
         term = request.args['term']
         if term in ['medium_term', 'short_term', 'long_term']:
             top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
@@ -83,6 +84,8 @@ def user_tracks():
         elif term == 'current':
             recently_played = spotify.get_users_recently_played(auth_header, 10)
             return jsonify({"recently_played": recently_played["items"]})
+    else: res = make_response("token not in session", 403)
+    return res
 
 @app.route('/api/user/recommendations')
 def recommendations():
@@ -92,6 +95,8 @@ def recommendations():
         recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2,
                                                       market="UA")  # market (tracks+artists+genres<=5)
         return jsonify({"recommendations": recommendations["tracks"]})
+    else: res = make_response("token not in session", 403)
+    return res
 
 
 @app.route('/api/search')
@@ -118,7 +123,7 @@ def make_search(name):
 @app.route("/logout")
 def logout():
     session.clear()
-    return 'True'
+    return make_response("Good", 200)
 
 
 if __name__ == "__main__":

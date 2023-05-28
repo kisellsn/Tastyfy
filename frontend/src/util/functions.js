@@ -17,3 +17,30 @@ export const getToken = async () => {
         console.error('Error', error);
     }
     };
+
+export const getRecommendations = async(code) => {
+    try {
+        const response = await axios.post('/api/user/recommendations', { market: code });
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}
+
+export const sircleDiagram = async() => {
+    try {
+        const response = await axios.post('/api/user/diagram', { term: 'current' });
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}
+
+export const getTops = async() => {
+    try {
+        const response = await axios.post('/api/user/top_or_recently', { term: 'current' });
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}

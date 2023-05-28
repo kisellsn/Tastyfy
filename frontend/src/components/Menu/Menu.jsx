@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useRef, useState } from 'react';
+import { React, useEffect, useMemo, useState } from 'react';
 import avatar from '../../assets/images/menu/avatar.png'
 import VectorImage from 'src/assets/images/menu/menu_Vector.png';
 import './Menu.scss';
@@ -7,10 +7,26 @@ import Song1 from './Song1';
 import Song2 from './Song2';
 import countryList from 'react-select-country-list';
 import Select from 'react-select'
-import { Navigate } from 'react-router-dom';
-import { getToken, registerSpotify } from 'src/util/functions';
+import { useNavigate } from 'react-router-dom';
+import { getRecommendations, getToken, getTops, registerSpotify } from 'src/util/functions';
+import PlotComponent from '../PlotComponent/PlotComponent';
 
 function Menu(props) {
+  const [userInfo, setUserInfo] = useState('');
+  const [userName, setUserName] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userName) return;
+    getToken().then(token => {
+      if (!token.Authorization) navigate('/');
+    })
+    registerSpotify().then(user => {
+      if (!user) navigate('/');
+      setUserInfo(user);
+      setUserName(user.display_name);
+    });
+  })
+
 
   // let songs = [{id:'1',artist: 'Hector'},{id:'2',artist: 'Anya'},{id:'3',artist: 'Masha'},{id:'4',artist: 'IcE'},{id:'5',artist: 'IcE'},{id:'5',artist: 'IcE'}];
   // let recSongs = [{id:'1',artist: 'Hector',title:'FFF'}, {id:'2',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'}];
@@ -18,25 +34,23 @@ function Menu(props) {
   let recSongs = []
 
   const [value, setValue] = useState('')
-  const [userInfo, setUserInfo] = useState('');
+  const [rec, setRec] = useState([])
+  const [topSong, setTopSong] = useState([])
   const options = useMemo(() => countryList().getData(), [])
-
+  // let country = ''
   const changeHandler = value => {
-    setValue(value)
+    console.log('I need country code, ', value.value)
+    const recommandations = getRecommendations(value.value);
+    setRec(recommandations);
+    setValue(value);
+    recSongs = rec;
   }
 
   useEffect(() => {
-    const code = getToken();
-    if (userInfo) {
-      return;
-    }
-    if (!code) {
-      return <Navigate to={'/'} />;
-    }
-    const user = registerSpotify();
-    if(!user) return <Navigate to={'/'} />;
-    setUserInfo(user);
-    }, [userInfo]);
+    setTopSong(getTops())
+    songs = topSong;
+  }, []);
+
 
   return (
     <div id='analytics' className={props.className}>
@@ -65,7 +79,8 @@ function Menu(props) {
           <div id='titleA'><h4>Current Top Artist</h4></div>
           <div id='info'>
             <div id='grafficA'>
-              <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} />
+              {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
+              <PlotComponent />
             </div>
             <div className={`song_content ${songs?.length === 0  ? 'center' : ''}`} >
               {

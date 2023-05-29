@@ -259,7 +259,8 @@ def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, marke
 
     top_tracks = get_users_top(auth_header, 'tracks')
     if len(top_tracks['items'])<5:
-        playlist = get_featured_playlists(auth_header, limit=1, country=market)
+        if market==None: playlist = get_featured_playlists(auth_header, limit=1)
+        else: playlist = get_featured_playlists(auth_header, limit=1, country=market)
         playlist_tracks = get_playlists_tracks(auth_header, playlist["playlists"], limit=5)
         tracks =[track['track'] for track in playlist_tracks[0]['items']]
         tracks_ids = ','.join([track['id'] for track in tracks])

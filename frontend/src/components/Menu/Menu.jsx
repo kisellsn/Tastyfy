@@ -94,7 +94,7 @@ function Menu(props) {
             </div>
             <div className={`song_content center`} >
               {
-                topSong?.length === 0 || !Array.isArray(topSong.top) || topSong.top===undefined || topSong.top===[] || topSong===[]?
+                topSong?.length === 0 ?
                     <p className='no_song'>
                         Not enough data
                     </p>

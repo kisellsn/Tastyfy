@@ -57,7 +57,7 @@ function Menu(props) {
     fetchTopSongs();
   }, []);
 
- 
+  console.log(topSong.top)
   return (
     <div id='analytics' className={props.className}>
       <div id='header'>
@@ -94,7 +94,7 @@ function Menu(props) {
             </div>
             <div className={`song_content center`} >
               {
-                topSong?.length === 0 ?
+                topSong?.top.length === 0 || !Array.isArray(topSong.top) || topSong.top===undefined || topSong.top===[] || topSong===[]?
                     <p className='no_song'>
                         Not enough data
                     </p>

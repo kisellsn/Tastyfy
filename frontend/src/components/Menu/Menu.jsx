@@ -57,7 +57,6 @@ function Menu(props) {
     fetchTopSongs();
   }, []);
 
-  console.log(topSong.top)
   return (
     <div id='analytics' className={props.className}>
       <div id='header'>

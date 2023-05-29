@@ -64,10 +64,13 @@ def diagram():
             data = request.json
             term = data.get('term')
             if term in ['medium_term', 'short_term', 'long_term']:
-                top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
+                top = spotify.get_users_top(auth_header, 'tracks',term=term)  # tracks/artists
+                if len(top['items'])<3: return make_response([], 200)
                 fig = analysis.visualize_top_artists(top)
             elif term == 'current':
                 recently_played = spotify.get_users_recently_played(auth_header, 50)
+                tracks = [track['track'] for track in recently_played['items']]
+                if len(tracks) < 3: return make_response([], 200)
                 fig = analysis.visualize_top_artists(recently_played)
             res = make_response(fig, 200)
 

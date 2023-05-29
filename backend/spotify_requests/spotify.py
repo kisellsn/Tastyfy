@@ -227,6 +227,7 @@ def get_artist(auth_header,artist_id):
 
 def get_user_genres(auth_header):
     top_tracks = get_users_top(auth_header, 'tracks')
+
     artists = [track['artists'] for track in top_tracks['items']]
     genres = []
     for artists_track in artists:

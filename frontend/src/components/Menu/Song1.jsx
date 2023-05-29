@@ -3,8 +3,8 @@ import './Menu.scss';
 // import img from '../../images/imageNotFound.png'
 
 const Song1 = ({song}) => {
-    let artist = song.track.artists[0].name;
-    let album = song.track.album.images[0].url;
+    let artist = song.name;
+    let album = song.images[0].url;
 
     return (
         <div className="song-card">

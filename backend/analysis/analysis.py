@@ -50,7 +50,7 @@ def visualize_genres_barchart(genres_complex_list):
         font=dict(color='white', size=25)
     )
 
-    fig.show(config={'staticPlot': True})
+    return fig.to_html(static_plot=True)
 
 
 def unpack(genres_complex_list):

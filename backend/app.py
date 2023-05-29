@@ -18,14 +18,13 @@ def auth():
 
 @app.route("/callback/")
 def callback():
-    auth_token = request.args['code']
-    auth_header,refresh_header = spotify.authorize(auth_token)
-    session['auth_header'] = auth_header
-    session['refresh_token']=refresh_header
-    #return jsonify({
-    #    "profile": url_for('profile')
-    #})
-    return redirect("http://localhost:3000/menu")
+    if 'code' in request.args:
+        auth_token = request.args['code']
+        auth_header, refresh_header = spotify.authorize(auth_token)
+        session['auth_header'] = auth_header
+        session['refresh_token'] = refresh_header
+        return redirect("http://localhost:3000/menu")
+    return redirect("http://localhost:3000/")
 
 
 def valid_token(resp):

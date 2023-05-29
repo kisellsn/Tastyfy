@@ -7,6 +7,7 @@ import Login from 'src/components/Login/Login';
 import Footer from "./components/Footer/footer";
 import About from './components/About/About';
 import Menu from './components/Menu/Menu';
+import Privacy from './components/Privacy/Privacy';
 
 function App() {
 
@@ -16,8 +17,9 @@ function App() {
           <ThemeProvider theme={questTheme}>
             <Routes>
               <Route path="/" element={<Login />} />
-              <Route path="/about" element={<About />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/privacy" element={<Privacy />} />
             </Routes>
             <Footer />
           </ThemeProvider>

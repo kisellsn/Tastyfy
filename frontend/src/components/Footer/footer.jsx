@@ -19,23 +19,30 @@ function Footer() {
       };
 
     return (
-        <div className={`footer ${currentPage === '/about' ? 'about' : ''}`}>
-            <div className={`Email ${currentPage === '/about' ? 'about' : ''}`}>
-                <img className={`Vector ${currentPage === '/about' ? 'about' : ''}`} src={VectorImage} loading="lazy" alt={'Vector'} /> 
+        <div className={`footer ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}>
+            <div className={`Email ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}>
+                <img className={`Vector ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`} src={VectorImage} loading="lazy" alt={'Vector'} /> 
             </div>
-            <div id={`${currentPage === '/about' ? 'PrivacyFaq' : 'AboutPrivacyFaq'}`}>
-                {currentPage === '/about' ? (
-                    <React.Fragment>
-                        Privacy<br/>
-                        <div style={{ position: 'absolute' }}onClick={handleLogOut}>LogOut</div><br/>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                        <Link to="/about">About</Link><br/>
-                        Privacy<br/>
-                        <div style={{ position: 'absolute' }} onClick={handleLogOut}>LogOut</div><br/>
-                    </React.Fragment>
-                )}
+            <div id={currentPage === '/about' ? 'PrivacyFaq' : (currentPage === '/privacy' ? 'PrivacyFaq' : 'AboutPrivacyFaq')}>
+
+            {currentPage === '/about' ? (
+            <React.Fragment>
+                <Link to="/privacy">Privacy</Link><br/>
+                <div style={{ position: 'absolute' }} onClick={handleLogOut}>LogOut</div><br/>
+            </React.Fragment>
+            ) : currentPage === '/privacy' ? (
+            <React.Fragment>
+                <Link to="/about">About</Link><br/>
+                <div style={{ position: 'absolute' }} onClick={handleLogOut}>LogOut</div><br/>
+            </React.Fragment>
+            ) : (
+            <React.Fragment>
+                <Link to="/about">About</Link><br/>
+                <Link to="/privacy">Privacy</Link><br/>
+                <div style={{ position: 'absolute' }} onClick={handleLogOut}>LogOut</div><br/>
+            </React.Fragment>
+            )}
+
             </div>
         </div>   
     );

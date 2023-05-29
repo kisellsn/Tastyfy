@@ -1,0 +1,152 @@
+#mainP {
+    background: linear-gradient(180deg, rgb(0, 0, 0) -1.061617131462919615%,rgba(28, 4, 43, 1) 99.99999999999997%);
+    mix-blend-mode: hard-light;
+    display: flex;
+    position: relative;
+    isolation: isolate;
+    flex-direction: row;
+    width: 100%;
+    min-height: 800px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+#SpotifyLogoS {
+    display: flex;
+    position: absolute;
+    isolation: isolate;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 128px;
+    height: 128px;
+    left: 1550px;
+    top: 607px;
+    overflow: hidden;
+}
+
+#leftRectangle {
+    background-color: rgba(0, 0, 0, 1);
+    width: 15%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+  
+#tastyfy {
+    text-align: left;
+    white-space: pre-wrap;
+    font-synthesis: none;
+    color: rgba(255, 255, 255, 1);
+    font-style: normal;
+    font-family: Sansation;
+    font-weight: 700;
+    font-size: 50px;
+    letter-spacing: 0px;
+    text-decoration: none;
+    text-transform: none;
+    text-shadow: 0px 8px 4px rgba(63, 61, 89, 1);
+    position: absolute;
+    left: 15.5%;
+    top: 30px;
+}
+
+#backRectangle {
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 30px;
+    width: 51%;
+    height: 50px;
+    position: absolute;
+    left: 27%;
+    top: 140px;
+
+    &:hover {
+        background-color: rgba(200, 200, 200, 1);
+    }
+
+    &:active {
+        background-color: rgba(180, 180, 180, 1);
+    }
+}
+
+  
+#back {
+    text-align: center;
+    white-space: pre-wrap;
+    font-synthesis: none;
+    color: rgba(0, 0, 0, 1);
+    font-style: normal;
+    font-family: Urbanist;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0px;
+    text-decoration: none;
+    text-transform: none;
+    left: 41%;
+    line-height: 270%;
+    position:absolute;
+}
+  
+#q1 {
+    display: flex;
+    position: absolute;
+    isolation: isolate;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0px;
+    box-sizing: border-box;
+    width: 10px;
+    height: 30%;
+    left: 29%;
+    top: 35%
+}
+  
+#vector1 {
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+
+  
+#privacy {
+    text-align: center;
+    white-space: pre-wrap;
+    font-synthesis: none;
+    color: rgba(255, 255, 255, 1);
+    font-style: normal;
+    font-family: Lexend;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 0px;
+}
+  
+#textPrivacy {
+    text-align: center;
+    // white-space: pre-wrap;
+    font-synthesis: none;
+    color: rgba(255, 255, 255, 1);
+    font-style: normal;
+    font-family: Urbanist;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0px;
+    position: relative;
+    top: 15px;
+}
+  
+#descriptionP{
+    margin-left: 15%;
+    top: 5%;
+    right: 0px;
+    margin-bottom: 200px;
+    position: relative;
+    padding: 8%;
+    padding-top: 5%;
+}

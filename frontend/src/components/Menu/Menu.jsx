@@ -27,11 +27,17 @@ function Menu(props) {
     });
   })
 
-
   const [value, setValue] = useState('')
   const [rec, setRec] = useState([])
   const [topSong, setTopSong] = useState([])
-  const options = useMemo(() => countryList().getData(), [])
+  // const options = useMemo(() => countryList().getData(), [])
+  const options = useMemo(() => {
+    const countryOptions = countryList().getData();
+    const globalOption = { label: 'Global' };
+    return [globalOption, ...countryOptions];
+  }, []);
+  // options[249] = {value: 'none', label: 'global'}
+  console.log(options)
 
   const changeHandler = async(value) => {
     try {
@@ -83,7 +89,7 @@ function Menu(props) {
           {/* {if user.images */}
           {/* {userInfo.images ? (): */}
           {/* // <img id='avatar' src={userInfo.images[0].url} loading="lazy" alt={'Avatar'}/> */}
-          <img id='avatar' src={avatar} loading="lazy" alt={'Avatar'} />
+          <img id='avatar' src={avatar} loading="lazy" alt={'Avatar'} error={avatar}/>
           {/* // } */}
       </div>
       <div id='analyze'>

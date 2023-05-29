@@ -2,7 +2,7 @@ import { React, useEffect, useMemo, useState } from 'react';
 import avatar from '../../assets/images/menu/avatar.png'
 import VectorImage from 'src/assets/images/menu/menu_Vector.png';
 import './Menu.scss';
-import Sircle from 'src/assets/images/menu/sircle.png';
+// import Sircle from 'src/assets/images/menu/sircle.png';
 import Song1 from './Song1';
 import Song2 from './Song2';
 import countryList from 'react-select-country-list';
@@ -24,34 +24,40 @@ function Menu(props) {
       if (!user) navigate('/');
       setUserInfo(user);
       setUserName(user.display_name);
-      // setUserImage()
     });
   })
 
 
-  // let songs = [{id:'1',artist: 'Hector'},{id:'2',artist: 'Anya'},{id:'3',artist: 'Masha'},{id:'4',artist: 'IcE'},{id:'5',artist: 'IcE'},{id:'5',artist: 'IcE'}];
-  // let recSongs = [{id:'1',artist: 'Hector',title:'FFF'}, {id:'2',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'},{id:'1',artist: 'Hector',title:'FFF'}];
-  let songs = []
-  let recSongs = []
   const [value, setValue] = useState('')
   const [rec, setRec] = useState([])
   const [topSong, setTopSong] = useState([])
   const options = useMemo(() => countryList().getData(), [])
-  // let country = ''
-  const changeHandler = value => {
-    console.log('I need country code, ', value.value)
-    const recommandations = getRecommendations(value.value);
-    setRec(recommandations);
-    setValue(value);
-    recSongs = rec;
+
+  const changeHandler = async(value) => {
+    try {
+      const recommendations = await getRecommendations(value.value);
+      setRec(recommendations);
+      setValue(value);
+    } catch (error) {
+      console.error('Error fetching rec songs:', error);
+    }
   }
 
   useEffect(() => {
-    setTopSong(getTops())
-    songs = topSong;
+    const fetchTopSongs = async () => {
+      try {
+        const tops = await getTops();
+        setTopSong(tops);
+      } catch (error) {
+        console.error('Error fetching top songs:', error);
+        // Handle the error
+      }
+    };
+  
+    fetchTopSongs();
   }, []);
 
-
+ 
   return (
     <div id='analytics' className={props.className}>
       <div id='header'>
@@ -86,15 +92,15 @@ function Menu(props) {
               {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
               <PlotComponent />
             </div>
-            <div className={`song_content ${songs?.length === 0  ? 'center' : ''}`} >
+            <div className={`song_content center`} >
               {
-                songs?.length === 0 ?
+                topSong?.length === 0 ?
                     <p className='no_song'>
-                        Not found
+                        Not enough data
                     </p>
                 :
-                songs?.map(song => (
-                        <Song1 key={song.id} song={song} />
+                topSong?.map((song, index) => (
+                        <Song1 key={index} song={song} />
               ))}
             </div>
           </div>
@@ -147,15 +153,13 @@ function Menu(props) {
           </div>
           <div id='recomendation'>
             <div className='rec_content'>
-                {
-                  recSongs?.length === 0 ?
-                      <p className='no_song'>
-                          Not found
-                      </p>
-                  :
-                  recSongs?.map(song => (
-                          <Song2 key={song.id} song={song} />
-                ))}
+            {rec instanceof Promise ? (
+              <p>Loading recommendations...</p>
+            ) : rec.length === 0 ? (
+              <p className='no_song'>No recommendations available</p>
+            ) : (
+              rec.map((song, index) => <Song2 key={index} song={song} />)
+            )}
             </div>
           </div>
           </div>

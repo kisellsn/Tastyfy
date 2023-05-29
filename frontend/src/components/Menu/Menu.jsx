@@ -76,7 +76,8 @@ function Menu(props) {
   
     fetchRecSongs();
   }, []);
-
+  let url = ''
+  if (userInfo.images) url=userInfo.images[0].url
   return (
     <div id='analytics' className={props.className}>
       <div id='header'>
@@ -88,7 +89,7 @@ function Menu(props) {
           {/* {if user.images */}
           {/* {userInfo.images ? (): */}
           {/* // <img id='avatar' src={userInfo.images[0].url} loading="lazy" alt={'Avatar'}/> */}
-          <img id='avatar' src={avatar} loading="lazy" alt={'Avatar'} error={avatar}/>
+          <img id='avatar' src={url || avatar} loading="lazy" alt={'Avatar'} error={avatar}/>
           {/* // } */}
       </div>
       <div id='analyze'>
@@ -109,7 +110,6 @@ function Menu(props) {
           <div id='info'>
             <div id='grafficA'>
               {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
-
               <PlotComponent />
             </div>
             <div className={`song_content center`} >

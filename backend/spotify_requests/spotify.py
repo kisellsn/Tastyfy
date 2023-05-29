@@ -188,7 +188,7 @@ def get_featured_playlists(auth_header,limit=10,country=None, locale=None):
 
     resp = requests.get(url, headers=auth_header)
     return resp.json()
-def get_playlists_tracks(auth_header, playlists, limit):
+def get_playlists_tracks(auth_header, playlists, limit=50):
     items = []
     '''
     tracks=[]
@@ -227,7 +227,7 @@ def get_artist(auth_header,artist_id):
 
 def get_user_genres(auth_header):
     top_tracks = get_users_top(auth_header, 'tracks')
-
+    if len(top_tracks['items']) < 2: return []
     artists = [track['artists'] for track in top_tracks['items']]
     genres = []
     for artists_track in artists:

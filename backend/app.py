@@ -83,7 +83,7 @@ def top_genres():
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)
         fig = analysis.visualize_genres_barchart(genres)
-
+        if len(genres)<2: return make_response([], 200)
         res = make_response(fig, 200)
     else: res = make_response("token not in session", 403)
     return res

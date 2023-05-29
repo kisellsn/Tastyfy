@@ -28,6 +28,16 @@ export const getRecommendations = async(code) => {
     }
 }
 
+export const getRecs = async() => {
+    try {
+        const response = await axios.get('/api/user/recommendations');
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+        throw error;
+    }
+}
+
 
 export const sircleDiagram = async() => {
     try {

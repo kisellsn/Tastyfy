@@ -9,7 +9,6 @@ function PlotComponent() {
       try {
         const data = await sircleDiagram();
         setPlotData(data);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching plot data:', error);
       }
@@ -18,8 +17,7 @@ function PlotComponent() {
     fetchData();
   }, []);
 
-  console.log(plotData);
-
+  
   return (
     <div style={{ width: '100%', position: 'relative' }}>
       <h2>Plot</h2>

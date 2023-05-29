@@ -8,7 +8,7 @@ import Song2 from './Song2';
 import countryList from 'react-select-country-list';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
-import { getRecommendations, getToken, getTops, registerSpotify } from 'src/util/functions';
+import { getRecommendations, getRecs, getToken, getTops, registerSpotify } from 'src/util/functions';
 import PlotComponent from '../PlotComponent/PlotComponent';
 
 function Menu(props) {
@@ -55,6 +55,21 @@ function Menu(props) {
     };
   
     fetchTopSongs();
+  }, []);
+
+  useEffect(() => {
+    const fetchRecSongs = async () => {
+      try {
+        const recommendations = await getRecs();
+        setRec(recommendations);
+        setValue('Global')
+      } catch (error) {
+        console.error('Error fetching rec songs:', error);
+        // Handle the error
+      }
+    };
+  
+    fetchRecSongs();
   }, []);
 
   return (

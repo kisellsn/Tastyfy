@@ -188,7 +188,7 @@ def get_featured_playlists(auth_header,limit=10,country=None, locale=None):
 
     resp = requests.get(url, headers=auth_header)
     return resp.json()
-def get_playlists_tracks(auth_header, playlists):
+def get_playlists_tracks(auth_header, playlists, limit):
     items = []
     '''
     tracks=[]
@@ -205,16 +205,14 @@ def get_playlists_tracks(auth_header, playlists):
     return concatenated_json
     '''
     for playlist in playlists["items"]:
-        items.append(get_playlist_items(auth_header, playlist["id"]))
-
-    concatenated_json = json.dumps(items)
+        items.append(get_playlist_items(auth_header, playlist["id"], limit))
 
     return items
 
 
 
-def get_playlist_items(auth_header, playlist_id):
-    url = "{}/{playlist_id}/{tracks}?{limit}".format(PLAYLIST_ITEMS,playlist_id=playlist_id,tracks="tracks",limit="limit=50")
+def get_playlist_items(auth_header, playlist_id, limit=50):
+    url = "{}/{playlist_id}/{tracks}?{limit}".format(PLAYLIST_ITEMS,playlist_id=playlist_id,tracks="tracks",limit="limit="+str(limit))
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
@@ -241,21 +239,36 @@ def get_user_genres(auth_header):
 #---------------------RECOMMENDATIONS--------------------
 
 def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, market=None):
+    seed_artists='seed_artists='
+    seed_tracks=''
+    seed_genres='seed_genres='
     top_artists = get_users_top(auth_header, 'artists')
-    artists_ids = ','.join([artist['id'] for artist in top_artists['items'][0:a_count]])
-    seed_artists = "seed_artists=" + artists_ids
+    if len(top_artists['items'])<2:
+        t_count=5
+    else:
+        artists_ids = ','.join([artist['id'] for artist in top_artists['items'][0:a_count]])
+        seed_artists = "seed_artists=" + artists_ids
+        genress = []
+        for artist in top_artists['items']:
+            for genre in artist['genres']:
+                genress.append(genre)
+        counter = Counter(genress)
+        top_two_genre_names = ','.join([genre[0] for genre in counter.most_common(g_count)])
+        seed_genres = "seed_genres=" + top_two_genre_names
 
     top_tracks = get_users_top(auth_header, 'tracks')
-    tracks_ids = ','.join([track['id'] for track in top_tracks['items'][0:t_count]])
+    if len(top_tracks['items'])<5:
+        playlist = get_featured_playlists(auth_header, limit=1, country=market)
+        playlist_tracks = get_playlists_tracks(auth_header, playlist["playlists"], limit=5)
+        tracks =[track['track'] for track in playlist_tracks[0]['items']]
+        tracks_ids = ','.join([track['id'] for track in tracks])
+
+
+    else:
+        tracks_ids = ','.join([track['id'] for track in top_tracks['items'][0:t_count]])
     seed_tracks = "seed_tracks=" + tracks_ids
 
-    genress=[]
-    for artist in top_artists['items']:
-        for genre in artist['genres']:
-            genress.append(genre)
-    counter = Counter(genress)
-    top_two_genre_names = ','.join([genre[0] for genre in counter.most_common(g_count)])
-    seed_genres = "seed_genres=" + top_two_genre_names
+
 
     limit ="limit=" + str(limit)
     if market==None:

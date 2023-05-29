@@ -90,6 +90,7 @@ function Menu(props) {
           <div id='info'>
             <div id='grafficA'>
               {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
+
               <PlotComponent />
             </div>
             <div className={`song_content center`} >

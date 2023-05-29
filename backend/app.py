@@ -96,7 +96,7 @@ def user_tracks():
             data = request.json
             term = data.get('term')
             if term in ['medium_term', 'short_term', 'long_term']:
-                top = spotify.get_users_top(auth_header, 'tracks')  # tracks/artists
+                top = spotify.get_users_top(auth_header, 'artists')  # tracks/artists
                 return jsonify({"top": top["items"]})
             elif term == 'current':
                 recently_played = spotify.get_users_recently_played(auth_header, 10)  # LIMIT = ??????

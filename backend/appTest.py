@@ -51,9 +51,9 @@ def profile():
         #playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
         #analysis.get_artist_ids(playlists_tracks)
 
-        #genres = spotify.get_user_genres(auth_header)
-        #print(genres)
-       # print(analysis.visualize_genres_barchart(genres))
+        genres = spotify.get_user_genres(auth_header)
+        print(genres)
+        print(analysis.visualize_genres_barchart(genres))
 
 
 

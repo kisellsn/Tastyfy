@@ -1,11 +1,17 @@
 import React from 'react';
 import './Menu.scss';
-// import AddImage from 'src/assets/images/menu/menu_add.png';
+// import AddImage from 'src/assets/images/menu/menu_add.png'
+import LinkI from 'src/assets/images/link.png'
 // import img from '../../images/imageNotFound.png'
 
 const Song2 = ({song}) => {
-    let artist = song.artists[0].name;
-    let title = song.name;
+    let artist = song.artists[0].name
+    let title = song.name.length > 20 ? song.name.substring(0, 20) + "..." : song.name;
+
+    const spotifySong = () => {
+        const url = song.external_urls.spotify;
+        window.location.href = url;
+      };
     return (
         <div className="rec-card" id={song.id}>
             <div className="rec-card_img" id={song.id}>
@@ -15,9 +21,9 @@ const Song2 = ({song}) => {
                 <h4 className="rec-card_text1">{title}</h4>
                 <h4 className="rec-card_text2">{artist}</h4>
             </div>
-            {/* <div className="rec-card_plus">
-                <img className='plus' src={AddImage} alt="Default song"/>
-            </div> */}
+            <div className="rec-card_plus">
+                <img className='plus' src={LinkI} alt="Default song" onClick={spotifySong}/>
+            </div>
         </div>
     )
 };

@@ -78,6 +78,11 @@ function Menu(props) {
   }, []);
   let url = ''
   if (userInfo.images) url=userInfo.images[0].url
+
+  const linkUser = () => {
+    const url = userInfo.external_urls.spotify;
+    window.location.href = url;
+  };
   return (
     <div id='analytics' className={props.className}>
       <div id='header'>
@@ -89,7 +94,7 @@ function Menu(props) {
           {/* {if user.images */}
           {/* {userInfo.images ? (): */}
           {/* // <img id='avatar' src={userInfo.images[0].url} loading="lazy" alt={'Avatar'}/> */}
-          <img id='avatar' src={url || avatar} loading="lazy" alt={'Avatar'} error={avatar}/>
+          <img id='avatar' src={url || avatar} loading="lazy" alt={'Avatar'} onClick={linkUser}/>
           {/* // } */}
       </div>
       <div id='analyze'>

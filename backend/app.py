@@ -65,12 +65,12 @@ def diagram():
             term = data.get('term')
             if term in ['medium_term', 'short_term', 'long_term']:
                 top = spotify.get_users_top(auth_header, 'tracks',term=term)  # tracks/artists
-                if len(top['items'])<3: return make_response([], 200)
+                if len(top['items'])<3: return make_response([], 400)
                 fig = analysis.visualize_top_artists(top)
             elif term == 'current':
                 recently_played = spotify.get_users_recently_played(auth_header, 50)
                 tracks = [track['track'] for track in recently_played['items']]
-                if len(tracks) < 3: return make_response([], 200)
+                if len(tracks) < 3: return make_response([], 400)
                 fig = analysis.visualize_top_artists(recently_played)
             res = make_response(fig, 200)
 
@@ -82,7 +82,7 @@ def top_genres():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)
-        if len(genres)<2: return make_response([], 200)
+        if len(genres)<2: return make_response([], 400)
         fig = analysis.visualize_genres_barchart(genres)
         res = make_response(fig, 200)
     else: res = make_response("token not in session", 403)

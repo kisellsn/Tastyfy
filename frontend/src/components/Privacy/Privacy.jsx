@@ -63,7 +63,7 @@ function Privacy(props) {
           <br/><br/>
           <strong>Contact Us</strong>
           <br/><br/>
-          If you have any questions, concerns, or suggestions regarding this Privacy Policy, please contact us at andrey2004112@gmail.com.
+          If you have any questions, concerns, or suggestions regarding this Privacy Policy, please contact us at tastyfy.tech@gmail.com.
         </div>
       </div>
 

@@ -98,12 +98,16 @@ function Menu(props) {
         <div className='musicContainer'>
           <div id='titleA'><h4>Your music results</h4></div>
           <div id='info'>
-            <div id='textInfo' className='textBlock'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <div id='infoLeft'>
+              <div id='textInfo' className='textBlock'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                
+              </div>
+              <div></div>
             </div>
             <div id='graffic' className='textBlock'>
-              {/* <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} /> */}
-              <PlotTop />
+              <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} />
+              {/* <PlotTop /> */}
             </div>
           </div>
         </div>

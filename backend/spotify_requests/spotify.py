@@ -192,7 +192,6 @@ def get_featured_playlists(auth_header,limit=1,country=None, locale=None):
     tracks = get_playlists_tracks(auth_header, resp, 9)
     for track in tracks["items"]:
         rec.append(track["track"])
-    print(rec)
     return rec
 def get_playlists_tracks(auth_header, playlists, limit=50):
     '''

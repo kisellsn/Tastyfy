@@ -48,25 +48,26 @@ def profile():
         profile_data = spotify.get_users_profile(auth_header)
 
         playlists = spotify.get_featured_playlists(auth_header, country="PL")
-        playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
+        #playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
         #analysis.get_artist_ids(playlists_tracks)
 
-        genres = spotify.get_user_genres(auth_header)
-        analysis.visualize_genres_barchart(genres)
+        #genres = spotify.get_user_genres(auth_header)
+        #print(genres)
+       # print(analysis.visualize_genres_barchart(genres))
 
 
 
 
-        playlist_data = spotify.get_users_playlists(auth_header)
-        recently_played = spotify.get_users_recently_played(auth_header, 10)
+        #playlist_data = spotify.get_users_playlists(auth_header)
+       # recently_played = spotify.get_users_recently_played(auth_header, 10)
 
-        top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
+        #top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
 
-        library = spotify.get_users_saved_tracks(auth_header)
+       # library = spotify.get_users_saved_tracks(auth_header)
 
-        audio_features = spotify.get_users_audio_features(auth_header)
+       # audio_features = spotify.get_users_audio_features(auth_header)
 
-        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="UA") #market (tracks+artists+genres<=5)
+        #recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="None") #market (tracks+artists+genres<=5)
 
         #tracks= spotify.generate_playlist_tracks(auth_header, recently_played)
         #playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")
@@ -75,10 +76,10 @@ def profile():
 
         #spotify.save_track(auth_header, recommendations)
 
-        print(is_valid_json(recommendations["tracks"]))
-        print(is_valid_json(recently_played["items"]))
-        print(is_valid_json(top["items"]))
-        analysis.visualize_top_artists(recently_played)
+       # print(is_valid_json(recommendations["tracks"]))
+        #print(is_valid_json(recently_played["items"]))
+        #print(is_valid_json(top["items"]))
+        #analysis.visualize_top_artists(recently_played)
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,

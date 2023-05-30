@@ -115,6 +115,7 @@ def recommendations():
             market = data.get('code')
             recommendations = spotify.get_featured_playlists(auth_header, country=market)
             res = make_response(jsonify(recommendations), 200)
+
         else:
             recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2)
             res = make_response(jsonify(recommendations["tracks"]), 200)

@@ -53,6 +53,12 @@ def visualize_genres_barchart(genres_complex_list):
     return pio.to_json(fig, pretty=True)
 
 
+def generate_genres_text(genres_complex_list):
+    genres = convert_genres(genres_complex_list)
+    best_genre = genres.loc[1, :].values.flatten().tolist()
+    return f'You really love listening to {best_genre[0]}! You`ve listened to it {best_genre[1]} times lately'
+
+
 def unpack(genres_complex_list):
     genres_uncounted = []
     for genre in genres_complex_list:

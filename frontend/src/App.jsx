@@ -8,6 +8,7 @@ import Footer from "./components/Footer/footer";
 import About from './components/About/About';
 import Menu from './components/Menu/Menu';
 import Privacy from './components/Privacy/Privacy';
+import PlotComponent from './components/PlotComponent/PlotComponent';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
               <Route path="/menu" element={<Menu />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/plot" element={<PlotComponent />} />
             </Routes>
             <Footer />
           </ThemeProvider>

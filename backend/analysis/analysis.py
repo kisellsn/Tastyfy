@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import plotly.io as pio
 
 def visualize_top_artists(json_data, is_top=False):
     if is_top:
@@ -12,32 +13,31 @@ def visualize_top_artists(json_data, is_top=False):
     artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
 
     artists_count = __make_others_section(artists_count)
-    return __plot_pie_chart(artists_count).to_html()
+    return pio.to_json(__plot_pie_chart(artists_count), pretty=True)
 
 
 def visualize_genres_barchart(genres_complex_list):
     genres = convert_genres(genres_complex_list)
 
-    color_continuous_scale = ['#56076a', '#530b6f', '#500f74', '#4c1379', '#48177e',
-                              '#421b83', '#3b1e88', '#32218d', '#262592', '#122897']
+    color_continuous_scale = ['#011476', '#191274', '#251172', '#2e0f70', '#360d6e',
+                              '#3c0b6c', '#420a69', '#470867', '#4c0765', '#500663']
 
     fig = px.bar(
         genres.head(10),
-        x='Genre',
+        x='Item',
         y='% of total',
-        color=genres.head(10).index,
+        color='% of total',
         color_continuous_scale=color_continuous_scale,
-        text='Genre',
+        text='Item',
         labels={'% of total': 'Percent of total listened'},
-        title=''
+        title='',
     )
 
     fig.update_traces(
         textangle=-90,
         textposition='inside',
         insidetextanchor='middle',
-        marker_line_color='rgba(0, 0, 0, 0)',
-        texttemplate="     %{text}     "
+        marker_line_color='rgba(0, 0, 0, 0)'
     )
 
     fig.update_layout(
@@ -47,10 +47,10 @@ def visualize_genres_barchart(genres_complex_list):
         showlegend=False,
         xaxis=dict(visible=False, showticklabels=False),
         yaxis=dict(showgrid=False, tickfont=dict(color='white', size=20)),
-        font=dict(color='white', size=25)
+        font=dict(color='white', size=25),
     )
 
-    return fig.to_html()
+    return pio.to_json(fig, pretty=True)
 
 
 def unpack(genres_complex_list):
@@ -154,9 +154,7 @@ def __draw_circles():
 
 def convert_genres(genres_complex_list):
     genres_uncounted = unpack(genres_complex_list)
-    genres_dict = {item: genres_uncounted.count(item) for item in genres_uncounted}
-    genres = pd.DataFrame.from_dict(genres_dict, orient='index')
-    genres.reset_index(inplace=True)
+    genres = pd.DataFrame.from_dict({item: genres_uncounted.count(item) for item in set(genres_uncounted)})
     genres.columns = ['Genre', 'Count']
 
     genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100)

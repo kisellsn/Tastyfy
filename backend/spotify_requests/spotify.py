@@ -172,7 +172,7 @@ def get_users_recently_played(auth_header,limit):
 BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
                                               'featured-playlists')
 PLAYLIST_ITEMS = "{}/{}".format(SPOTIFY_API_URL, 'playlists')
-def get_featured_playlists(auth_header,limit=10,country=None, locale=None):
+def get_featured_playlists(auth_header,limit=1,country=None, locale=None):
     if country == None:
         if locale == None:
             url = "{}?{limit}".format(BROWSE_FEATURED_PLAYLISTS, limit="limit=" + str(limit))
@@ -187,9 +187,14 @@ def get_featured_playlists(auth_header,limit=10,country=None, locale=None):
                                                 limit="limit=" + str(limit))
 
     resp = requests.get(url, headers=auth_header)
-    return resp.json()
+    resp = resp.json()["playlists"]
+    rec=[]
+    tracks = get_playlists_tracks(auth_header, resp, 9)
+    for track in tracks["items"]:
+        rec.append(track["track"])
+    print(rec)
+    return rec
 def get_playlists_tracks(auth_header, playlists, limit=50):
-    items = []
     '''
     tracks=[]
     for playlist in playlists["items"]:
@@ -204,12 +209,18 @@ def get_playlists_tracks(auth_header, playlists, limit=50):
     print(concatenated_json)
     return concatenated_json
     '''
-    for playlist in playlists["items"]:
-        items.append(get_playlist_items(auth_header, playlist["id"], limit))
+    for pl in playlists["items"]:
+        items=get_playlist_items(auth_header, pl["id"], limit)
 
     return items
 
+GET_TRACK_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'tracks')  # /<id>
 
+
+def get_track(auth_header,track_id):
+    url = "{}/{id}".format(GET_TRACK_ENDPOINT, id=track_id)
+    resp = requests.get(url, headers=auth_header)
+    return resp.json()
 
 def get_playlist_items(auth_header, playlist_id, limit=50):
     url = "{}/{playlist_id}/{tracks}?{limit}".format(PLAYLIST_ITEMS,playlist_id=playlist_id,tracks="tracks",limit="limit="+str(limit))
@@ -439,13 +450,7 @@ def get_albums_tracks(album_id):
 
 # ---------------- TRACKS ------------------------
 
-GET_TRACK_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'tracks')  # /<id>
 
-
-def get_track(track_id):
-    url = "{}/{id}".format(GET_TRACK_ENDPOINT, id=track_id)
-    resp = requests.get(url)
-    return resp.json()
 
 def get_several_tracks(list_of_ids):
     url = "{}/?ids={ids}".format(GET_TRACK_ENDPOINT, ids=','.join(list_of_ids))

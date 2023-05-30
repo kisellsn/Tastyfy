@@ -12,8 +12,8 @@ const Song2 = ({song}) => {
                 <img src={song.album.images[0].url} alt="Default song"/>
             </div>
             <div className="rec-card_content">
-                <h4 className="rec-card_text">{title}</h4>
-                <h4 className="rec-card_text">{artist}</h4>
+                <h4 className="rec-card_text1">{title}</h4>
+                <h4 className="rec-card_text2">{artist}</h4>
             </div>
             {/* <div className="rec-card_plus">
                 <img className='plus' src={AddImage} alt="Default song"/>

@@ -28,6 +28,16 @@ export const getRecommendations = async(code) => {
     }
 }
 
+export const topDiagram = async() => {
+    try {
+        const response = await axios.get('/api/user/top_genres');
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+        throw error;
+    }
+}
+
 export const getRecs = async() => {
     try {
         const response = await axios.get('/api/user/recommendations');
@@ -50,7 +60,7 @@ export const sircleDiagram = async() => {
 
 export const getTops = async() => {
     try {
-        const response = await axios.post('/api/user/top_or_recently', { term: 'short_term' });
+        const response = await axios.post('/api/user/top_or_recently', { term: 'long_term' });
         return response.data;
     } catch (error) {
         console.error('Error', error);

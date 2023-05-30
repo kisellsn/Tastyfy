@@ -287,7 +287,7 @@
     // margin: 0px 10% 0px 10%;
 }
 
-.rec-card_text {
+.rec-card_text1 {
     text-align: center;
     white-space: pre-wrap;
     font-synthesis: none;
@@ -295,8 +295,19 @@
     font-style: normal;
     font-family: Lexend;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 20px;
     margin: 0px;
+}
+.rec-card_text2 {
+  text-align: center;
+  white-space: pre-wrap;
+  font-synthesis: none;
+  color: rgba(255, 255, 255, 0.676);
+  font-style: normal;
+  font-family: Lexend;
+  font-weight: 300;
+  font-size: 18px;
+  margin: 0px;
 }
 
 .rec-card_plus{

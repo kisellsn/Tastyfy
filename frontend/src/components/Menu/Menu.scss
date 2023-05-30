@@ -15,8 +15,8 @@
     background-attachment: fixed;
   
     #header {
-      background-color: rgba(29, 29, 29, 0.4);
-      mix-blend-mode: hard-light;
+      background-color: rgb(26, 0, 36);
+      // mix-blend-mode: hard-light;
       width: 92%;
       height: 10%;
       max-height: 100px;
@@ -194,7 +194,7 @@
     margin: 20px;
     width: 20%;
     aspect-ratio: 1/2.5;  
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 .song-card_img {
     background-color: rgba(39, 31, 50, 1);

@@ -89,7 +89,7 @@ function Menu(props) {
           {/* {if user.images */}
           {/* {userInfo.images ? (): */}
           {/* // <img id='avatar' src={userInfo.images[0].url} loading="lazy" alt={'Avatar'}/> */}
-          <img id='avatar' src={url || avatar} loading="lazy" alt={'Avatar'} error={avatar}/>
+          <img id='avatar' src={url || avatar} loading="lazy" alt={'Avatar'}/>
           {/* // } */}
       </div>
       <div id='analyze'>

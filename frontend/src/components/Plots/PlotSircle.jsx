@@ -24,7 +24,7 @@ function PlotSircle() {
         <Plot
           data={plotData.data}
           layout={plotData.layout}
-          style={{width: '340%', aspectRatio:'53/27', position:'absolute', left:'-90%'}}
+          style={{width: '300%', aspectRatio:'53/27', position:'absolute', left:'-70%'}}
         />
       ) : (
 

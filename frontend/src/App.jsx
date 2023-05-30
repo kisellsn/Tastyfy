@@ -8,7 +8,7 @@ import Footer from "./components/Footer/footer";
 import About from './components/About/About';
 import Menu from './components/Menu/Menu';
 import Privacy from './components/Privacy/Privacy';
-import PlotComponent from './components/PlotSircle/PlotSircle';
+import PlotComponent from './components/Plots/PlotSircle';
 
 function App() {
 

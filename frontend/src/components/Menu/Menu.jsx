@@ -9,7 +9,8 @@ import countryList from 'react-select-country-list';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import { getRecommendations, getRecs, getToken, getTops, registerSpotify } from 'src/util/functions';
-import PlotSircle from '../PlotSircle/PlotSircle';
+import PlotSircle from '../Plots/PlotSircle';
+import PlotTop from '../Plots/PlotTop';
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState('');
@@ -91,11 +92,7 @@ function Menu(props) {
             <div className='menuItem'>Analytics</div>
             <div className='menuItem PG'>Playlist Generator</div>
           </div>
-          {/* {if user.images */}
-          {/* {userInfo.images ? (): */}
-          {/* // <img id='avatar' src={userInfo.images[0].url} loading="lazy" alt={'Avatar'}/> */}
           <img id='avatar' src={url || avatar} loading="lazy" alt={'Avatar'} onClick={linkUser}/>
-          {/* // } */}
       </div>
       <div id='analyze'>
         <div className='musicContainer'>
@@ -105,8 +102,8 @@ function Menu(props) {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </div>
             <div id='graffic' className='textBlock'>
-              <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} />
-              data
+              {/* <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} /> */}
+              <PlotTop />
             </div>
           </div>
         </div>

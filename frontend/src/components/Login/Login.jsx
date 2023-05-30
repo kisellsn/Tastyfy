@@ -34,8 +34,7 @@ function Login(props) {
       <div id='Tastyfy'>{`Tastyfy`}</div>
       <div id='Tastyfy1'>
         <span id='Tastyfy1Span1'>{`Tastyfy`}</span>
-        <span id='Tastyfy1Span2'>{` – це аналізатор музичних уподобань, який допомагає користувачам дізнатися більше про свій смак та відкривати для себе нову музику, яка
-відповідає їхнім особистим вподобанням.`}</span>
+        <span id='Tastyfy1Span2'>{` is a music preference analyzer that helps users learn more about their taste and discover new music that matches their personal preferences.`}</span>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import countryList from 'react-select-country-list';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import { getRecommendations, getRecs, getToken, getTops, registerSpotify } from 'src/util/functions';
-import PlotComponent from '../PlotComponent/PlotComponent';
+import PlotSircle from '../PlotSircle/PlotSircle';
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState('');
@@ -115,7 +115,7 @@ function Menu(props) {
           <div id='info'>
             <div id='grafficA'>
               {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
-              <PlotComponent />
+              <PlotSircle />
             </div>
             <div className={`song_content center`} >
               {

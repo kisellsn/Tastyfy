@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import { sircleDiagram } from 'src/util/functions';
 
-function PlotComponent() {
+function PlotSircle() {
   const [plotData, setPlotData] = useState(null);
 
   useEffect(() => {
@@ -20,18 +20,18 @@ function PlotComponent() {
 
   return (
     <div style={{ width: '100%', position: 'relative'}}>
-      <h2>Plot</h2>
       {plotData ? (
         <Plot
           data={plotData.data}
           layout={plotData.layout}
-          style={{width: '100%', }}
+          style={{width: '340%', aspectRatio:'53/27', position:'absolute', left:'-90%'}}
         />
       ) : (
-        <p>Loading plot data...</p>
+
+        <p style={{fontSize:'40px', textAlign:'center', marginLeft:'200px', position:'absolute'}}> <br/><br/>Loading plot data...</p>
       )}
     </div>
   );
 }
 
-export default PlotComponent;
+export default PlotSircle;

@@ -236,14 +236,12 @@ def get_artist(auth_header,artist_id):
 
 
 def get_user_genres(auth_header):
-    top_tracks = get_users_top(auth_header, 'tracks')
-    if len(top_tracks['items']) < 2: return []
-    artists = [track['artists'] for track in top_tracks['items']]
+    top_artists = get_users_top(auth_header, 'artists')
+    if len(top_artists['items']) < 1: return []
+    #genres = [track['genres'] for track in top_tracks['items']]
     genres = []
-    for artists_track in artists:
-        for artist in artists_track:
-            artistobj = get_artist(auth_header,artist['id'])
-            if artistobj['genres']: genres.append(artistobj['genres'])
+    for track in top_tracks['items']:
+        if track['genres']: genres.append(track['genres'])
     print(genres)
     return genres
 

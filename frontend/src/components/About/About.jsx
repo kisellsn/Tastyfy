@@ -75,10 +75,20 @@ function About(props) {
         <div id='about'>{`About
         `}</div>
         <div id='textAbout'>
-          {`
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet quam eu est malesuada posuere. Praesent luctus vitae arcu et interdum. Sed ex elit, tristique eu urna vel, elementum volutpat nunc. Nulla porttitor fringilla ante, non posuere eros iaculis et. Morbi fermentum sem sem. Duis ullamcorper nec nulla vitae facilisis. Curabitur vitae gravida lectus, vel tempor eros.
-  Nullam suscipit pulvinar dui nec sodales. Aliquam ac ex sed arcu consectetur egestas vel at ligula. Sed varius ornare nulla. Nulla facil Aliquam ac ex sed arcu consectetur egestas vel at ligula. Sed varius ornare nulla. Nulla facilisi. Pellentesque suscipit eros at eleifend euismod. Aenean blandit, nunc eu malesuada lobortis.`}
+          <h2>About Tastyfy</h2>
+          <p>Welcome to Tastyfy!</p>
+          <p>Tastyfy is a revolutionary music preference analyzer designed to help you delve deeper into your musical tastes and uncover new music that resonates with your personal preferences. With our innovative platform, we bring together a team of talented individuals who are passionate about music and technology to enhance your music discovery journey.</p>
+          <h2>Meet Our Team</h2>
+          <h3>Sonya Kondratska - Back-end Developer</h3>
+          <p>Sonya is the mastermind behind the technical infrastructure that powers Tastyfy. With her expertise in back-end development, she ensures that our platform operates smoothly, securely, and efficiently. She is committed to delivering a seamless user experience, enabling you to explore your music preferences effortlessly.</p>
+          <h3>Andrii Mieshkov - Front-end Developer</h3>
+          <p>Andrii is responsible for the visual and interactive aspects of Tastyfy. Using his skills in front-end development, he creates an intuitive and engaging user interface that makes navigating through the platform a delightful experience. Andrii works tirelessly to bring your music preferences to life and ensure that you have a seamless interaction with Tastyfy.</p>
+          <h3>Tykhonenko Mykyta - UI/UX Designer</h3>
+          <p>Tykhonenko's expertise lies in crafting captivating user experiences. As the UI/UX designer for Tastyfy, he combines aesthetics with functionality, designing a visually appealing interface that complements the overall user journey. Tykhonenko's goal is to make your time on Tastyfy enjoyable, visually stimulating, and easy to navigate.</p>
+          <h3>Shabanov Metin - Data Analyst</h3>
+          <p>Metin is the brains behind the data analysis at Tastyfy. With his analytical skills and music expertise, he dives into the vast world of music data to uncover hidden connections and patterns. By analyzing your music preferences, Metin continuously enhances the algorithms that power Tastyfy, ensuring that the music recommendations you receive are tailored specifically to your unique taste.</p>
+          <p>At Tastyfy, we believe that music has the power to enrich our lives and connect us on a deeper level. Our mission is to empower you to explore your music preferences, expand your musical horizons, and make discovering new music an exciting and personalized journey.</p>
+          <p>Whether you're a seasoned music aficionado or just beginning to explore the vast world of music, Tastyfy is here to accompany you on your musical adventure. So, dive in, uncover your musical preferences, and let Tastyfy be your guide to a world of endless musical possibilities.</p>
         </div>
       </div>
 

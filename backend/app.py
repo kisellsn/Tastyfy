@@ -94,7 +94,7 @@ def get_text():
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)
         if len(genres)<2: return make_response([], 400)
-        fig,text = analysis.visualize_genres_barchart(genres)
+        text = analysis.generate_genres_text(genres)
         res = make_response(text, 200)
     else: res = make_response("token not in session", 403)
     return res

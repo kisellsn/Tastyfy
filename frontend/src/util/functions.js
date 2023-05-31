@@ -28,15 +28,27 @@ export const getRecommendations = async(code) => {
     }
 }
 
-// export const topDiagram = async() => {
-//     try {
-//         const response = await axios.get('/api/user/top_genres');
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error', error);
-//         throw error;
-//     }
-// }
+export const topDiagram = async() => {
+    try {
+        const response = await axios.get('/api/user/top_genres');
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+        throw error;
+    }
+}
+
+
+export const getText = async() => {
+    try {
+        const response = await axios.get('/api/user/text');
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+        throw error;
+    }
+}
+
 
 export const getRecs = async() => {
     try {

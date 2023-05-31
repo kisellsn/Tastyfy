@@ -79,19 +79,19 @@ function Menu(props) {
     fetchRecSongs();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchText = async () => {
-  //     try {
-  //       const text = await getText();
-  //       setTextMusic(text);
-  //     } catch (error) {
-  //       console.error('Error fetching text:', error);
-  //       // Handle the error
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchText = async () => {
+      try {
+        const text = await getText();
+        setTextMusic(text);
+      } catch (error) {
+        console.error('Error fetching text:', error);
+        // Handle the error
+      }
+    };
   
-  //   fetchText();
-  // }, []);
+    fetchText();
+  }, []);
   
   let url = ''
   if (userInfo.images) url=userInfo.images[0].url
@@ -116,9 +116,9 @@ function Menu(props) {
           <div id='info'>
             <div id='infoLeft'>
               <div id='textInfo' className='textBlock'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                
-                 {/* {textMusic} */}
+                {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                 */}
+                 {textMusic}
               </div>
               <div></div>
             </div>

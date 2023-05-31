@@ -23,7 +23,7 @@ def visualize_genres_barchart(genres_complex_list):
                               '#3c0b6c', '#420a69', '#470867', '#4c0765', '#500663']
 
     fig = px.bar(
-        genres.head(10),
+        genres.head(8),
         x='Genre',
         y='% of total',
         color='% of total',
@@ -41,13 +41,13 @@ def visualize_genres_barchart(genres_complex_list):
     )
 
     fig.update_layout(
-        plot_bgcolor='rgba(0,0,0,0)'
-        paper_bgcolor='rgba(0,0,0,0)'
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
         xaxis=dict(visible=False, showticklabels=False),
-        yaxis=dict(showgrid=False, tickfont=dict(color='white', size=20)),
-        font=dict(color='white', size=25),
+        yaxis=dict(showgrid=False, tickfont=dict(color='white', size=16)),
+        font=dict(color='white', size=20),
     )
 
     return pio.to_json(fig, pretty=True)

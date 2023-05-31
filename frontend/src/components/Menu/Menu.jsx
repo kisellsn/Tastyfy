@@ -10,7 +10,7 @@ import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import { getRecommendations, getRecs, getToken, getTops, registerSpotify } from 'src/util/functions';
 import PlotSircle from '../Plots/PlotSircle';
-import PlotTop from '../Plots/PlotTop';
+// import PlotTop from '../Plots/PlotTop';
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState('');

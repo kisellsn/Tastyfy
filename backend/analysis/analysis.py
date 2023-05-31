@@ -24,11 +24,11 @@ def visualize_genres_barchart(genres_complex_list):
 
     fig = px.bar(
         genres.head(10),
-        x='Item',
+        x='Genre',
         y='% of total',
         color='% of total',
         color_continuous_scale=color_continuous_scale,
-        text='Item',
+        text='Genre',
         labels={'% of total': 'Percent of total listened'},
         title='',
     )
@@ -41,8 +41,8 @@ def visualize_genres_barchart(genres_complex_list):
     )
 
     fig.update_layout(
-        plot_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
-        paper_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
+        plot_bgcolor='rgba(0,0,0,0)'
+        paper_bgcolor='rgba(0,0,0,0)'
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
         xaxis=dict(visible=False, showticklabels=False),
@@ -160,7 +160,9 @@ def __draw_circles():
 
 def convert_genres(genres_complex_list):
     genres_uncounted = unpack(genres_complex_list)
-    genres = pd.DataFrame.from_dict({item: genres_uncounted.count(item) for item in set(genres_uncounted)})
+    genres_dict = {item: genres_uncounted.count(item) for item in genres_uncounted}
+    genres = pd.DataFrame.from_dict(genres_dict, orient='index')
+    genres.reset_index(inplace=True)
     genres.columns = ['Genre', 'Count']
 
     genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100)

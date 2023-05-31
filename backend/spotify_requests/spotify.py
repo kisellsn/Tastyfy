@@ -240,8 +240,8 @@ def get_user_genres(auth_header):
     if len(top_artists['items']) < 1: return []
     #genres = [track['genres'] for track in top_tracks['items']]
     genres = []
-    for track in top_tracks['items']:
-        if track['genres']: genres.append(track['genres'])
+    for artist in top_artists['items']:
+        if artist['genres']: genres.append(artist['genres'])
     print(genres)
     return genres
 

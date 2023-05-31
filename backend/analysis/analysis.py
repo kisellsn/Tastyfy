@@ -24,11 +24,11 @@ def visualize_genres_barchart(genres_complex_list):
 
     fig = px.bar(
         genres.head(10),
-        x='Item',
+        x='Genre',
         y='% of total',
         color='% of total',
         color_continuous_scale=color_continuous_scale,
-        text='Item',
+        text='Genre',
         labels={'% of total': 'Percent of total listened'},
         title='',
     )

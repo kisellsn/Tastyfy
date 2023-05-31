@@ -160,7 +160,7 @@ def __draw_circles():
 
 def convert_genres(genres_complex_list):
     genres_uncounted = unpack(genres_complex_list)
-    genres = pd.DataFrame.from_dict({item: genres_uncounted.count(item) for item in set(genres_uncounted)})
+    genres = pd.DataFrame.from_dict({item: genres_uncounted.count(item) for item in set(genres_uncounted)}, orient='index')
     genres.columns = ['Genre', 'Count']
 
     genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100)

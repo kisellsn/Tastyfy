@@ -39,7 +39,7 @@ function Footer() {
             <React.Fragment>
                 <Link to="/about">About</Link><br/>
                 <Link to="/privacy">Privacy</Link><br/>
-                <div style={{ position: 'absolute' }} onClick={handleLogOut}>LogOut</div><br/>
+                <div style={{ position: 'absolute', cursor: 'pointer' }} onClick={handleLogOut}>LogOut</div><br/>
             </React.Fragment>
             )}
 

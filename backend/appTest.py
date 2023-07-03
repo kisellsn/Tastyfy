@@ -69,17 +69,9 @@ def profile():
 
         recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="None") #market (tracks+artists+genres<=5)
 
-        #tracks= spotify.generate_playlist_tracks(auth_header, recently_played)
-        #playlist_id = spotify.create_playlist(auth_header, user_id=profile_data["id"], name="okokokok")
-        #spotify.add_playlist_tracks(auth_header, playlist_id, tracks)
-        #spotify.set_image(auth_header, playlist_id)
-
-        #spotify.save_track(auth_header, recommendations)
-
-       # print(is_valid_json(recommendations["tracks"]))
-        #print(is_valid_json(recently_played["items"]))
-        #print(is_valid_json(top["items"]))
-        #analysis.visualize_top_artists(recently_played)
+        recently_played = spotify.get_users_recently_played(auth_header, 50)
+        tracks = [track['track'] for track in recently_played['items']]
+        fig = analysis.visualize_top_artists(recently_played)
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,

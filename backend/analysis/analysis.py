@@ -110,7 +110,7 @@ def __make_others_section(artists_count):
 
     if column_sum / tracks_sum <= 0.12:
         artists_count = artists_count.head(12)
-        artists_count.drop(artists_count.iloc[:-3], inplace=True)
+        artists_count.drop(artists_count.iloc[:-3], inplace=True, axis=1)
         new_row = pd.DataFrame({'Artist': 'Others', 'Tracks listened': column_sum}, index=[len(artists_count)])
         artists_count = pd.concat([artists_count, new_row])
         return artists_count

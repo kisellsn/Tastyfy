@@ -52,8 +52,6 @@ def profile():
         #analysis.get_artist_ids(playlists_tracks)
 
         genres = spotify.get_user_genres(auth_header)
-        print(genres)
-        print(analysis.visualize_genres_barchart(genres))
 
 
 
@@ -72,6 +70,7 @@ def profile():
         recently_played = spotify.get_users_recently_played(auth_header, 50)
         tracks = [track['track'] for track in recently_played['items']]
         fig = analysis.visualize_top_artists(recently_played)
+        print(fig)
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,
@@ -79,8 +78,7 @@ def profile():
                 "recently_played": recently_played["items"],
                 "top": top["items"],
                 "library": library["items"],
-                "audio_features": audio_features['audio_features'],
-                "recommendations": recommendations["tracks"]
+                "audio_features": audio_features['audio_features']
             })
     return jsonify({
         "index": url_for('index')

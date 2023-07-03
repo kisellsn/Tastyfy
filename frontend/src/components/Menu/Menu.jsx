@@ -1,6 +1,6 @@
 import { React, useEffect, useMemo, useState } from 'react';
 import avatar from '../../assets/images/menu/avatar.png'
-import VectorImage from 'src/assets/images/menu/menu_Vector.png';
+// import VectorImage from 'src/assets/images/menu/menu_Vector.png';
 import './Menu.scss';
 // import Sircle from 'src/assets/images/menu/sircle.png';
 import Song1 from './Song1';

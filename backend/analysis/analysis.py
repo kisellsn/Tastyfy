@@ -13,6 +13,7 @@ def visualize_top_artists(json_data, is_top=False):
     artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
 
     artists_count = __make_others_section(artists_count)
+    __plot_pie_chart(artists_count).show()
     return pio.to_json(__plot_pie_chart(artists_count), pretty=True)
 
 
@@ -50,6 +51,7 @@ def visualize_genres_barchart(genres_complex_list):
         font=dict(color='white', size=20),
     )
 
+    fig.show()
     return pio.to_json(fig, pretty=True)
 
 
@@ -108,7 +110,7 @@ def __make_others_section(artists_count):
     column_sum = last_rows['Tracks listened'].sum()
     tracks_sum = artists_count['Tracks listened'].head(12).sum()
 
-    if column_sum / tracks_sum <= 0.12:
+    if column_sum / tracks_sum <= 0.12 and artists_count[artists_count.columns[0]].count() > 9:
         artists_count = artists_count.head(12)
         artists_count.drop(artists_count.iloc[:-3], inplace=True, axis=1)
         new_row = pd.DataFrame({'Artist': 'Others', 'Tracks listened': column_sum}, index=[len(artists_count)])

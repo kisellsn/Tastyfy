@@ -66,7 +66,7 @@ def diagram():
             if term in ['medium_term', 'short_term', 'long_term']:
                 top = spotify.get_users_top(auth_header, 'tracks',term=term)  # tracks/artists
                 if len(top['items'])<3: return make_response("not enough data", 200)
-                fig = analysis.visualize_top_artists(top)
+                fig = analysis.visualize_top_artists(top,is_top=True)
             elif term == 'current':
                 recently_played = spotify.get_users_recently_played(auth_header, 50)
                 tracks = [track['track'] for track in recently_played['items']]

@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.io as pio
 
+
 def visualize_top_artists(json_data, is_top=False):
     if is_top:
         streaming_history = __normalize_top(json_data)
@@ -24,41 +25,40 @@ def visualize_genres_barchart(genres_complex_list):
                               '#3c0b6c', '#420a69', '#470867', '#4c0765', '#500663']
 
     fig = px.bar(
-        genres.head(8),
-        x='Genre',
-        y='% of total',
+        genres.head(10),
+        x='% of total',
+        y='Genre',
+        orientation='h',
         color='% of total',
         color_continuous_scale=color_continuous_scale,
         text='Genre',
         labels={'% of total': 'Percent of total listened'},
-        title='',
+        title=''
     )
 
     fig.update_traces(
-        textangle=-90,
         textposition='inside',
         insidetextanchor='middle',
         marker_line_color='rgba(0, 0, 0, 0)'
     )
 
     fig.update_layout(
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
+        paper_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
-        xaxis=dict(visible=False, showticklabels=False),
-        yaxis=dict(showgrid=False, tickfont=dict(color='white', size=16)),
-        font=dict(color='white', size=20),
+        xaxis=dict(tickfont=dict(color='white', size=25), side='top', title_standoff=50, gridcolor='#845091'),
+        yaxis=dict(visible=False, showticklabels=False, autorange="reversed"),
+        font=dict(color='white', size=25),
     )
 
-    fig.show()
     return pio.to_json(fig, pretty=True)
 
 
 def generate_genres_text(genres_complex_list):
     genres = convert_genres(genres_complex_list)
     best_genre = genres.iloc[[0]].values.flatten().tolist()
-    return f'Here, overview of your listening habits is presented, providing insights into your musical preferences and patterns. Your listening habits reveal a unique blend of genres, artists, and styles that make up the soundtrack to your life. \nYou really love listening to {best_genre[0]}! You`ve listened to it {best_genre[1]} times lately.'
+    return f'Here is the overview of your listening habits, providing insights into your musical preferences and patterns. Your listening habits reveal a unique blend of genres, artists, and styles that make up the soundtrack to your life. \nYou really love listening to {best_genre[0]}! You`ve listened to it {best_genre[1]} times lately.'
 
 
 def unpack(genres_complex_list):
@@ -110,9 +110,12 @@ def __make_others_section(artists_count):
     column_sum = last_rows['Tracks listened'].sum()
     tracks_sum = artists_count['Tracks listened'].head(12).sum()
 
-    if column_sum / tracks_sum <= 0.12 and artists_count[artists_count.columns[0]].count() > 9:
-        artists_count = artists_count.head(12)
-        artists_count.drop(artists_count.iloc[:-3], inplace=True, axis=1)
+    if column_sum / tracks_sum <= 0.15 and artists_count[artists_count.columns[0]].count() > 9:
+        if artists_count['Tracks listened'].max()/tracks_sum < 0.3:
+            artists_count = artists_count.head(9)
+        else:
+            artists_count = artists_count.head(6)
+
         new_row = pd.DataFrame({'Artist': 'Others', 'Tracks listened': column_sum}, index=[len(artists_count)])
         artists_count = pd.concat([artists_count, new_row])
         return artists_count
@@ -126,7 +129,8 @@ def __plot_pie_chart(artists_count):
 
     fig = px.pie(artists_count, values='Tracks listened', names='Artist',
                  color_discrete_sequence=color_continuous_scale, hole=0.65)
-    fig.update_traces(textfont=dict(size=25), hovertemplate=' <br>   %{label}   <br> ')
+    fig.update_traces(textfont=dict(size=25), hovertemplate=' <br>   %{label}   <br> ',
+                      texttemplate="%{percent:.1%}", sort=False)
 
     big_circle, small_circle = __draw_circles()
 
@@ -162,6 +166,7 @@ def __draw_circles():
 
 def convert_genres(genres_complex_list):
     genres_uncounted = unpack(genres_complex_list)
+
     genres_dict = {item: genres_uncounted.count(item) for item in genres_uncounted}
     genres = pd.DataFrame.from_dict(genres_dict, orient='index')
     genres.reset_index(inplace=True)

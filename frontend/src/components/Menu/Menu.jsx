@@ -165,6 +165,10 @@ function Menu(props) {
                   boxShadow: 'none',
                   fontFamily: 'Lexend',
                   fontSize: '22px',
+                  '&:hover': {
+                    color: 'white',
+                    cursor: 'pointer',
+                  },
                 }),
                 singleValue: (provided) => ({
                   ...provided,
@@ -176,6 +180,7 @@ function Menu(props) {
                   color: 'white',
                   '&:hover': {
                     color: 'white',
+                    cursor: 'pointer',
                   },
                 }),
                 option: (provided) => ({
@@ -184,12 +189,16 @@ function Menu(props) {
                   color: 'white', 
                   '&:hover': {
                     color: 'grey',
+                    cursor: 'pointer',
                   },
                 }),
                 placeholder: (provided)=> ({
                   ...provided,
                   color: 'white', 
                 }),
+                '&:hover': {
+                    cursor: 'pointer',
+                  },
               }}
             />
               </div>

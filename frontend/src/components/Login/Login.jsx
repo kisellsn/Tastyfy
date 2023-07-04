@@ -16,6 +16,11 @@ function Login(props) {
       console.error('Authentication failed', error);
     }
   };
+  window.addEventListener('load', function() {
+    let screenHeight = window.innerHeight;
+    let mainElement = document.getElementById('main');
+    mainElement.style.minHeight = screenHeight + 'px';
+  });
 
   return (
     <div id='main' className={props.className}>
@@ -25,16 +30,24 @@ function Login(props) {
         loading="lazy"
         alt={'Vector Smart Object 1'}
       />
-      <div id='Group2'>
-        <div id='Rectangle4' onClick={handleAuth}>
-          <div id='LogIn'>{`Log In`}</div>
-          <img id='Vector1' src={Vector1Image} loading="lazy" alt={'Vector'} />
+      <div className='container'>
+
+        <div id='Tastyfy-title'>{`Tastyfy`}</div>
+
+        <div className='login-body'>
+          <div id='Tastyfy-info'>
+            <span id='Tastyfy-info-title'>{`Tastyfy`}</span>
+            <span id='Tastyfy-info-info'>{` is a music preference analyzer that helps users learn more about their taste and discover new music that matches their personal preferences.`}</span>
+          </div>
+
+          <div id='login-button'>
+            <div id='button-click' onClick={handleAuth}>
+              <div id='LogIn'>{`Log In`}</div>
+              <img id='SpotifyImg' src={Vector1Image} loading="lazy" alt={'Vector'} />
+            </div>
+          </div>
+
         </div>
-      </div>
-      <div id='Tastyfy'>{`Tastyfy`}</div>
-      <div id='Tastyfy1'>
-        <span id='Tastyfy1Span1'>{`Tastyfy`}</span>
-        <span id='Tastyfy1Span2'>{` is a music preference analyzer that helps users learn more about their taste and discover new music that matches their personal preferences.`}</span>
       </div>
     </div>
   );

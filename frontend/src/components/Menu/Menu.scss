@@ -73,6 +73,9 @@
         top: 0px;
         border-radius: 100%;
         border: 2px solid white;
+        &:hover{
+          cursor: pointer;
+        }
       }
     }
   

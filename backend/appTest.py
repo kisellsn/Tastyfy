@@ -67,10 +67,12 @@ def profile():
 
         recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="None") #market (tracks+artists+genres<=5)
 
-        recently_played = spotify.get_users_recently_played(auth_header, 50)
-        tracks = [track['track'] for track in recently_played['items']]
-        fig = analysis.visualize_top_artists(recently_played)
-        print(fig)
+        #recently_played = spotify.get_users_recently_played(auth_header, 50)
+        #tracks = [track['track'] for track in recently_played['items']]
+        #fig = analysis.visualize_top_artists(recently_played)
+        top = spotify.get_users_top(auth_header, 'tracks', term='medium_term')  # tracks/artists
+        print(top)
+        fig = analysis.visualize_top_artists(top,is_top=True)
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,

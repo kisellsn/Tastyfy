@@ -46,7 +46,7 @@ def visualize_genres_barchart(genres_complex_list):
         paper_bgcolor='rgba(0,0,0,0)',
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
-        xaxis=dict(tickfont=dict(color='white'), side='top', title_standoff=50, gridcolor='#845091', fixedrange=True),
+        xaxis=dict(tickfont=dict(color='white'), side='top', title_standoff=15, gridcolor='#845091', fixedrange=True),
         yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
         font=dict(color='white'),
         margin=dict(t=0, b=0, r=0, l=0)

@@ -128,7 +128,7 @@ def __plot_pie_chart(artists_count):
                               '#614283', '#6c4c91', '#76579e', '#8063ad', '#8b6ebb']
 
     fig = px.pie(artists_count, values='Tracks listened', names='Artist',
-                 color_discrete_sequence=color_continuous_scale, hole=0.65, width=400, height=400)
+                 color_discrete_sequence=color_continuous_scale, hole=0.65)
     fig.update_traces(textfont=dict(size=25), hovertemplate=' <br>   %{label}   <br> ',
                       texttemplate="%{percent:.1%}", sort=False)
 
@@ -140,7 +140,12 @@ def __plot_pie_chart(artists_count):
             'paper_bgcolor': 'rgba(0,0,0,0)'
         },
         shapes=[big_circle, small_circle], showlegend=False,
-        hoverlabel=dict(bgcolor="black", font_size=20, font_family="Helvetica")
+        hoverlabel=dict(bgcolor="black", font_size=20, font_family="Helvetica"),
+    )
+
+    fig.update_yaxes(
+        scaleanchor="x",
+        scaleratio=1,
     )
 
     return fig

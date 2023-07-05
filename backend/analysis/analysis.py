@@ -14,7 +14,6 @@ def visualize_top_artists(json_data, is_top=False):
     artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
 
     artists_count = __make_others_section(artists_count)
-    __plot_pie_chart(artists_count).show()
     return pio.to_json(__plot_pie_chart(artists_count), pretty=True)
 
 
@@ -53,7 +52,6 @@ def visualize_genres_barchart(genres_complex_list):
         margin=dict(t=0, b=0, r=0, l=0)
     )
 
-    fig.show()
     return pio.to_json(fig, pretty=True)
 
 

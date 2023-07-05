@@ -150,14 +150,16 @@ def __draw_circles():
     big_circle = dict(
         type='circle',
         xref='paper', yref='paper',
-        x0=0.23, y0=-0.07, x1=0.77, y1=1.07,
+        #x0=0.23, y0=-0.07, x1=0.77, y1=1.07,
+        x0=0, y0=0, x1=1, y1=1,
         line_color='black', line_width=5
     )
 
     small_circle = dict(
         type='circle',
         xref='paper', yref='paper',
-        x0=0.37, y0=0.22, x1=0.63, y1=0.78,
+        #x0=0.37, y0=0.22, x1=0.63, y1=0.78,
+        x0=0.25, y0=0.25, x1=0.75, y1=0.75,
         line_color='grey', line_width=5
     )
 

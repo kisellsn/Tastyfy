@@ -21,16 +21,16 @@ def visualize_top_artists(json_data, is_top=False):
 def visualize_genres_barchart(genres_complex_list):
     genres = convert_genres(genres_complex_list)
 
-    color_continuous_scale = ['#011476', '#191274', '#251172', '#2e0f70', '#360d6e',
-                              '#3c0b6c', '#420a69', '#470867', '#4c0765', '#500663']
+    color_continuous_scale = ['#500663', '#4c0765', '#470867', '#420a69', '#3c0b6c',
+                              '#360d6e', '#2e0f70', '#251172', '#191274', '#011476']
 
     fig = px.bar(
         genres.head(10),
         x='% of total',
         y='Genre',
         orientation='h',
-        color='% of total',
-        color_continuous_scale=color_continuous_scale,
+        color='Genre',
+        color_discrete_sequence=color_continuous_scale,
         text='Genre',
         labels={'% of total': 'Percent of total listened'},
         title=''
@@ -43,15 +43,17 @@ def visualize_genres_barchart(genres_complex_list):
     )
 
     fig.update_layout(
-        plot_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
-        paper_bgcolor='#09001E',  # change to 'rgba(0,0,0,0)'
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
-        xaxis=dict(tickfont=dict(color='white', size=25), side='top', title_standoff=50, gridcolor='#845091'),
-        yaxis=dict(visible=False, showticklabels=False, autorange="reversed"),
+        xaxis=dict(tickfont=dict(color='white', size=25), side='top', title_standoff=50, gridcolor='#845091', fixedrange=True),
+        yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
         font=dict(color='white', size=25),
+        margin=dict(t=0, b=0, r=0, l=0)
     )
 
+    fig.show()
     return pio.to_json(fig, pretty=True)
 
 

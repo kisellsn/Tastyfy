@@ -402,3 +402,9 @@
     width:10%;
     aspect-ratio: 2/1;
 }
+
+@media (max-width: 675px) {
+  #info{
+    flex-direction: column;
+  }
+}

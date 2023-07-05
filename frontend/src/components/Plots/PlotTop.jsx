@@ -9,6 +9,8 @@ function PlotTop() {
     async function fetchData() {
       try {
         const data = await topDiagram();
+        console.log(typeof(data))
+        data.config = {'displayModeBar': false}
         setPlotData(data);
       } catch (error) {
         console.error('Error fetching plot data:', error);
@@ -24,6 +26,7 @@ function PlotTop() {
         <Plot
           data={plotData.data}
           layout={plotData.layout}
+          config={plotData.config}
           style={{width: '100%', position:'relative'}}
         />
       ) : (

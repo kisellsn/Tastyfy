@@ -32,24 +32,32 @@ def visualize_genres_barchart(genres_complex_list):
         color_discrete_sequence=color_continuous_scale,
         text='Genre',
         labels={'% of total': 'Percent of total listened'},
-        title=''
+        title='',
+        hover_name='Genre',
+        hover_data={
+            'Genre': False,
+            '% of total': False,
+            'Count': True
+        }
     )
 
     fig.update_traces(
         textposition='inside',
         insidetextanchor='middle',
-        marker_line_color='rgba(0, 0, 0, 0)'
+        marker_line_color='rgba(0, 0, 0, 0)',
+        hovertemplate=' <br> <b>%{hovertext} </b> <br> Times listened: %{customdata[0]} <br> <extra></extra>'
     )
 
     fig.update_layout(
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='black',
+        paper_bgcolor='black',
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
         xaxis=dict(tickfont=dict(color='white'), side='top', title_standoff=15, gridcolor='#845091', fixedrange=True),
         yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
         font=dict(color='white'),
-        margin=dict(t=0, b=0, r=0, l=0)
+        margin=dict(t=0, b=0, r=0, l=0),
+        hoverlabel=dict(font_size=20, font_family="Helvetica"),
     )
 
     return pio.to_json(fig, pretty=True)
@@ -179,7 +187,7 @@ def convert_genres(genres_complex_list):
     genres.reset_index(inplace=True)
     genres.columns = ['Genre', 'Count']
 
-    genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100)
+    genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100, 1)
 
     genres.sort_values(by='Count', inplace=True, ascending=False)
 

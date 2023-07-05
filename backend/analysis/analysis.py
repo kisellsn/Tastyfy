@@ -48,7 +48,11 @@ def visualize_genres_barchart(genres_complex_list):
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
         xaxis=dict(tickfont=dict(color='white', size=25), side='top', title_standoff=50, gridcolor='#845091', fixedrange=True),
+<<<<<<< Updated upstream
         yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
+=======
+        yaxis=dict(visible=False, showticklabels=False, autorange="reversed", fixedrange=True),
+>>>>>>> Stashed changes
         font=dict(color='white', size=25),
         margin=dict(t=0, b=0, r=0, l=0)
     )

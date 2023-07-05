@@ -10,7 +10,7 @@ function PlotTop() {
       try {
         const data = await topDiagram();
         console.log(typeof(data))
-        data.config = {'displayModeBar': false}
+        data.config = {'displayModeBar': false, 'zoomIn': false, 'dragMode': false,}
         setPlotData(data);
       } catch (error) {
         console.error('Error fetching plot data:', error);

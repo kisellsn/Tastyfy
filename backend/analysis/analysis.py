@@ -151,7 +151,7 @@ def __draw_circles():
         type='circle',
         xref='paper', yref='paper',
         #x0=0.23, y0=-0.07, x1=0.77, y1=1.07,
-        x0=0, y0=0, x1=1, y1=1,
+        x0=-0.1, y0=-0.05, x1=1.1, y1=1.05,
         line_color='black', line_width=5
     )
 

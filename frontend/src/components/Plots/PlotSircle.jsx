@@ -9,6 +9,7 @@ function PlotSircle() {
     async function fetchData() {
       try {
         const data = await sircleDiagram();
+        data.config = {'displayModeBar': false, 'zoomIn': false, 'dragMode': false,}
         setPlotData(data);
       } catch (error) {
         console.error('Error fetching plot data:', error);
@@ -24,6 +25,7 @@ function PlotSircle() {
         <Plot
           data={plotData.data}
           layout={plotData.layout}
+          config={plotData.config}
           style={{width: '300%', aspectRatio:'53/27', position:'absolute', left:'-70%'}}
         />
       ) : (

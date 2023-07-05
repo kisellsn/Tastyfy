@@ -128,7 +128,7 @@ def __plot_pie_chart(artists_count):
                               '#614283', '#6c4c91', '#76579e', '#8063ad', '#8b6ebb']
 
     fig = px.pie(artists_count, values='Tracks listened', names='Artist',
-                 color_discrete_sequence=color_continuous_scale, hole=0.65)
+                 color_discrete_sequence=color_continuous_scale, hole=0.65, width=400, height=400)
     fig.update_traces(textfont=dict(size=25), hovertemplate=' <br>   %{label}   <br> ',
                       texttemplate="%{percent:.1%}", sort=False)
 

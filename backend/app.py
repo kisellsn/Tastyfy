@@ -110,9 +110,11 @@ def user_tracks():
             if term in ['medium_term', 'short_term', 'long_term']:
                 top = spotify.get_users_top(auth_header, 'artists', term=term)  # tracks/artists
                 res = make_response(jsonify(top["items"][0:6]), 200)
-            #elif term == 'current':
-               # recently_played = spotify.get_users_recently_played(auth_header, 10)  # LIMIT = ??????
-               # res = make_response(jsonify(recently_played["items"]), 200)
+            #########################################################
+            elif term == 'current':
+                recently_played = spotify.get_users_recently_played(auth_header, limit=6)  # LIMIT = ??????
+                res = make_response(jsonify(recently_played["items"]), 200)
+            #########################################################
             else: res = make_response("need 'medium_term', 'short_term', 'long_term'", 400)
 
     else: res = make_response("token not in session", 403)

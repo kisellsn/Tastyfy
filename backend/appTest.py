@@ -45,8 +45,9 @@ def profile():
     if 'auth_header' in session:
         auth_header = session['auth_header']
 
-        profile_data = spotify.get_users_profile(auth_header)
+        profile_data = spotify.get_current_profile(auth_header)
 
+        library = spotify.get_users_saved_tracks(auth_header)
         playlists = spotify.get_featured_playlists(auth_header, country="PL")
         #playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
         #analysis.get_artist_ids(playlists_tracks)
@@ -56,12 +57,12 @@ def profile():
 
 
 
-        playlist_data = spotify.get_users_playlists(auth_header)
+        playlist_data = spotify.get_playlists_of_user(auth_header)
         recently_played = spotify.get_users_recently_played(auth_header, 10)
 
-        top = spotify.get_users_top(auth_header, 'tracks') #tracks/artists
+        top = spotify.get_top_of_user(auth_header, 'tracks') #tracks/artists
 
-        library = spotify.get_users_saved_tracks(auth_header)
+
 
         audio_features = spotify.get_users_audio_features(auth_header)
 
@@ -73,15 +74,15 @@ def profile():
         #top = spotify.get_users_top(auth_header, 'tracks', term='medium_term')  # tracks/artists
         #print(top)
         #fig = analysis.visualize_top_artists(top,is_top=True)
-        print(spotify.get_users_audio_features(auth_header))
+        print(len(audio_features))
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,
                 "playlists": playlist_data["items"],
                 "recently_played": recently_played["items"],
                 "top": top["items"],
-                "library": library["items"],
-                "audio_features": audio_features['audio_features']
+                "library": library,
+                "audio_features": audio_features
             })
     return jsonify({
         "index": url_for('index')

@@ -107,7 +107,7 @@ AUDIO_FEATURES_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'audio-features')
 
 RECOMMENDATIONS_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'recommendations')
 
-# ------------------ USERS ---------------------------
+# ------------------ USERS by id ---------------------------
 GET_USER_ENDPOINT = '{}/{}'.format(SPOTIFY_API_URL, 'users')
 
 def get_user_profile(user_id):
@@ -119,20 +119,20 @@ def get_user_profile(user_id):
 # ------------------ USER RELATED REQUETS  ---------- #
 
 
-def get_users_profile(auth_header):
+def get_current_profile(auth_header):
     url = USER_PROFILE_ENDPOINT
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
-def get_users_playlists(auth_header):
+def get_playlists_of_user(auth_header):
     url = USER_PLAYLISTS_ENDPOINT
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
 
-def get_users_top(auth_header, t, term='medium_term'):
+def get_top_of_user(auth_header, t, term='medium_term'):
 
     if t not in ['artists', 'tracks']:
         print('invalid type')
@@ -146,19 +146,35 @@ def get_users_top(auth_header, t, term='medium_term'):
 
 
 def get_users_saved_tracks(auth_header):
-    url = USER_LIBRARY_ENDPOINT
-    resp = requests.get(url, headers=auth_header)
-    return resp.json()
+    offset = 0
+    url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset="+str(offset))
+    resp = requests.get(url, headers=auth_header).json()['items']
+    while offset!=100:
+        offset+=50
+        url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset=" + str(offset))
+        resp2 = requests.get(url, headers=auth_header).json()['items']
+        if not resp2: break
+        resp.extend(resp2)
+    return resp
 
 
 def get_users_audio_features(auth_header):
     saved_tracks = get_users_saved_tracks(auth_header)
-    track_ids = ','.join([track['track']['id'] for track in saved_tracks['items']])
-    params = "ids="+ track_ids
-    url = "{}?{}".format(AUDIO_FEATURES_ENDPOINT,params)
-    resp = requests.get(url, headers=auth_header)
-    #print(url)
-    return resp.json()
+    if len(saved_tracks)<2: return "not enough tracks"
+    #track_ids = ','.join(map(lambda track: track['track']['id'], saved_tracks['items']))
+    #track_ids = map(lambda track: track['track']['id'], saved_tracks)
+    track_ids = [track['track']['id'] for track in  saved_tracks]
+    params = "ids=" + ','.join(track_ids[:100])
+    url = "{}?{}".format(AUDIO_FEATURES_ENDPOINT, params)
+    resp = requests.get(url, headers=auth_header).json()['audio_features']
+    while len(track_ids) > 100:
+        track_ids = track_ids[100:]
+        params = "ids=" + ','.join(track_ids[:100])
+        url = "{}?{}".format(AUDIO_FEATURES_ENDPOINT, params)
+        resp2 = requests.get(url, headers=auth_header).json()['audio_features']
+        if not resp2: break
+        resp.extend(resp2)
+    return resp
 
 
 def get_users_recently_played(auth_header,limit):
@@ -236,7 +252,7 @@ def get_artist(auth_header,artist_id):
 
 
 def get_user_genres(auth_header):
-    top_artists = get_users_top(auth_header, 'artists', term="long_term")
+    top_artists = get_top_of_user(auth_header, 'artists', term="long_term")
     if len(top_artists['items']) < 1: return []
     #genres = [track['genres'] for track in top_tracks['items']]
     genres = []
@@ -251,7 +267,7 @@ def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, marke
     seed_artists='seed_artists='
     seed_tracks=''
     seed_genres='seed_genres='
-    top_artists = get_users_top(auth_header, 'artists')
+    top_artists = get_top_of_user(auth_header, 'artists')
     if len(top_artists['items'])<2:
         t_count=5
     else:
@@ -265,7 +281,7 @@ def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, marke
         top_two_genre_names = ','.join([genre[0] for genre in counter.most_common(g_count)])
         seed_genres = "seed_genres=" + top_two_genre_names
 
-    top_tracks = get_users_top(auth_header, 'tracks')
+    top_tracks = get_top_of_user(auth_header, 'tracks')
     if len(top_tracks['items'])<5:
         if market==None: playlist = get_featured_playlists(auth_header, limit=1)
         else: playlist = get_featured_playlists(auth_header, limit=1, country=market)
@@ -343,7 +359,7 @@ def generate_playlist_tracks(auth_header, tracks):
 
 
 def create_playlist(auth_header, user_id, name,description=None):
-    user_playlists = get_users_playlists(auth_header)["items"]
+    user_playlists = get_playlists_of_user(auth_header)["items"]
     if all(play["name"] != name for play in user_playlists):
         url = "{}/{id}/{playlists}".format(GET_USER_ENDPOINT, id=user_id, playlists="playlists")
         data = json.dumps({

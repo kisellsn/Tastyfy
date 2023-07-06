@@ -48,7 +48,7 @@ def index():
 def get_profile():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        profile_data = spotify.get_users_profile(auth_header)
+        profile_data = spotify.get_current_profile(auth_header)
         res = make_response(profile_data, 200)
         # res.set_cookie('auth_header', auth_header)
 
@@ -64,7 +64,7 @@ def diagram():
             data = request.json
             term = data.get('term')
             if term in ['medium_term', 'short_term', 'long_term']:
-                top = spotify.get_users_top(auth_header, 'tracks',term=term)  # tracks/artists
+                top = spotify.get_top_of_user(auth_header, 'tracks',term=term)  # tracks/artists
                 if len(top['items'])<3: return make_response("not enough data", 200)
                 fig = analysis.visualize_top_artists(top,is_top=True)
             elif term == 'current':
@@ -108,7 +108,7 @@ def user_tracks():
             data = request.json
             term = data.get('term')
             if term in ['medium_term', 'short_term', 'long_term']:
-                top = spotify.get_users_top(auth_header, 'artists', term=term)  # tracks/artists
+                top = spotify.get_top_of_user(auth_header, 'artists', term=term)  # tracks/artists
                 res = make_response(jsonify(top["items"][0:6]), 200)
             #########################################################
             elif term == 'current':

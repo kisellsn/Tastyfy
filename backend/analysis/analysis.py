@@ -49,8 +49,8 @@ def visualize_genres_barchart(genres_complex_list):
     )
 
     fig.update_layout(
-        plot_bgcolor='black',
-        paper_bgcolor='black',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
         coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
         showlegend=False,
         xaxis=dict(tickfont=dict(color='white'), side='top', title_standoff=15, gridcolor='#845091', fixedrange=True),

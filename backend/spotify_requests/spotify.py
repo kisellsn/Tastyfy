@@ -2,7 +2,7 @@ from __future__ import print_function
 import base64
 import json
 import pickle
-
+import time
 import requests
 import sys
 import string
@@ -134,10 +134,10 @@ def get_playlists_of_user(auth_header):
 
 def get_top_of_user(auth_header, t, term='medium_term'):
 
-    if t not in ['artists', 'tracks']:
+    if t not in ('artists', 'tracks'):
         print('invalid type')
         return None
-    if term not in ['medium_term', 'short_term', 'long_term']:
+    if term not in ('medium_term', 'short_term', 'long_term'):
         print('invalid type')
         return None
     url = "{}/{type}?{time_range}&{limit}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t, time_range="time_range="+term,limit="limit=50")
@@ -149,7 +149,7 @@ def get_users_saved_tracks(auth_header):
     offset = 0
     url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset="+str(offset))
     resp = requests.get(url, headers=auth_header).json()['items']
-    while offset!=100:
+    while offset!=150:
         offset+=50
         url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset=" + str(offset))
         resp2 = requests.get(url, headers=auth_header).json()['items']
@@ -330,7 +330,7 @@ SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
 
 
 def search(auth_header,name, search_type='track'):
-    if search_type not in ['artist', 'track', 'album', 'playlist']:
+    if search_type not in ('artist', 'track', 'album', 'playlist'):
         print('invalid input')
         return None
     type="type="+search_type

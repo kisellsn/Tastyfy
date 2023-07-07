@@ -1,5 +1,5 @@
 import json
-
+import time
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
@@ -47,7 +47,12 @@ def profile():
 
         profile_data = spotify.get_current_profile(auth_header)
 
+        start_time = time.time()
         library = spotify.get_users_saved_tracks(auth_header)
+        audio_features = spotify.get_users_audio_features(auth_header)
+        execution_time = time.time() - start_time
+        print("Час виконання: ", execution_time, " секунд")
+
         playlists = spotify.get_featured_playlists(auth_header, country="PL")
         #playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
         #analysis.get_artist_ids(playlists_tracks)
@@ -64,7 +69,7 @@ def profile():
 
 
 
-        audio_features = spotify.get_users_audio_features(auth_header)
+
 
         recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="None") #market (tracks+artists+genres<=5)
 

@@ -162,7 +162,6 @@ def get_users_audio_features(auth_header):
     saved_tracks = get_users_saved_tracks(auth_header)
     if len(saved_tracks)<2: return "not enough tracks"
     #track_ids = ','.join(map(lambda track: track['track']['id'], saved_tracks['items']))
-    #track_ids = map(lambda track: track['track']['id'], saved_tracks)
     track_ids = [track['track']['id'] for track in  saved_tracks]
     params = "ids=" + ','.join(track_ids[:100])
     url = "{}?{}".format(AUDIO_FEATURES_ENDPOINT, params)

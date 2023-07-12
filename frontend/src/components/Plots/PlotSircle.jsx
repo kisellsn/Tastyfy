@@ -21,13 +21,13 @@ function PlotSircle() {
   }, []);
 
   return (
-    <div style={{ width: '100%', position: 'relative'}}>
+    <div style={{ width: '150%', 'aspect-ratio': '1/1', position: 'relative'}}>
       {plotData ? (
         <Plot
           data={plotData.data}
           layout={plotData.layout}
           config={plotData.config}
-          style={{ position:'relative', width: '100%'}}
+          style={{ position:'relative', width: '100%', 'aspect-ratio': '1/1'}}
         />
       ) : (
 

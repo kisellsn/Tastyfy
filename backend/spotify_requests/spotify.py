@@ -176,7 +176,7 @@ def get_users_audio_features(auth_header):
     return resp
 
 
-def get_users_recently_played(auth_header,limit):
+def get_users_recently_played(auth_header,limit=50):
     url = "{}?{limit}".format(USER_RECENTLY_PLAYED_ENDPOINT, limit="limit="+str(limit))
     resp = requests.get(url, headers=auth_header)
     return resp.json()
@@ -409,9 +409,9 @@ def add_playlist_tracks(auth_header, playlist_id, tracks):
 
 
 
-def get_several_artists(list_of_ids):
+def get_several_artists(auth_header, list_of_ids):
     url = "{}/?ids={ids}".format(GET_ARTIST_ENDPOINT, ids=','.join(list_of_ids))
-    resp = requests.get(url)
+    resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 

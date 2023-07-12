@@ -47,11 +47,11 @@ def profile():
 
         profile_data = spotify.get_current_profile(auth_header)
 
-        start_time = time.time()
+        #start_time = time.time()
         library = spotify.get_users_saved_tracks(auth_header)
         audio_features = spotify.get_users_audio_features(auth_header)
-        execution_time = time.time() - start_time
-        print("Час виконання: ", execution_time, " секунд")
+        #execution_time = time.time() - start_time
+        #print("Час виконання: ", execution_time, " секунд")
 
         playlists = spotify.get_featured_playlists(auth_header, country="PL")
         #playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
@@ -63,7 +63,9 @@ def profile():
 
 
         playlist_data = spotify.get_playlists_of_user(auth_header)
-        recently_played = spotify.get_users_recently_played(auth_header, 10)
+        recently_played = spotify.get_users_recently_played(auth_header)
+        top_ids = analysis.get_history_top_artists(recently_played)
+        print(spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist]))
 
         top = spotify.get_top_of_user(auth_header, 'tracks') #tracks/artists
 
@@ -75,11 +77,12 @@ def profile():
 
         #recently_played = spotify.get_users_recently_played(auth_header, 50)
         #tracks = [track['track'] for track in recently_played['items']]
-        #fig = analysis.visualize_top_artists(recently_played)
+
         #top = spotify.get_users_top(auth_header, 'tracks', term='medium_term')  # tracks/artists
         #print(top)
         #fig = analysis.visualize_top_artists(top,is_top=True)
-        print(len(audio_features))
+
+
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,

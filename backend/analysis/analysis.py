@@ -19,9 +19,9 @@ def visualize_top_artists(json_data, is_top=False):
 
 def get_history_top_artists(json_data):
     streaming_history = __normalize_history(json_data)
-    streaming_history.sort_values(by='artist_id')
-    streaming_history = streaming_history.head(6)
-    return streaming_history['artist_id'].values.tolist()
+    artist_counts = streaming_history['artist_id'].value_counts()
+    top_artist_ids = artist_counts.head(6).index.tolist()
+    return top_artist_ids
 
 
 def visualize_genres_barchart(genres_complex_list):

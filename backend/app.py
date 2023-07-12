@@ -68,7 +68,7 @@ def diagram():
                 if len(top['items'])<3: return make_response("not enough data", 200)
                 fig = analysis.visualize_top_artists(top,is_top=True)
             elif term == 'current':
-                recently_played = spotify.get_users_recently_played(auth_header, 50)
+                recently_played = spotify.get_users_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))
                 if len(tracks) < 3: return make_response("not enough data", 200)
                 fig = analysis.visualize_top_artists(recently_played)
@@ -101,7 +101,7 @@ def get_text():
     return res
 
 @app.route('/api/user/top_or_recently', methods=('GET', 'POST'))
-def user_tracks():
+def top_of_user():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         if request.method == 'POST':
@@ -110,12 +110,14 @@ def user_tracks():
             if term in ('medium_term', 'short_term', 'long_term'):
                 top = spotify.get_top_of_user(auth_header, 'artists', term=term)  # tracks/artists
                 res = make_response(jsonify(top["items"][0:6]), 200)
-            #########################################################
             elif term == 'current':
-                recently_played = spotify.get_users_recently_played(auth_header, limit=6)  # LIMIT = ??????
-                res = make_response(jsonify(recently_played["items"]), 200)
-            #########################################################
-            else: res = make_response("need 'medium_term', 'short_term', 'long_term'", 400)
+                recently_played = spotify.get_users_recently_played(auth_header)
+                tracks = tuple((track['track'] for track in recently_played['items']))
+                if len(tracks) < 1: return make_response("not enough data", 200)
+                top_ids = analysis.get_history_top_artists(recently_played)
+                top = spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist])
+                res = make_response(jsonify(top["artists"]), 200)
+            else: res = make_response("need 'medium_term', 'short_term', 'long_term' or 'current'", 400)
 
     else: res = make_response("token not in session", 403)
     return res

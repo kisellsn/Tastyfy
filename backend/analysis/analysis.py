@@ -104,7 +104,7 @@ def __normalize_history(json_data):
     df = pd.json_normalize(json_data['items'])
     df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
-    df = df[['id', 'played_at', 'artist', 'track.name', 'track.album.name']]
+    df = df[['track.id', 'played_at', 'artist', 'track.name', 'track.album.name']]
     df.columns = ['id', 'Played At', 'Artist', 'Track Name', 'Album Name']
     pd.set_option('display.max_columns', None)
     return df

@@ -17,6 +17,13 @@ def visualize_top_artists(json_data, is_top=False):
     return pio.to_json(__plot_pie_chart(artists_count), pretty=True)
 
 
+def get_history_top_artists(json_data):
+    streaming_history = __normalize_history(json_data)
+    streaming_history.sort_values(by='id')
+    streaming_history = streaming_history.head(6)
+    return streaming_history['id'].values.tolist()
+
+
 def visualize_genres_barchart(genres_complex_list):
     genres = convert_genres(genres_complex_list)
 
@@ -63,6 +70,10 @@ def visualize_genres_barchart(genres_complex_list):
     return pio.to_json(fig, pretty=True)
 
 
+def vizualize_features(features_dict):
+    features = pd.DataFrame.from_dict(features_dict)
+    # mean_features = collect_means()
+
 def generate_genres_text(genres_complex_list):
     genres = convert_genres(genres_complex_list)
     best_genre = genres.iloc[[0]].values.flatten().tolist()
@@ -89,16 +100,12 @@ def get_artist_ids(list_of_playlists):
     return df['artist_id'].values.tolist()
 
 
-def get_recommendations_from_region(liked_genres_json, playlists_content):
-    pass
-
-
 def __normalize_history(json_data):
     df = pd.json_normalize(json_data['items'])
     df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
-    df = df[['played_at', 'artist', 'track.name', 'track.album.name']]
-    df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']
+    df = df[['id', 'played_at', 'artist', 'track.name', 'track.album.name']]
+    df.columns = ['id', 'Played At', 'Artist', 'Track Name', 'Album Name']
     pd.set_option('display.max_columns', None)
     return df
 

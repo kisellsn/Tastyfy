@@ -47,50 +47,18 @@ def profile():
 
         profile_data = spotify.get_current_profile(auth_header)
 
-        #start_time = time.time()
         library = spotify.get_users_saved_tracks(auth_header)
         audio_features = spotify.get_users_audio_features(auth_header)
-        #execution_time = time.time() - start_time
-        #print("Час виконання: ", execution_time, " секунд")
-
-        playlists = spotify.get_featured_playlists(auth_header, country="PL")
-        #playlists_tracks = spotify.get_playlists_tracks(auth_header, playlists["playlists"])
-        #analysis.get_artist_ids(playlists_tracks)
-
-        genres = spotify.get_user_genres(auth_header)
 
 
-
-
-        playlist_data = spotify.get_playlists_of_user(auth_header)
         recently_played = spotify.get_users_recently_played(auth_header)
-        top_ids = analysis.get_history_top_artists(recently_played)
-        print(spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist]))
 
-        top = spotify.get_top_of_user(auth_header, 'tracks') #tracks/artists
-
-
-
-
-
-        recommendations = spotify.get_recommendations(auth_header, limit=2, t_count=2, a_count=1, g_count=2, market="None") #market (tracks+artists+genres<=5)
-
-        #recently_played = spotify.get_users_recently_played(auth_header, 50)
-        #tracks = [track['track'] for track in recently_played['items']]
-
-        #top = spotify.get_users_top(auth_header, 'tracks', term='medium_term')  # tracks/artists
-        #print(top)
-        #fig = analysis.visualize_top_artists(top,is_top=True)
+        features = analysis.visualize_features(audio_features)
 
 
         if valid_token(recently_played):
             return jsonify({
-                "user": profile_data,
-                "playlists": playlist_data["items"],
-                "recently_played": recently_played["items"],
-                "top": top["items"],
-                "library": library,
-                "audio_features": audio_features
+                "user": profile_data
             })
     return jsonify({
         "index": url_for('index')

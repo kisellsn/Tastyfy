@@ -47,11 +47,11 @@ def profile():
 
         profile_data = spotify.get_current_profile(auth_header)
 
-        library = spotify.get_users_saved_tracks(auth_header,500)
-        audio_features = spotify.get_users_audio_features(auth_header)
+        library = spotify.get_saved_tracks(auth_header,500)
+        audio_features = spotify.get_audio_features(auth_header)
 
 
-        recently_played = spotify.get_users_recently_played(auth_header)
+        recently_played = spotify.get_recently_played(auth_header)
 
         features = analysis.visualize_features(audio_features)
 

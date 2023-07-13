@@ -2,7 +2,6 @@ from flask import Flask, request, redirect, render_template, session, url_for, j
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
 from flask_cors import CORS
-import time
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
 CORS(app)
@@ -14,7 +13,6 @@ def auth():
          "link": spotify.AUTH_URL
      })
      #return redirect(spotify.AUTH_URL)
-
 
 @app.route("/callback/")
 def callback():
@@ -64,11 +62,11 @@ def diagram():
             data = request.json
             term = data.get('term')
             if term in ('medium_term', 'short_term', 'long_term'):
-                top = spotify.get_top_of_user(auth_header, 'tracks',term=term)  # tracks/artists
+                top = spotify.get_top_items(auth_header, 'tracks',term=term)  # tracks/artists
                 if len(top['items'])<3: return make_response("not enough data", 200)
                 fig = analysis.visualize_top_artists(top,is_top=True)
             elif term == 'current':
-                recently_played = spotify.get_users_recently_played(auth_header)
+                recently_played = spotify.get_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))
                 if len(tracks) < 3: return make_response("not enough data", 200)
                 fig = analysis.visualize_top_artists(recently_played)
@@ -108,10 +106,10 @@ def top_of_user():
             data = request.json
             term = data.get('term')
             if term in ('medium_term', 'short_term', 'long_term'):
-                top = spotify.get_top_of_user(auth_header, 'artists', term=term)  # tracks/artists
+                top = spotify.get_top_items(auth_header, 'artists', term=term)  # tracks/artists
                 res = make_response(jsonify(top["items"][0:6]), 200)
             elif term == 'current':
-                recently_played = spotify.get_users_recently_played(auth_header)
+                recently_played = spotify.get_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))
                 if len(tracks) < 1: return make_response("not enough data", 200)
                 top_ids = analysis.get_history_top_artists(recently_played)
@@ -169,4 +167,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=spotify.PORT, debug=True)
+    app.run(host="localhost", port=spotify.SERVER_PORT, debug=True)

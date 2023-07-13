@@ -51,7 +51,7 @@ auth_query_parameters = {
     "scope": SCOPE,
     "state": STATE,
     "client_id": CLIENT_ID,
-    "show_dialog": "True"
+    #"show_dialog": "True"
 }
 
 # python 3

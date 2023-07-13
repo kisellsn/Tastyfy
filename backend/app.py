@@ -163,7 +163,8 @@ def make_search(name):
 
 @app.route("/logout")
 def logout():
-    session.clear()
+    if session:
+        session.clear()
     return make_response("Good", 200)
 
 

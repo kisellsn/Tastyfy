@@ -248,7 +248,6 @@ def get_user_genres(auth_header):
 RECOMMENDATIONS_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'recommendations')
 def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, market=None):
     seed_artists='seed_artists='
-    seed_tracks=''
     seed_genres='seed_genres='
     top_artists = get_top_items(auth_header, 'artists')
     if len(top_artists['items'])<2:

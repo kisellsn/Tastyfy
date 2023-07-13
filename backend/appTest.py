@@ -47,7 +47,7 @@ def profile():
 
         profile_data = spotify.get_current_profile(auth_header)
 
-        library = spotify.get_users_saved_tracks(auth_header)
+        library = spotify.get_users_saved_tracks(auth_header,500)
         audio_features = spotify.get_users_audio_features(auth_header)
 
 

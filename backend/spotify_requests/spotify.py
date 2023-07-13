@@ -145,11 +145,11 @@ def get_top_of_user(auth_header, t, term='medium_term'):
     return resp.json()
 
 
-def get_users_saved_tracks(auth_header):
+def get_users_saved_tracks(auth_header,limit):
     offset = 0
     url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset="+str(offset))
     resp = requests.get(url, headers=auth_header).json()['items']
-    while offset!=150:
+    while offset!=limit-50:
         offset+=50
         url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset=" + str(offset))
         resp2 = requests.get(url, headers=auth_header).json()['items']
@@ -159,7 +159,7 @@ def get_users_saved_tracks(auth_header):
 
 
 def get_users_audio_features(auth_header):
-    saved_tracks = get_users_saved_tracks(auth_header)
+    saved_tracks = get_users_saved_tracks(auth_header,200)
     if len(saved_tracks)<2: return "not enough tracks"
     #track_ids = ','.join(map(lambda track: track['track']['id'], saved_tracks['items']))
     track_ids = [track['track']['id'] for track in  saved_tracks]

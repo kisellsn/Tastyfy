@@ -76,7 +76,6 @@ def visualize_features(features_dict):
     feature_names, feature_means = collect_means(features)
     feature_names.append(feature_names[0])
     feature_means.append(feature_means[0])
-    print(feature_names, feature_means)
 
     fig = go.Figure()
 

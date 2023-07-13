@@ -5,7 +5,7 @@
     position: relative;
     isolation: isolate;
     flex-direction: column;
-    width: 100%;
+
     min-height: 1800px;
     justify-content: flex-start;
     align-items: flex-start;
@@ -18,12 +18,11 @@
       background-color: rgb(26, 0, 36);
       // mix-blend-mode: hard-light;
       width: 92%;
-      height: 10%;
+      height: 10rem;
       max-height: 100px;
-      position: absolute;
-      left: 0px;
-      top: 0px;
+      position: relative;
       display: flex;
+      flex-direction: row;
       align-items: center;
       padding-left: 4%;
       padding-right: 4%;
@@ -40,13 +39,14 @@
         font-size: 38px;
         letter-spacing: 0px;
         text-shadow: 0px 4px 4px rgba(63, 61, 89, 1);
-        left: 5%;
       }
   
       #menu {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
+        gap: 10%;
   
         .menuItem {
           text-align: left;
@@ -56,25 +56,22 @@
           font-family: Sansation;
           font-weight: 700;
           font-size: 28.5px;
+          min-width: 10rem;
           letter-spacing: 0px;
-          margin-right: 40px;
-  
-          &.PG {
-            margin-left: 40px;
-            margin-right: 0px;
-          }
         }
       }
   
       #avatar {
         height: 55px;
         width: 55px;
-        left: 0px;
-        top: 0px;
         border-radius: 100%;
         border: 2px solid white;
+        margin: 0px;
         &:hover{
           cursor: pointer;
+          height: 50px;
+          width: 50px;
+          margin: 2.5px;
         }
       }
     }

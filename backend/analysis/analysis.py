@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import plotly.io as pio
 
 
@@ -72,7 +73,46 @@ def visualize_genres_barchart(genres_complex_list):
 
 def visualize_features(features_dict):
     features = pd.DataFrame.from_dict(features_dict)
-    # mean_features = collect_means()
+    feature_names, feature_means = collect_means(features)
+    feature_names.append(feature_names[0])
+    feature_means.append(feature_means[0])
+    print(feature_names, feature_means)
+
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Scatterpolar(
+            r=feature_means,
+            theta=feature_names,
+            fill='toself'
+        )
+    )
+
+    fig.update_layout(
+        showlegend=False,
+        polar=dict(radialaxis=dict(range=[0, 1]))
+    )
+
+    fig.show()
+
+
+def collect_means(features):
+    names = ['danceability', 'valence', 'energy', 'loudness',
+             'acousticness', 'instrumentalness', 'liveness']
+    features = features[names]
+    features['loudness'] = (features['loudness'] + 60)/60
+    means = []
+    for name in names:
+        means.append(features[name].mean())
+        name = name.capitalize()
+        if name == 'valence':
+            name = 'Happiness'
+
+    means = [round(elem, 2) for elem in means]
+
+    return names, means
+
+
 
 def generate_genres_text(genres_complex_list):
     genres = convert_genres(genres_complex_list)

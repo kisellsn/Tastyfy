@@ -70,7 +70,7 @@ def visualize_genres_barchart(genres_complex_list):
     return pio.to_json(fig, pretty=True)
 
 
-def vizualize_features(features_dict):
+def visualize_features(features_dict):
     features = pd.DataFrame.from_dict(features_dict)
     # mean_features = collect_means()
 

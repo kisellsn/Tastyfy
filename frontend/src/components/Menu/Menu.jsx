@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { getRecommendations, getRecs, getText, getToken, getTops, registerSpotify } from 'src/util/functions';
 import PlotSircle from '../Plots/PlotSircle';
 import PlotTop from '../Plots/PlotTop';
+import countriesData from 'src/util/counrtyL';
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState('');
@@ -41,6 +42,11 @@ function Menu(props) {
 
   const changeHandler = async(value) => {
     try {
+      const countryCode = value.label;
+      const countryData = countriesData.find(country => country.country === countryCode);
+      const countryLanguageCode = countryData ? countryData.code : null;
+      console.log(`${countryLanguageCode}_${value.value}`)
+      
       const recommendations = await getRecommendations(value.value);
       setRec(recommendations);
       setValue(value);
@@ -157,8 +163,6 @@ function Menu(props) {
           <div id='titleA'><h4>Recommendations from selected region</h4></div>
           <div id='listing'>
             <div className='countries' >
-              {/* <div className='selecting'>Select country</div>
-              <img className='options' src={Options} alt="+" /> */}
               <Select options={options} value={value} onChange={changeHandler} 
               placeholder="Select country"
               styles={{

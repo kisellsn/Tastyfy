@@ -98,7 +98,7 @@ def get_text():
     else: res = make_response("token not in session", 403)
     return res
 
-@app.route('/api/user/top_or_recently', methods=('GET', 'POST'))
+@app.route('/api/user/top', methods=('GET', 'POST'))
 def top_of_user():
     if 'auth_header' in session:
         auth_header = session['auth_header']

@@ -28,6 +28,9 @@
     position: absolute;
     left: 0px;
     top: 9px;
+    &:hover{
+      cursor: pointer;
+    }
   }
   
   #AboutPrivacyFaq {

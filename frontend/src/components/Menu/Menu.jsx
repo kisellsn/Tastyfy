@@ -107,7 +107,13 @@ function Menu(props) {
           <div className='menuItem'>Analytics</div>
           <div className='menuItem PG'>Playlist Generator</div>
         </div>
-        <img id='avatar' src={url || avatar} loading="lazy" alt={'Avatar'} onClick={linkUser}/>
+        <img 
+          id='avatar' 
+          src={url || avatar} 
+          loading="lazy" 
+          alt={'Avatar'} 
+          onClick={linkUser}
+        />
       </div>
       <div id='analyze'>
         <div className='musicContainer'>

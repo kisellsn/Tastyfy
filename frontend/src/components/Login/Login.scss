@@ -14,25 +14,7 @@
     overflow: hidden;
 }
 
-@keyframes changeSize {
-    0% {
-        transform: scale(1);
-        transform-origin: bottom left;
-    }
-    40% {
-        transform: scale(0.91);
-        transform-origin: bottom left;
-    }
-    60% {
-        transform: scale(1.23);
-        transform-origin: top right;
-    }
-    100% {
-        transform: scale(1);
-        transform-origin: top right;
-    }
-    
-  }
+
   
   #VectorSmartObject1 {
     width: 170%;
@@ -42,7 +24,10 @@
     opacity: 0.3;
     transform: scale(1);
     transform-origin: bottom left;
-    animation: changeSize 20s infinite;
+    -webkit-animation: changeSize 20s linear infinite;
+    -moz-animation: changeSize 20s linear infinite;
+    -ms-animation: changeSize 20s linear infinite;
+    animation: changeSize 20s linear infinite;
   }
 
 .container{
@@ -223,35 +208,86 @@
       }
   }
 
+          
+@-webkit-keyframes changeSize {
+    0% {
+        transform: scale(1);
+        transform-origin: bottom left;
+    }
+    40% {
+        transform: scale(0.91);
+        transform-origin: bottom left;
+    }
+    60% {
+        transform: scale(1.23);
+        transform-origin: top right;
+    }
+    100% {
+        transform: scale(1);
+        transform-origin: top right;
+    }
+}
+        
+@-moz-keyframes changeSize {
+    0% {
+        transform: scale(1);
+        transform-origin: bottom left;
+    }
+    40% {
+        transform: scale(0.91);
+        transform-origin: bottom left;
+    }
+    60% {
+        transform: scale(1.23);
+        transform-origin: top right;
+    }
+    100% {
+        transform: scale(1);
+        transform-origin: top right;
+    }
+}
+        
+@-ms-keyframes changeSize {
+    0% {
+        transform: scale(1);
+        transform-origin: bottom left;
+    }
+    40% {
+        transform: scale(0.91);
+        transform-origin: bottom left;
+    }
+    60% {
+        transform: scale(1.23);
+        transform-origin: top right;
+    }
+    100% {
+        transform: scale(1);
+        transform-origin: top right;
+    }
+}
+
+@keyframes changeSize {
+    0% {
+        transform: scale(1);
+        transform-origin: bottom left;
+    }
+    40% {
+        transform: scale(0.91);
+        transform-origin: bottom left;
+    }
+    60% {
+        transform: scale(1.23);
+        transform-origin: top right;
+    }
+    100% {
+        transform: scale(1);
+        transform-origin: top right;
+    }
+    
+  }
+
 
   @media (max-width: 675px) {
 
-      .login-body{
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-        margin-top: 5rem;
-        gap: 3rem;
-        padding-left: 7%;
-        padding-right: 7%;
-        margin-top: 5%;
-    }
-
-    #Tastyfy-title{
-        padding-left: 7%;
-    }
-
-    #Tastyfy-info {
-        width: 100%;
-
-    }
-
-    #Tastyfy-info-title{
-        font-size: 2rem;
-    }
-
-    #Tastyfy-info-info{
-        font-size: 1.5rem;
-    }
 
   }

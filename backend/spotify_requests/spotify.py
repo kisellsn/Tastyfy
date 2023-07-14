@@ -130,18 +130,19 @@ def get_top_items(auth_header, t, term='medium_term'):
     if term not in ('medium_term', 'short_term', 'long_term'):
         print('invalid type')
         return None
-    url = "{}/{type}?{time_range}&{limit}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t, time_range="time_range="+term,limit="limit=50")
+    url = "{}/{type}?time_range={time_range}&limit={limit}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT,
+                                                  type=t, time_range=term,limit=str(50))
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
 def get_saved_tracks(auth_header,limit):
     offset = 0
-    url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset="+str(offset))
+    url = "{}?limit={limit}&offset={offset}".format(USER_LIBRARY_ENDPOINT, limit=str(50), offset=str(offset))
     resp = requests.get(url, headers=auth_header).json()['items']
     while offset!=limit-50:
         offset+=50
-        url = "{}?{limit}&{offset}".format(USER_LIBRARY_ENDPOINT, limit="limit=50", offset="offset=" + str(offset))
+        url = "{}?limit={limit}&offset={offset}".format(USER_LIBRARY_ENDPOINT, limit=str(50), offset=str(offset))
         resp2 = requests.get(url, headers=auth_header).json()['items']
         if not resp2: break
         resp.extend(resp2)
@@ -167,67 +168,46 @@ def get_audio_features(auth_header):
 
 USER_RECENTLY_PLAYED_ENDPOINT = "{}/{}/{}".format(USER_PROFILE_ENDPOINT, 'player', 'recently-played')
 def get_recently_played(auth_header,limit=50):
-    url = "{}?{limit}".format(USER_RECENTLY_PLAYED_ENDPOINT, limit="limit="+str(limit))
+    url = "{}?limit={limit}".format(USER_RECENTLY_PLAYED_ENDPOINT, limit=str(limit))
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
 
-#-----------------Featured Playlist-------------------------
+#-----------------Featured Playlists-------------------------
 BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
                                               'featured-playlists')
 PLAYLIST_ITEMS = "{}/{}".format(SPOTIFY_API_URL, 'playlists')
 def get_featured_playlists(auth_header,limit=1,country=None, locale=None):
-    if country == None:
-        if locale == None:
-            url = "{}?{limit}".format(BROWSE_FEATURED_PLAYLISTS, limit="limit=" + str(limit))
+    if country is None:
+        if locale is None:
+            url = "{}?limit={limit}".format(BROWSE_FEATURED_PLAYLISTS, limit=str(limit))
         else:
-            url = "{}?{locale}&{limit}".format(BROWSE_FEATURED_PLAYLISTS, locale="locale=" + locale,
-                                                limit="limit=" + str(limit))
+            url = "{}?locale={locale}&limit={limit}".format(BROWSE_FEATURED_PLAYLISTS, locale=locale,
+                                                limit=str(limit))
     else:
-        if locale == None:
-            url = "{}?{country}&{limit}".format(BROWSE_FEATURED_PLAYLISTS,country="country="+country, limit="limit=" + str(limit))
+        if locale is None:
+            url = "{}?country={country}&limit={limit}".format(BROWSE_FEATURED_PLAYLISTS,
+                                                              country=country, limit=str(limit))
         else:
-            url = "{}?{country}&{locale}&{limit}".format(BROWSE_FEATURED_PLAYLISTS,country="country="+country, locale="locale=" + locale,
-                                                limit="limit=" + str(limit))
-
+            url = "{}?country={country}&locale={locale}&limit={limit}".format(BROWSE_FEATURED_PLAYLISTS,
+                                                                              country=country, locale=locale,
+                                                                              limit=str(limit))
     resp = requests.get(url, headers=auth_header)
     resp = resp.json()["playlists"]
     rec=[]
     tracks = get_playlists_tracks(auth_header, resp, 9)
-    for track in tracks["items"]:
-        rec.append(track["track"])
+    for track in tracks:
+        rec.extend(item["track"] for item in track["items"])
     return rec
 def get_playlists_tracks(auth_header, playlists, limit=50):######
-    '''
-    tracks=[]
-    for playlist in playlists["items"]:
-        items=get_playlist_items(auth_header,playlist["id"])["items"]
-        for item in items:
-            tracks.append(item["track"])
-    all_data=[]
-    for json_str in tracks:
-        data = json.loads(json_str)
-        all_data.append(data)
-    concatenated_json = json.dumps(all_data)
-    print(concatenated_json)
-    return concatenated_json
-    '''
+    items=[]
     for pl in playlists["items"]:
-        items=get_playlist_items(auth_header, pl["id"], limit)
-
+        items.append(get_playlist_items(auth_header, pl["id"], limit))
     return items
 
-GET_TRACK_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'tracks')  # /<id>
-
-
-def get_track_by_id(auth_header,track_id):
-    url = "{}/{id}".format(GET_TRACK_ENDPOINT, id=track_id)
-    resp = requests.get(url, headers=auth_header)
-    return resp.json()
-
 def get_playlist_items(auth_header, playlist_id, limit=50):
-    url = "{}/{playlist_id}/{tracks}?{limit}".format(PLAYLIST_ITEMS,playlist_id=playlist_id,tracks="tracks",limit="limit="+str(limit))
+    url = "{}/{playlist_id}/tracks?limit={limit}".format(PLAYLIST_ITEMS,playlist_id=playlist_id,limit=str(limit))
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
@@ -450,7 +430,13 @@ def get_albums_tracks(album_id):
 
 # ---------------- TRACKS ------------------------
 
+GET_TRACK_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'tracks')  # /<id>
 
+
+def get_track_by_id(auth_header,track_id):
+    url = "{}/{id}".format(GET_TRACK_ENDPOINT, id=track_id)
+    resp = requests.get(url, headers=auth_header)
+    return resp.json()
 
 def get_several_tracks(list_of_ids):
     url = "{}/?ids={ids}".format(GET_TRACK_ENDPOINT, ids=','.join(list_of_ids))

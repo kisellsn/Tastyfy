@@ -99,7 +99,7 @@ def get_text():
     return res
 
 @app.route('/api/user/top', methods=('GET', 'POST'))
-def top_of_user():
+def top_artists():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         if request.method == 'POST':
@@ -127,7 +127,7 @@ def recommendations():
         if request.method == 'POST':
             data = request.json
             market = data.get('code')
-            recommendations = spotify.get_featured_playlists(auth_header, country=market)
+            recommendations = spotify.get_featured_playlists(auth_header, country=market.split("_")[1], locale=market)
             res = make_response(jsonify(recommendations), 200)
 
         else:

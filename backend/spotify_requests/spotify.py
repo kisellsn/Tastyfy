@@ -179,20 +179,15 @@ BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
                                               'featured-playlists')
 PLAYLIST_ITEMS = "{}/{}".format(SPOTIFY_API_URL, 'playlists')
 def get_featured_playlists(auth_header,limit=1,country=None, locale=None):
-    if country is None:
-        if locale is None:
-            url = "{}?limit={limit}".format(BROWSE_FEATURED_PLAYLISTS, limit=str(limit))
-        else:
-            url = "{}?locale={locale}&limit={limit}".format(BROWSE_FEATURED_PLAYLISTS, locale=locale,
-                                                limit=str(limit))
-    else:
-        if locale is None:
-            url = "{}?country={country}&limit={limit}".format(BROWSE_FEATURED_PLAYLISTS,
-                                                              country=country, limit=str(limit))
-        else:
-            url = "{}?country={country}&locale={locale}&limit={limit}".format(BROWSE_FEATURED_PLAYLISTS,
-                                                                              country=country, locale=locale,
-                                                                              limit=str(limit))
+    params = []
+    if country is not None:
+        params.append("country={}".format(country))
+    if locale is not None:
+        params.append("locale={}".format(locale))
+    params.append("limit={}".format(limit))
+
+    url = BROWSE_FEATURED_PLAYLISTS + "?" + "&".join(params)
+
     resp = requests.get(url, headers=auth_header)
     resp = resp.json()["playlists"]
     rec=[]

@@ -158,7 +158,7 @@
   
   
 #textAbout {
-    text-align: center;
+    text-align: justify;
     white-space: pre-wrap;
     font-synthesis: none;
     color: rgba(255, 255, 255, 1);
@@ -172,30 +172,6 @@
 }
 
 @media (max-width: 675px) {
-    .containerA{
-        flex-direction:column;
-    }
-    #leftRectangleA {
-        width: 100%;
-        height: 10rem;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        padding: 0;
-    }
-    #backRectangleA {
-        margin:0;
-    }
-    .about-body {
-        width: 100%;
-        margin-bottom: 2rem;
-    }
-    #descriptionA{
-        padding: 2%;
-    }
-    .team-card img {
-        max-width:80%
-    }
 
 }
   

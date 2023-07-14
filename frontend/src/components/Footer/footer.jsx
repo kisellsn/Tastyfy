@@ -6,6 +6,7 @@ import './footer.scss';
 import axios from 'axios';
 
 
+
 function Footer() {
     const navigate = useNavigate();
     const currentPage = window.location.pathname;
@@ -21,7 +22,12 @@ function Footer() {
     return (
         <div className={`footer ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}>
             <div className={`Email ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}>
-                <img className={`Vector ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`} src={VectorImage} loading="lazy" alt={'Vector'} /> 
+                <img className={`Vector ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}
+                src={VectorImage} 
+                loading="lazy" 
+                alt={'Vector'} 
+                onClick={() => window.location.href = 'mailto:tastyfy.tech@gmail.com'}
+                /> 
             </div>
             <div id={currentPage === '/about' ? 'PrivacyFaq' : (currentPage === '/privacy' ? 'PrivacyFaq' : 'AboutPrivacyFaq')}>
 

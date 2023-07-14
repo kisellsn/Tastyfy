@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import VectorSmartObject1Image from 'src/assets/images/start1_Vector_Smart_Object_1.png';
 import Vector1Image from 'src/assets/images/start1_Vector_1.png';
@@ -16,11 +16,21 @@ function Login(props) {
       console.error('Authentication failed', error);
     }
   };
-  window.addEventListener('load', function() {
-    let screenHeight = window.innerHeight;
-    let mainElement = document.getElementById('main');
-    mainElement.style.minHeight = screenHeight + 'px';
-  });
+  useEffect(() => {
+    const handleWindowLoad = () => {
+      const screenHeight = window.innerHeight;
+      const mainElement = document.getElementById('main');
+      if (mainElement) {
+        mainElement.style.minHeight = screenHeight + 'px';
+      }
+    };
+
+    window.addEventListener('load', handleWindowLoad);
+
+    return () => {
+      window.removeEventListener('load', handleWindowLoad);
+    };
+  }, []);
 
   return (
     <div id='main' className={props.className}>

@@ -30,7 +30,7 @@ function PlotTop() {
         />
       ) : (
 
-        <p style={{fontSize:'40px', position:'relative'}}> <br/><br/>Loading plot data...</p>
+        <p style={{position:'relative', fontSize: '2vw'}}> <br/><br/>Loading plot data...</p>
       )}
     </div>
   );

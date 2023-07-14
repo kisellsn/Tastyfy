@@ -46,7 +46,7 @@ function Menu(props) {
       const countryData = countriesData.find(country => country.country === countryCode);
       const countryLanguageCode = countryData ? countryData.code : null;
       console.log(`${countryLanguageCode}_${value.value}`)
-      
+
       const recommendations = await getRecommendations(value.value);
       setRec(recommendations);
       setValue(value);
@@ -131,7 +131,6 @@ function Menu(props) {
                  */}
                  {textMusic}
               </div>
-              <div></div>
             </div>
             <div id='graffic' className='textBlock'>
               {/* <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} /> */}
@@ -172,8 +171,9 @@ function Menu(props) {
                   color: 'white',
                   border: 'none',
                   boxShadow: 'none',
+                  borderRadius: '50%',
                   fontFamily: 'Lexend',
-                  fontSize: '22px',
+                  fontSize: '1.5vw',
                   '&:hover': {
                     color: 'white',
                     cursor: 'pointer',

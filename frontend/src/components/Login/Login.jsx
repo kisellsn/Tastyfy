@@ -16,11 +16,6 @@ function Login(props) {
       console.error('Authentication failed', error);
     }
   };
-  // window.addEventListener('load', function() {
-  //   let screenHeight = window.innerHeight;
-  //   let mainElement = document.getElementById('main');
-  //   mainElement.style.minHeight = screenHeight + 'px';
-  // });
   useEffect(() => {
     const handleWindowLoad = () => {
       const screenHeight = window.innerHeight;

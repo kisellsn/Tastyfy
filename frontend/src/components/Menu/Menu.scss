@@ -36,7 +36,7 @@
         font-style: normal;
         font-family: Sansation;
         font-weight: 700;
-        font-size: 38px;
+        font-size: 3vw;
         letter-spacing: 0px;
         text-shadow: 0px 4px 4px rgba(63, 61, 89, 1);
       }
@@ -45,8 +45,9 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        position: relative;
         justify-content: space-between;
-        gap: 10%;
+        margin: 0 2rem 0 2rem;
   
         .menuItem {
           text-align: left;
@@ -54,9 +55,11 @@
           color: rgba(255, 255, 255, 1);
           font-style: normal;
           font-family: Sansation;
+          position: relative;
+          white-space: nowrap;
           font-weight: 700;
-          font-size: 28.5px;
-          min-width: 10rem;
+          font-size: 2.1vw;
+          min-width: 11vw;
           letter-spacing: 0px;
         }
       }
@@ -82,7 +85,7 @@
       flex-direction: column;
       position: relative;
       width: 100%;
-      margin-top: 10%;
+      margin-top: 5%;
     }
   }
   
@@ -116,7 +119,7 @@
     font-style: normal;
     font-family: Lexend;
     font-weight: 700;
-    font-size: 31.7px;
+    font-size: 3vw;
     letter-spacing: 0px;
     position: relative;
 }
@@ -138,6 +141,7 @@
 }
 #infoLeft{
   width: 30%;
+  position: relative;
 
 }
 
@@ -147,7 +151,7 @@
     padding: 5%;
     left: 30%;
     position: relative;
-    font-size: 28px;
+    font-size: 2vw;
     margin-top: 3%;
     display: flex;
     flex-direction: column;
@@ -162,7 +166,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    aspect-ratio: 1.5/1;
+    min-height: 20%;
     position: relative;
     // justify-content: flex-start;
 }
@@ -195,7 +199,12 @@
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: 10%;
 
+}
+
+.song_content > div {
+  flex-basis: calc(33.33% - 10%);
 }
 
 
@@ -207,9 +216,8 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    margin: 20px;
     width: 20%;
-    aspect-ratio: 1/2.5;  
+    aspect-ratio: 1/2;  
     justify-content: flex-start;
 }
 .song-card_img {
@@ -234,15 +242,19 @@
     flex-direction: column;
     justify-content: center;
     margin-top: 10px;
-    padding: 0 20px;
+    padding: 0 2%;
     width: 100%;
 }
 
 .song-card_artist {
-    margin-top: 0px;
+    margin-top: 2%;
     font-family: Urbanist;
     font-weight: 400;
-    font-size: 32.5px;
+    font-size: 2vw;
+    overflow-wrap: break-word;
+    margin-block-start: 0;
+    margin-block-end: 0;
+
 }
   
 .rec_content{
@@ -279,7 +291,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 20px;
+  padding: 0.5%;
   width: calc(33.33% - 3%);
   aspect-ratio: 3/1;
   justify-content:space-between;
@@ -315,7 +327,7 @@
     font-style: normal;
     font-family: Lexend;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 1.3vw;
     margin: 0px;
 }
 .rec-card_text2 {
@@ -326,7 +338,7 @@
   font-style: normal;
   font-family: Lexend;
   font-weight: 300;
-  font-size: 18px;
+  font-size: 1vw;
   margin: 0px;
 }
 
@@ -404,7 +416,5 @@
 }
 
 @media (max-width: 675px) {
-  #info{
-    flex-direction: column;
-  }
+
 }

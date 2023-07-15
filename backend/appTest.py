@@ -1,5 +1,7 @@
 import json
 import time
+
+import requests
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
@@ -50,7 +52,6 @@ def profile():
         library = spotify.get_saved_tracks(auth_header,500)
         audio_features = spotify.get_audio_features(auth_header)
 
-
         recently_played = spotify.get_recently_played(auth_header)
 
         features = analysis.visualize_features(audio_features)
@@ -98,4 +99,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=spotify.PORT)
+    app.run(debug=True, port=spotify.SERVER_PORT)

@@ -65,7 +65,7 @@ def visualize_genres_barchart(genres_complex_list):
         yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
         font=dict(color='white'),
         margin=dict(t=0, b=0, r=0, l=0),
-        hoverlabel=dict(font_size=20, font_family="Helvetica"),
+        hoverlabel=dict(font_size=20, font_family='Helvetica'),
     )
 
     return pio.to_json(fig, pretty=True)
@@ -83,40 +83,56 @@ def visualize_features(features_dict):
         go.Scatterpolar(
             r=feature_means,
             theta=feature_names,
-            fill='toself'
+            mode='lines+markers',
+            fill='toself',
+            fillcolor='rgba(114, 5, 31, 0.68)',
+            line=dict(color='#72051F', width=3),
+            marker=dict(color='white', size=13, opacity=0.5)
         )
     )
 
     fig.update_layout(
+        plot_bgcolor='#160620',
+        paper_bgcolor='#160620',
         showlegend=False,
-        polar=dict(radialaxis=dict(range=[0, 1]))
+        polar=dict(
+            radialaxis=dict(range=[0, 10], gridcolor='white', gridwidth=3, showticklabels=False,
+                            nticks=7, tickfont=dict(family='Helvetica', size=20)),
+            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=38, tickfont=dict(family='Helvetica', size=25)),
+            bgcolor='#160620',
+            gridshape='linear'
+        ),
+        font=dict(color='white')
     )
 
     fig.show()
 
 
 def collect_means(features):
-    names = ['danceability', 'valence', 'energy', 'loudness',
-             'acousticness', 'instrumentalness', 'liveness']
+    names = ['acousticness', 'energy', 'liveness',
+             'danceability', 'valence', 'instrumentalness', 'loudness']
     features = features[names]
     features['loudness'] = (features['loudness'] + 60)/60
+    features = features * 10
     means = []
-    for name in names:
-        means.append(features[name].mean())
-        name = name.capitalize()
-        if name == 'valence':
-            name = 'Happiness'
+    for i in range(len(names)):
+        means.append(features[names[i]].mean())
+        if names[i] == 'valence':
+            names[i] = 'happiness'
+        names[i] = names[i].capitalize()
 
-    means = [round(elem, 2) for elem in means]
+    means = [round(elem, 1) for elem in means]
 
     return names, means
-
 
 
 def generate_genres_text(genres_complex_list):
     genres = convert_genres(genres_complex_list)
     best_genre = genres.iloc[[0]].values.flatten().tolist()
-    return f'Here is the overview of your listening habits, providing insights into your musical preferences and patterns. Your listening habits reveal a unique blend of genres, artists, and styles that make up the soundtrack to your life. \nYou really love listening to {best_genre[0]}! You`ve listened to it {best_genre[1]} times lately.'
+    return f'Here is the overview of your listening habits, providing insights into your musical preferences and ' \
+           f'patterns. Your listening habits reveal a unique blend of genres, artists, and styles that make up the ' \
+           f'soundtrack to your life. \nYou really love listening to {best_genre[0]}! You`ve listened to it ' \
+           f'{best_genre[1]} times lately.'
 
 
 def unpack(genres_complex_list):
@@ -185,7 +201,7 @@ def __plot_pie_chart(artists_count):
     fig = px.pie(artists_count, values='Tracks listened', names='Artist',
                  color_discrete_sequence=color_continuous_scale, hole=0.65)
     fig.update_traces(textfont=dict(size=25), hovertemplate=' <br>   %{label}   <br> ',
-                      texttemplate="%{percent:.1%}", sort=False)
+                      texttemplate='%{percent:.1%}', sort=False)
 
     big_circle, small_circle = __draw_circles()
 
@@ -195,11 +211,11 @@ def __plot_pie_chart(artists_count):
             'paper_bgcolor': 'rgba(0,0,0,0)'
         },
         shapes=[big_circle, small_circle], showlegend=False,
-        hoverlabel=dict(bgcolor="black", font_size=20, font_family="Helvetica"),
+        hoverlabel=dict(bgcolor='black', font_size=20, font_family='Helvetica'),
     )
 
     fig.update_yaxes(
-        scaleanchor="x",
+        scaleanchor='x',
         scaleratio=1,
     )
 
@@ -210,7 +226,7 @@ def __draw_circles():
     big_circle = dict(
         type='circle',
         xref='paper', yref='paper',
-        #x0=0.23, y0=-0.07, x1=0.77, y1=1.07,
+        # x0=0.23, y0=-0.07, x1=0.77, y1=1.07,
         x0=-0.1, y0=-0.05, x1=1.1, y1=1.05,
         line_color='black', line_width=5
     )
@@ -218,7 +234,7 @@ def __draw_circles():
     small_circle = dict(
         type='circle',
         xref='paper', yref='paper',
-        #x0=0.37, y0=0.22, x1=0.63, y1=0.78,
+        # x0=0.37, y0=0.22, x1=0.63, y1=0.78,
         x0=0.25, y0=0.25, x1=0.75, y1=0.75,
         line_color='grey', line_width=5
     )

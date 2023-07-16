@@ -148,7 +148,7 @@
     font-family: Sansation;
     font-weight: 400;
     // font-size: 40px;
-    font-size: 3rem;
+    font-size: 3.5vw;
     letter-spacing: 0px;
     text-decoration: none;
     text-transform: none;
@@ -160,7 +160,7 @@
     font-style: normal;
     font-family: Sansation;
     // font-weight: 400;
-    font-size: 35px;
+    font-size: 3vw;
     letter-spacing: 0px;
     text-decoration: none;
     text-transform: none;
@@ -288,6 +288,11 @@
 
 
   @media (max-width: 675px) {
-
+    #Tastyfy-title{
+        font-size: 70px;
+        padding-left: 1rem;
+        padding-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
 
   }

@@ -68,7 +68,7 @@ def visualize_genres_barchart(genres_complex_list):
         hoverlabel=dict(font_size=20, font_family='Helvetica'),
     )
 
-    return pio.to_json(fig, pretty=True), genres.loc[0, 'Genre']
+    return pio.to_json(fig, pretty=True)
 
 
 def visualize_features(features_dict):

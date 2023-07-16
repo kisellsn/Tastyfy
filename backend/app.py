@@ -127,7 +127,15 @@ def recommendations():
         if request.method == 'POST':
             data = request.json
             market = data.get('code')
-            recommendations = spotify.get_featured_playlists(auth_header, country=market.split("_")[1], locale=market)
+            genres = spotify.get_user_genres(auth_header)
+            first_genre = analysis.convert_genres(genres).loc[0, 'Genre']
+            search = spotify.search(auth_header, name=f"Top {first_genre} {market.split('_')[0]}",
+                                    search_type="playlist", limit=1)
+            resp = search["playlists"]
+            recommendations = []
+            tracks = spotify.get_playlists_tracks(auth_header, resp, 9)
+            for track in tracks:
+                recommendations.extend(item["track"] for item in track["items"])
             res = make_response(jsonify(recommendations), 200)
 
         else:

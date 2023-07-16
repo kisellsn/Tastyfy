@@ -1,6 +1,5 @@
 import json
 import time
-
 import requests
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from backend.spotify_requests import spotify
@@ -49,17 +48,28 @@ def profile():
 
         profile_data = spotify.get_current_profile(auth_header)
 
-        library = spotify.get_saved_tracks(auth_header,500)
-        audio_features = spotify.get_audio_features(auth_header)
-
         recently_played = spotify.get_recently_played(auth_header)
 
-        features = analysis.visualize_features(audio_features)
 
+        genres = spotify.get_user_genres(auth_header)
+        genre = analysis.convert_genres(genres).loc[0, 'Genre']
+        country = "Italy"
+
+
+        print(genre)
+        search = spotify.search(auth_header, name=f"Top {genre} {country}", search_type="playlist", limit=1)
+
+        resp = search["playlists"]
+        rec = []
+        tracks = spotify.get_playlists_tracks(auth_header, resp, 9)
+        for track in tracks:
+            rec.extend(item["track"] for item in track["items"])
 
         if valid_token(recently_played):
             return jsonify({
-                "user": profile_data
+                "user": profile_data,
+                "search": search,
+                "rec": rec
             })
     return jsonify({
         "index": url_for('index')

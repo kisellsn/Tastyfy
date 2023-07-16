@@ -173,6 +173,19 @@ def get_recently_played(auth_header,limit=50):
     return resp.json()
 
 
+# -----------------SEARCH ------------------------
+
+SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
+
+
+def search(auth_header,name, search_type='track', limit = 10):
+    if search_type not in ('artist', 'track', 'album', 'playlist'):
+        print('invalid input')
+        return None
+    url = '{}?q={}&type={}&limit={}'.format(SEARCH_ENDPOINT, name, search_type,str(limit))
+    resp = requests.get(url,  headers=auth_header)
+    return resp.json()
+
 
 #-----------------Featured Playlists-------------------------
 BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
@@ -272,30 +285,6 @@ def save_track(auth_header, tracks):
     auth_header["Content-Type"] = "application/json"
     resp = requests.put(url, headers=auth_header)
     return resp
-
-
-
-
-
-
-
-
-
-# -----------------SEARCH ------------------------
-
-SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
-
-
-def search(auth_header,name, search_type='track'):
-    if search_type not in ('artist', 'track', 'album', 'playlist'):
-        print('invalid input')
-        return None
-    type="type="+search_type
-    q = "q=" + name
-    url = '{}?{}&{}'.format(SEARCH_ENDPOINT, q, type)
-    resp = requests.get(url,  headers=auth_header)
-    return resp.json()
-
 
 
 #-----------------Generate Playlist-------------------------

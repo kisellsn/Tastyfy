@@ -128,8 +128,9 @@ def recommendations():
             data = request.json
             market = data.get('code')
             genres = spotify.get_user_genres(auth_header)
-            first_genre = analysis.convert_genres(genres).loc[0, 'Genre']
-            search = spotify.search(auth_header, name=f"Top {first_genre} {market.split('_')[0]}",
+            first_genre = analysis.convert_genres(genres).loc[0, 'Genre'].split()
+            genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), None)
+            search = spotify.search(auth_header, name=f"Top {genre_name} {market.split('_')[0]}",
                                     search_type="playlist", limit=1)
             resp = search["playlists"]
             recommendations = []

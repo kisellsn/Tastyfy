@@ -426,3 +426,31 @@ def get_several_tracks(list_of_ids):
     url = "{}/?ids={ids}".format(GET_TRACK_ENDPOINT, ids=','.join(list_of_ids))
     resp = requests.get(url)
     return resp.json()
+
+music_genres=(
+"jazz",
+"hip hop",
+"blues",
+"rock",
+"country",
+"classical",
+"folk",
+"r&b",
+"soul",
+"reggae",
+"alternative",
+"punk rock",
+"electronic",
+"funk",
+"indie rock",
+"pop",
+"techno",
+"new-age",
+"edm",
+"dance-pop",
+"electro",
+"hip-hop",
+"gospel",
+"metal",
+"ska",
+"grunge")

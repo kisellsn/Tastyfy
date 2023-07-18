@@ -289,10 +289,19 @@
 
   @media (max-width: 675px) {
     #Tastyfy-title{
-        font-size: 70px;
+        font-size: 10vw;
         padding-left: 1rem;
-        padding-top: 0.5rem;
+        padding-top: 2rem;
         margin-bottom: 1rem;
+    }
+
+    .login-body{
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    #Tastyfy-info {
+        text-align:center;
     }
 
   }

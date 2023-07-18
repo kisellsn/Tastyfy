@@ -20,13 +20,13 @@ function PlotTop() {
   }, []);
 
   return (
-    <div style={{ width: '100%', position: 'relative'}}>
+    <div style={{ width: '100%', height: '100%', position: 'relative'}}>
       {plotData ? (
         <Plot
           data={plotData.data}
           layout={plotData.layout}
           config={plotData.config}
-          style={{width: '100%', position:'relative'}}
+          style={{width: '100%', height: '100%', position:'relative'}}
         />
       ) : (
 

@@ -73,7 +73,7 @@ def visualize_genres_barchart(genres_complex_list):
 
 def visualize_features(features_dict):
     features = pd.DataFrame.from_dict(features_dict)
-    feature_names, feature_means = collect_means(features)
+    feature_names, feature_means, best_examples = collect_means(features)
     feature_names.append(feature_names[0])
     feature_means.append(feature_means[0])
 
@@ -109,21 +109,37 @@ def visualize_features(features_dict):
 
 
 def collect_means(features):
-    names = ['acousticness', 'energy', 'liveness',
-             'danceability', 'valence', 'instrumentalness', 'loudness']
+    features.rename(columns={'valence': 'happiness'}, inplace=True)
+    names = ['id', 'acousticness', 'energy', 'liveness',
+             'danceability', 'happiness', 'instrumentalness', 'loudness']
+
     features = features[names]
     features['loudness'] = (features['loudness'] + 60)/60
-    features = features * 10
+    features[features.select_dtypes(include=['number']).columns] *= 10
+
+    means = get_means(names, features)
+    best_examples = get_best_examples(names, features)
+
+    return names[1:], means, best_examples
+
+
+def get_means(names, features):
     means = []
-    for i in range(len(names)):
+    for i in range(1, len(names)):
         means.append(features[names[i]].mean())
-        if names[i] == 'valence':
-            names[i] = 'happiness'
-        names[i] = names[i].capitalize()
 
     means = [round(elem, 1) for elem in means]
 
-    return names, means
+    return means
+
+
+def get_best_examples(names, features):
+    best_examples = {}
+    for i in range(1, len(names)):
+        best_examples[names[i].capitalize()] = features.loc[features[names[i]].idxmax()]['id']
+        names[i] = names[i].capitalize()
+
+    return best_examples
 
 
 def generate_genres_text(genres_complex_list):
@@ -227,7 +243,7 @@ def __draw_circles():
         type='circle',
         xref='paper', yref='paper',
         # x0=0.23, y0=-0.07, x1=0.77, y1=1.07,
-        x0=-0.1, y0=-0.05, x1=1.1, y1=1.05,
+        x0=-0.07, y0=-0.05, x1=1.07, y1=1.05,
         line_color='black', line_width=5
     )
 

@@ -166,6 +166,13 @@ def get_audio_features(auth_header):
         resp.extend(resp2)
     return resp
 
+def new_dict_track_by_features(auth_header, dict):
+    values_list = list(dict.values())
+    ids_string = ','.join(values_list)
+    tracks = get_several_tracks(ids_string)
+    dict.update(zip(dict.keys(), tracks["tracks"]))
+    return dict
+
 USER_RECENTLY_PLAYED_ENDPOINT = "{}/{}/{}".format(USER_PROFILE_ENDPOINT, 'player', 'recently-played')
 def get_recently_played(auth_header,limit=50):
     url = "{}?limit={limit}".format(USER_RECENTLY_PLAYED_ENDPOINT, limit=str(limit))

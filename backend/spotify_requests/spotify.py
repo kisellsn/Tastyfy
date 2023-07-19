@@ -167,9 +167,8 @@ def get_audio_features(auth_header):
     return resp
 
 def new_dict_track_by_features(auth_header, dict):
-    values_list = list(dict.values())
-    ids_string = ','.join(values_list)
-    tracks = get_several_tracks(ids_string)
+    ids_list = list(dict.values())
+    tracks = get_several_tracks(auth_header, ids_list)
     dict.update(zip(dict.keys(), tracks["tracks"]))
     return dict
 
@@ -429,9 +428,9 @@ def get_track_by_id(auth_header,track_id):
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
-def get_several_tracks(list_of_ids):
+def get_several_tracks(auth_header,list_of_ids):
     url = "{}/?ids={ids}".format(GET_TRACK_ENDPOINT, ids=','.join(list_of_ids))
-    resp = requests.get(url)
+    resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 music_genres=(

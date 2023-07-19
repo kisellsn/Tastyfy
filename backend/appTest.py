@@ -62,18 +62,20 @@ def profile():
         resp = search["playlists"]
         rec = []
         tracks = spotify.get_playlists_tracks(auth_header, resp, 9)
-
-
-
-        analysis.visualize_features(spotify.get_audio_features(auth_header))
         for track in tracks:
             rec.extend(item["track"] for item in track["items"])
+
+
+        best=analysis.visualize_features(spotify.get_audio_features(auth_header))
+        print(best)
+        new_best = spotify.new_dict_track_by_features(auth_header, best)
+
 
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,
                 "search": search,
-                "rec": rec
+                "new_best": new_best
             })
     return jsonify({
         "index": url_for('index')

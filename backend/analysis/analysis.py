@@ -106,6 +106,7 @@ def visualize_features(features_dict):
     )
 
     fig.show()
+    return best_examples
 
 
 def collect_means(features):

@@ -62,6 +62,10 @@ def profile():
         resp = search["playlists"]
         rec = []
         tracks = spotify.get_playlists_tracks(auth_header, resp, 9)
+
+
+
+        analysis.visualize_features(spotify.get_audio_features(auth_header))
         for track in tracks:
             rec.extend(item["track"] for item in track["items"])
 

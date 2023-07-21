@@ -147,7 +147,7 @@ def recommendations():
     return res
 
 
-@app.route("/api/rose_chart")
+@app.route("/api/user/rose_chart")
 def rose_chart():
     if 'auth_header' in session:
         auth_header = session['auth_header']

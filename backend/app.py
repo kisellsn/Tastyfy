@@ -1,3 +1,5 @@
+import webbrowser
+
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
@@ -153,7 +155,10 @@ def rose_chart():
         auth_header = session['auth_header']
         image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
         new_best = spotify.new_dict_track_by_features(auth_header, best)
-        return make_response(image, 200)
+        return make_response(jsonify({
+            "image": image,
+            "best": new_best
+        }), 200)
     else:
         res = make_response("token not in session", 403)
 
@@ -183,10 +188,10 @@ def make_search(name):
 
 @app.route("/logout")
 def logout():
-    if session:
-        session.pop('user_id', None)
-        session.clear()
-    return make_response("Good", 200)
+    session.clear()
+    url = 'https://www.spotify.com/logout'
+    webbrowser.open(url, new=2)
+    return make_response("successful logout", 200)
 
 
 if __name__ == "__main__":

@@ -47,7 +47,9 @@
         align-items: center;
         position: relative;
         justify-content: space-between;
-        margin: 0 2rem 0 2rem;
+        margin-left: -5rem;
+        // margin: 0 2rem 0 2rem;
+        gap: 20%;
   
         .menuItem {
           text-align: left;
@@ -413,6 +415,23 @@
     width:10%;
     aspect-ratio: 2/1;
 }
+
+#flex-half{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featureInfo{
+  background-color: rgba(255, 255, 255, 0.05);
+  width: 80%;
+  min-height: 10rem;
+  border-radius: 75px;
+  display: flex;
+  padding: 2rem;
+}
+
 
 @media (max-width: 675px) {
 

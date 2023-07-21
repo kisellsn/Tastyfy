@@ -105,7 +105,7 @@ def visualize_features(features_dict):
         font=dict(color='white')
     )
 
-    image = pio.to_image(fig, format=None, width=None, height=None, scale=None, validate=True, engine='auto')
+    # image = pio.to_image(fig, format=None, width=None, height=None, scale=None, validate=True, engine='auto')
     return pio.to_json(fig, pretty=True), best_examples
 
 

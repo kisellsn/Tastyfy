@@ -153,7 +153,7 @@ def rose_chart():
         auth_header = session['auth_header']
         image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
         new_best = spotify.new_dict_track_by_features(auth_header, best)
-        return image
+        return make_response(image, 200)
     else:
         res = make_response("token not in session", 403)
 
@@ -184,7 +184,8 @@ def make_search(name):
 @app.route("/logout")
 def logout():
     if session:
-        session.clear()
+        session["auth_header"].clear()
+
     return make_response("Good", 200)
 
 

@@ -37,7 +37,7 @@ function Login(props) {
       <img
         id='VectorSmartObject1'
         src={VectorSmartObject1Image}
-        loading="lazy"
+        loading="eager"
         alt={'Vector Smart Object 1'}
       />
       <div className='container'>

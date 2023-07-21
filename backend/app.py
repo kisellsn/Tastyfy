@@ -184,8 +184,8 @@ def make_search(name):
 @app.route("/logout")
 def logout():
     if session:
-        session["auth_header"].clear()
-
+        session.pop('user_id', None)
+        session.clear()
     return make_response("Good", 200)
 
 

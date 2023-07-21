@@ -92,8 +92,8 @@ def visualize_features(features_dict):
     )
 
     fig.update_layout(
-        plot_bgcolor='#160620',
-        paper_bgcolor='#160620',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
         showlegend=False,
         polar=dict(
             radialaxis=dict(range=[0, 10], gridcolor='white', gridwidth=3, showticklabels=False,
@@ -105,8 +105,8 @@ def visualize_features(features_dict):
         font=dict(color='white')
     )
 
-    image = pio.to_image(fig, format=None, width=None, height=None, scale=None, validate=True, engine='auto')
-    return image, best_examples
+    # image = pio.to_image(fig, format=None, width=None, height=None, scale=None, validate=True, engine='auto')
+    return pio.to_json(fig, pretty=True), best_examples
 
 
 def collect_means(features):

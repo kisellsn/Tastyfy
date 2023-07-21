@@ -105,8 +105,8 @@ def visualize_features(features_dict):
         font=dict(color='white')
     )
 
-    fig.show()
-    return best_examples
+    image = pio.to_image(fig, format=None, width=None, height=None, scale=None, validate=True, engine='auto')
+    return image, best_examples
 
 
 def collect_means(features):

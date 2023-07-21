@@ -10,6 +10,7 @@ import { getRecommendations, getRecs, getText, getToken, getTops, registerSpotif
 import PlotSircle from '../Plots/PlotSircle';
 import PlotTop from '../Plots/PlotTop';
 import countriesData from 'src/util/counrtyL';
+import PlotWeb from '../Plots/PlotWeb';
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState('');
@@ -159,6 +160,22 @@ function Menu(props) {
               ))}
             </div>
           </div>
+        </div>
+        <div className='featureContainer'>
+          <div id='titleA'><h4>Top Features</h4></div>
+          <div id='info'>
+            <div id='flex-half'>
+              <div className='featureInfo'>
+                fjjhbfb
+              </div>
+            </div>
+            <div id='flex-half'>
+              <PlotWeb />
+            </div>
+
+          </div>
+
+
         </div>
         <div className='recommendationContainer'>
           <div id='titleA'><h4>Recommendations from selected region</h4></div>

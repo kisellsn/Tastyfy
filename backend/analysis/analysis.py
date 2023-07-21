@@ -107,7 +107,7 @@ def visualize_features(features_dict):
 
     # pio.to_json(fig, pretty=True)
 
-    image = pio.to_image(fig, format=None, width=None, height=None, scale=None, validate=True, engine='auto')
+    image = pio.to_image(fig, validate=True, engine='kaleido')
     return image, best_examples
 
 

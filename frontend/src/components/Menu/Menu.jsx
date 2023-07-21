@@ -135,9 +135,11 @@ function Menu(props) {
                  {textMusic}
               </div>
             </div>
-            <div id='graffic' className='textBlock'>
-              {/* <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} /> */}
-              <PlotTop />
+            <div id='infoRight'>
+              <div id='graffic' className='textBlock'>
+                {/* <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} /> */}
+                <PlotTop />
+              </div>
             </div>
           </div>
         </div>
@@ -172,10 +174,7 @@ function Menu(props) {
             <div id='flex-half'>
               <PlotWeb />
             </div>
-
           </div>
-
-
         </div>
         <div className='recommendationContainer'>
           <div id='titleA'><h4>Recommendations from selected region</h4></div>

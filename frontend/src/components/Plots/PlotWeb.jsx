@@ -19,7 +19,7 @@ function PlotWeb() {
 //   }, []);
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative'}}>
+    <div style={{ width: '100%', height: '90%', position: 'relative'}}>
       {plotData ? (
         <Plot
           data={plotData.data}

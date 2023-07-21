@@ -184,11 +184,12 @@ def get_recently_played(auth_header,limit=50):
 SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
 
 
-def search(auth_header,name, search_type='track', limit = 10):
+def search(auth_header,name, search_type='track', limit = 10, market=None):
     if search_type not in ('artist', 'track', 'album', 'playlist'):
         print('invalid input')
         return None
-    url = '{}?q={}&type={}&limit={}'.format(SEARCH_ENDPOINT, name, search_type,str(limit))
+    if market:url = '{}?q={}&type={}&limit={}&market={}'.format(SEARCH_ENDPOINT, name, search_type,str(limit),market)
+    else: url = '{}?q={}&type={}&limit={}'.format(SEARCH_ENDPOINT, name, search_type,str(limit))
     resp = requests.get(url,  headers=auth_header)
     return resp.json()
 

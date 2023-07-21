@@ -131,7 +131,7 @@ def recommendations():
             first_genre = analysis.convert_genres(genres).loc[0, 'Genre'].split()
             genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), None)
             search = spotify.search(auth_header, name=f"Top {genre_name} {market.split('_')[0]}",
-                                    search_type="playlist", limit=1)
+                                    search_type="playlist", limit=1, market=market.split('_')[1])
             resp = search["playlists"]
             recommendations = []
             tracks = spotify.get_playlists_tracks(auth_header, resp, 9)

@@ -147,6 +147,18 @@ def recommendations():
     return res
 
 
+@app.route("/api/rose_chart")
+def rose_chart():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
+        new_best = spotify.new_dict_track_by_features(auth_header, best)
+        return image
+    else:
+        res = make_response("token not in session", 403)
+
+
+
 @app.route('/api/search')
 def search():
     try:
@@ -166,7 +178,8 @@ def make_search(name):
             "results": items,
             "api_url":api_url
         })
-    return redirect(url_for('index'))
+    return make_response("token not in session", 403)
+
 
 @app.route("/logout")
 def logout():

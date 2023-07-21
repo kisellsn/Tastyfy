@@ -20,7 +20,7 @@ function PlotTop() {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative'}}>
+    <div style={{ width: '94%', height: '94%', position: 'relative'}}>
       {plotData ? (
         <Plot
           data={plotData.data}

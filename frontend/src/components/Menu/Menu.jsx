@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { getRecommendations, getRecs, getText, getToken, getTops, registerSpotify } from 'src/util/functions';
 import PlotSircle from '../Plots/PlotSircle';
 import PlotTop from '../Plots/PlotTop';
-import countriesData from 'src/util/counrtyL';
 import PlotWeb from '../Plots/PlotWeb';
 
 function Menu(props) {
@@ -44,13 +43,9 @@ function Menu(props) {
   const changeHandler = async(value) => {
     try {
       const countryCode = value.label;
-      
-      const countryData = countriesData.find(country => country.country === countryCode);
-      const countryLanguageCode = countryData ? countryData.code : null;
-      console.log(`${countryLanguageCode}_${value.value}`)
-      // const recommendations = await getRecommendations(`${countryLanguageCode}_${value.value}`);
+      // const countryData = countriesData.find(country => country.country === countryCode);
+      // const countryLanguageCode = countryData ? countryData.code : null;
       const recommendations = await getRecommendations(`${countryCode}_${value.value}`);
-      // const recommendations = await getRecommendations(value.value);
       setRec(recommendations);
       setValue(value);
     } catch (error) {

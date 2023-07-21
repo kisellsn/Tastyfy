@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+// import Plot from 'react-plotly.js';
 import { featureDiagram } from 'src/util/functions';
 
 function PlotWeb() {
@@ -9,7 +9,7 @@ function PlotWeb() {
     async function fetchData() {
       try {
         const data = await featureDiagram();
-        setPlotData(data);
+        setPlotData(URL.createObjectURL(data));
       } catch (error) {
         console.error('Error fetching plot data:', error);
       }
@@ -19,12 +19,12 @@ function PlotWeb() {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: '90%', position: 'relative'}}>
+    <div style={{ width: '100%', position: 'relative'}}>
       {plotData ? (
-        <img src="plotData"/>
+        <img src={plotData} alt="Plot" style={{position:'relative', width: '100%'}}/>
       ) : (
 
-        <p style={{position:'relative', fontSize: '2vw'}}> <br/><br/>Loading plot data...</p>
+        <p style={{position:'relative'}}> <br/><br/>Loading plot data...</p>
       )}
     </div>
   );

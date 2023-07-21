@@ -81,8 +81,10 @@ export const getTops = async() => {
 
 export const featureDiagram = async() => {
     try {
-        const response = await axios.get('/api/user/rose_chart');
-        return response.data;
+        const response = await axios.get('/api/user/rose_chart', {
+            responseType: 'blob', // Set the responseType to 'blob'
+          });
+        return response.data; 
     } catch (error) {
         console.error('Error', error);
         throw error;

@@ -78,3 +78,13 @@ export const getTops = async() => {
         console.error('Error', error);
     }
 }
+
+export const featureDiagram = async() => {
+    try {
+        const response = await axios.get('/api/user/rose_chart');
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+        throw error;
+    }
+}

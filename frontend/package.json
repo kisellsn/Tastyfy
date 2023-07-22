@@ -27,6 +27,7 @@
     "react-select-country-list": "^2.2.3",
     "react-spring": "^9.5.5",
     "sass": "^1.62.1",
+    "styled-components": "^6.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

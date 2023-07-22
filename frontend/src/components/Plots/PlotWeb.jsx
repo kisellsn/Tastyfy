@@ -9,7 +9,8 @@ function PlotWeb() {
     async function fetchData() {
       try {
         const data = await featureDiagram();
-        setPlotData(URL.createObjectURL(data));
+        const image = data.image;
+        setPlotData(image);
       } catch (error) {
         console.error('Error fetching plot data:', error);
       }
@@ -21,7 +22,7 @@ function PlotWeb() {
   return (
     <div style={{ width: '100%', position: 'relative'}}>
       {plotData ? (
-        <img src={plotData} alt="Plot" style={{position:'relative', width: '100%'}}/>
+        <img src={`data:image/png;base64,${plotData}`} alt="Plot" style={{position:'relative', width: '100%'}}/>
       ) : (
 
         <p style={{position:'relative'}}> <br/><br/>Loading plot data...</p>

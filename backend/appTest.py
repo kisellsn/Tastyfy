@@ -66,16 +66,16 @@ def profile():
             rec.extend(item["track"] for item in track["items"])
 
         analysis.get_smarter_recommendations(rec)
-        #best=analysis.visualize_features(spotify.get_audio_features(auth_header))
-        #print(best)
-        #new_best = spotify.new_dict_track_by_features(auth_header, best)
+        image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
+        new_best = spotify.new_dict_track_by_features(auth_header, best)
+        print(best)
 
 
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,
-                "rec": rec
-                #"new_best": new_best
+                "rec": rec,
+                "new_best": new_best
             })
     return jsonify({
         "index": url_for('index')

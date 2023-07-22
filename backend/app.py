@@ -136,11 +136,11 @@ def recommendations():
             search = spotify.search(auth_header, name=f"{market.split('_')[0]} trending {genre_name} ",
                                     search_type="playlist", limit=1, market=market.split('_')[1])
             resp = search["playlists"]
-            recommendations = []
-            tracks = spotify.get_playlists_tracks(auth_header, resp, 9)
-            for track in tracks:
-                recommendations.extend(item["track"] for item in track["items"])
-            res = make_response(jsonify(recommendations), 200)
+            tracks_ids = analysis.get_smarter_recommendations(spotify.get_playlists_tracks(auth_header, resp, 50))
+            recommendations = spotify.get_several_tracks(auth_header, tracks_ids)
+            #for track in tracks:
+            #    recommendations.extend(item["track"] for item in track["items"])
+            res = make_response(recommendations, 200)
 
         else:
             recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2)

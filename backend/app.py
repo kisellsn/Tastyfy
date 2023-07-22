@@ -144,8 +144,8 @@ def recommendations():
             tracks_ids = analysis.get_smarter_recommendations(tracks)
             print(tracks_ids)
             recommendations = spotify.get_several_tracks(auth_header, tracks_ids)
-
-            res = make_response(recommendations, 200)
+            print(recommendations)
+            res = make_response(recommendations["tracks"], 200)
 
         else:
             recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2)

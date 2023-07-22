@@ -112,7 +112,15 @@ def visualize_features(features_dict):
 
 
 def get_smarter_recommendations(playlist_tracks):
-    print(playlist_tracks)
+    tracks = pd.DataFrame(playlist_tracks)
+    tracks['artist_name'] = tracks['artists'].apply(lambda artists: [artist['name'] for artist in artists])
+    tracks = tracks.explode('artists')
+    tracks.drop_duplicates(subset=['artist_name'], inplace=True)
+
+    return tracks['id'].values.tolist()[:9]
+
+    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    #     print(len(tracks))
 
 
 def collect_means(features):
@@ -185,7 +193,6 @@ def __normalize_history(json_data):
     df = df.explode('artist')
     df = df[['played_at', 'artist_id', 'artist', 'track.name', 'track.album.name']]
     df.columns = ['Played At', 'artist_id', 'Artist', 'Track Name', 'Album Name']
-    pd.set_option('display.max_columns', None)
     return df
 
 
@@ -276,5 +283,5 @@ def convert_genres(genres_complex_list):
     genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100, 1)
 
     genres.sort_values(by='Count', inplace=True, ascending=False)
-
+    genres.reset_index(drop=True, inplace=True)
     return genres

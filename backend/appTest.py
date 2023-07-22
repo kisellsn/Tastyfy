@@ -68,7 +68,7 @@ def profile():
         analysis.get_smarter_recommendations(rec)
         image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
         new_best = spotify.new_dict_track_by_features(auth_header, best)
-        print(best)
+
 
 
         if valid_token(recently_played):

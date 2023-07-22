@@ -111,6 +111,10 @@ def visualize_features(features_dict):
     return image, best_examples
 
 
+def get_smarter_recommendations(playlist_tracks):
+    print(playlist_tracks)
+
+
 def collect_means(features):
     features.rename(columns={'valence': 'happiness'}, inplace=True)
     names = ['id', 'acousticness', 'energy', 'liveness',

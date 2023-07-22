@@ -38,8 +38,7 @@ def valid_token(resp):
 @app.route("/")
 def index():
     return render_template('index.html')
-
-
+    analysis.visualize_genres_barchart(genres)
 
 @app.route('/api/profile')
 def profile():
@@ -53,15 +52,15 @@ def profile():
 
         genres = spotify.get_user_genres(auth_header)
         genre = analysis.convert_genres(genres).loc[0, 'Genre']
-        country = "Italy"
+        country = "United States"
 
 
         print(genre)
-        search = spotify.search(auth_header, name=f"Top {genre} {country}", search_type="playlist", limit=1)
+        search = spotify.search(auth_header, name=f"{country} trending {genre}", search_type="playlist", limit=1)
 
         resp = search["playlists"]
         rec = []
-        tracks = spotify.get_playlists_tracks(auth_header, resp, 9)
+        tracks = spotify.get_playlists_tracks(auth_header, resp, 50)
         for track in tracks:
             rec.extend(item["track"] for item in track["items"])
 

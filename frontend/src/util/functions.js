@@ -16,9 +16,19 @@ export const getToken = async () => {
     } catch (error) {
         console.error('Error', error);
     }
-    };
+};
 
-export const getRecommendations = async(code) => {
+export const getRecommendations = async() => {
+    try {
+        const response = await axios.get('/api/user/recommendations');
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+        throw error;
+    }
+}
+
+export const postRecommendations = async(code) => {
     try {
         const response = await axios.post('/api/user/recommendations', { code: code });
         return response.data;
@@ -27,6 +37,7 @@ export const getRecommendations = async(code) => {
         throw error;
     }
 }
+
 
 export const topDiagram = async() => {
     try {

@@ -6,7 +6,7 @@ import Song2 from './Song2';
 import countryList from 'react-select-country-list';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
-import { getRecommendations, getRecs, getText, getToken, getTops, registerSpotify } from 'src/util/functions';
+import { getRecommendations, getRecs, getText, getToken, getTops, postRecommendations, registerSpotify } from 'src/util/functions';
 import PlotSircle from '../Plots/PlotSircle';
 import PlotTop from '../Plots/PlotTop';
 import PlotWeb from '../Plots/PlotWeb';
@@ -40,12 +40,15 @@ function Menu(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const changeHandler = async(value) => {
+  const changeHandler = async(value) =>  {
     try {
       const countryCode = value.label;
-      // const countryData = countriesData.find(country => country.country === countryCode);
-      // const countryLanguageCode = countryData ? countryData.code : null;
-      const recommendations = await getRecommendations(`${countryCode}_${value.value}`);
+      let recommendations;
+      if (countryCode === 'Global') {
+        recommendations = await getRecommendations();
+      } else {
+        recommendations = await postRecommendations(`${countryCode}_${value.value}`);
+      }
       setRec(recommendations);
       setValue(value);
     } catch (error) {

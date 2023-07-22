@@ -1,3 +1,4 @@
+import base64
 import webbrowser
 
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
@@ -156,7 +157,7 @@ def rose_chart():
         image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
         new_best = spotify.new_dict_track_by_features(auth_header, best)
         return make_response(jsonify({
-            "image": image,
+            "image": base64.b64encode(image).decode('utf-8'),
             "best": new_best
         }), 200)
     else:

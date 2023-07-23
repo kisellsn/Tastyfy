@@ -85,9 +85,9 @@ def visualize_features(features_dict):
             theta=feature_names,
             mode='lines+markers',
             fill='toself',
-            fillcolor='rgba(114, 5, 31, 0.68)',
+            fillcolor='rgba(114, 5, 31, 0.7)',
             line=dict(color='#72051F', width=3),
-            marker=dict(color='white', size=13, opacity=0.5)
+            marker=dict(color='white', size=10, opacity=0.5)
         )
     )
 
@@ -98,14 +98,13 @@ def visualize_features(features_dict):
         polar=dict(
             radialaxis=dict(range=[0, 10], gridcolor='white', gridwidth=3, showticklabels=False,
                             nticks=7, tickfont=dict(family='Helvetica', size=20)),
-            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=38, tickfont=dict(family='Helvetica', size=25)),
+            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=20)),
             bgcolor='#160620',
             gridshape='linear'
         ),
         font=dict(color='white')
     )
-
-    # pio.to_json(fig, pretty=True)
+    fig.update_polars(angularaxis_direction='clockwise')
 
     image = pio.to_image(fig, validate=True, engine='kaleido')
     return image, best_examples

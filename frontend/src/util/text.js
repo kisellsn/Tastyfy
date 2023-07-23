@@ -2,36 +2,36 @@ const featureDescriptions = [
     {
       name: 'Acousticness',
       text:
-        'A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.',
+        'This feature measures the extent to which a song relies on acoustic instruments rather than electronic or synthesized elements. A higher acousticness value indicates a more organic and natural sound, often lending a mellow and intimate vibe to the music.'
     },
     {
       name: 'Danceability',
       text:
-        'Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.',
+        "Reflecting the song's rhythm and tempo, danceability quantifies how suitable a track is for dancing. Higher danceability scores suggest a catchy beat, groovy rhythms, and a strong pulse, making it an ideal choice for getting people on their feet and moving to the music.",
     },
     {
       name: 'Energy',
       text:
-        'Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.',
+        'Capturing the intensity and activity level of a song, energy showcases the dynamic nature of the music. A high-energy score signifies a powerful and lively track, often associated with genres like rock, pop, or EDM, while lower values may indicate more relaxed and tranquil compositions.',
     },
     {
       name: 'Instrumentalness',
       text:
-        'Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.',
+        "Measuring the absence of vocals in a song, instrumentalness distinguishes whether a track is primarily instrumental or includes significant vocal elements. Higher instrumentalness values indicate tracks with limited or no vocals, making them popular choices for relaxation, studying, or complementing activities that require focus.",
     },
     {
       name: 'Liveness',
       text:
-        'Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.',
+        "Reflecting the presence of a live audience or performance atmosphere in a recording, liveness captures the sense of immediacy and connection in a song. Higher liveness values indicate a live recording or concert performance, adding an authentic and engaging element to the music.",
     },
     {
       name: 'Loudness',
       text:
-        'The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 dB.',
+        "This feature measures the overall volume of a song. Higher loudness values indicate a louder and more compressed audio profile, often associated with modern and commercial music, while lower values may signify a more dynamic and nuanced sound characteristic of certain classical or jazz compositions.",
     },
     {
       name: 'Happiness',
-      text: 'Add description of Happiness here.',
+      text: "This feature gauges the overall positive emotional content of a song. Higher happiness values suggest a cheerful and uplifting atmosphere, while lower scores may indicate a more somber or introspective tone, revealing the song's impact on the listener's mood.",
     },
   ];
 

@@ -38,7 +38,6 @@ def valid_token(resp):
 @app.route("/")
 def index():
     return render_template('index.html')
-    analysis.visualize_genres_barchart(genres)
 
 @app.route('/api/profile')
 def profile():

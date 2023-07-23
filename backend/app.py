@@ -34,8 +34,10 @@ def valid_token(resp):
 @app.route("/token")
 def get_code():
     if 'auth_header' in session:
-        return make_response(jsonify(session['auth_header']), 200)
-    return make_response('token not found',404)
+        if valid_token(spotify.get_current_profile(session["auth_header"])):
+            return make_response(jsonify(session['auth_header']), 200)
+    session.clear()
+    return make_response('the token has expired',403)
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -53,7 +55,7 @@ def get_profile():
         res = make_response(profile_data, 200)
         # res.set_cookie('auth_header', auth_header)
 
-    else: res = make_response("token not in session", 403)
+    else: res = make_response("token not in session", 401)
     return res
 
 
@@ -66,16 +68,16 @@ def diagram():
             term = data.get('term')
             if term in ('medium_term', 'short_term', 'long_term'):
                 top = spotify.get_top_items(auth_header, 'tracks',term=term)  # tracks/artists
-                if len(top['items'])<3: return make_response("not enough data", 200)
+                if len(top['items'])<1: return make_response("not enough data", 204)
                 fig = analysis.visualize_top_artists(top,is_top=True)
             elif term == 'current':
                 recently_played = spotify.get_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))
-                if len(tracks) < 3: return make_response("not enough data", 200)
+                if len(tracks) < 1: return make_response("not enough data", 204)
                 fig = analysis.visualize_top_artists(recently_played)
             res = make_response(fig, 200)
 
-    else: res = make_response("token not in session", 403)
+    else: res = make_response("token not in session", 401)
     return res
 
 
@@ -84,10 +86,10 @@ def top_genres():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)
-        if len(genres)<1: return make_response("not enough data", 200)
+        if len(genres)<1: return make_response("not enough data", 204)
         fig = analysis.visualize_genres_barchart(genres)
         res = make_response(fig, 200)
-    else: res = make_response("token not in session", 403)
+    else: res = make_response("token not in session", 401)
     return res
 
 @app.route('/api/user/text')
@@ -95,10 +97,10 @@ def get_text():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)
-        if len(genres)<1: return make_response("not enough data", 200)
+        if len(genres)<1: return make_response("not enough data", 204)
         text = analysis.generate_genres_text(genres)
         res = make_response(text, 200)
-    else: res = make_response("token not in session", 403)
+    else: res = make_response("token not in session", 401)
     return res
 
 @app.route('/api/user/top', methods=('GET', 'POST'))
@@ -114,13 +116,13 @@ def top_artists():
             elif term == 'current':
                 recently_played = spotify.get_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))
-                if len(tracks) < 1: return make_response("not enough data", 200)
+                if len(tracks) < 1: return make_response("not enough data", 204)
                 top_ids = analysis.get_history_top_artists(recently_played)
                 top = spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist])
                 res = make_response(jsonify(top["artists"]), 200)
             else: res = make_response("need 'medium_term', 'short_term', 'long_term' or 'current'", 400)
 
-    else: res = make_response("token not in session", 403)
+    else: res = make_response("token not in session", 401)
     return res
 
 @app.route('/api/user/recommendations', methods=('GET', 'POST'))
@@ -142,16 +144,14 @@ def recommendations():
                 tracks.extend(item["track"] for item in track["items"])
 
             tracks_ids = analysis.get_smarter_recommendations(tracks)
-            print(tracks_ids)
             recommendations = spotify.get_several_tracks(auth_header, tracks_ids)
-            print(recommendations)
             res = make_response(recommendations["tracks"], 200)
 
         else:
             recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2)
             res = make_response(jsonify(recommendations["tracks"]), 200)
     else:
-        res = make_response("token not in session", 403)
+        res = make_response("token not in session", 401)
     return res
 
 
@@ -166,7 +166,7 @@ def rose_chart():
             "best": new_best
         }), 200)
     else:
-        res = make_response("token not in session", 403)
+        res = make_response("token not in session", 401)
 
 
 
@@ -189,7 +189,7 @@ def make_search(name):
             "results": items,
             "api_url":api_url
         })
-    return make_response("token not in session", 403)
+    return make_response("token not in session", 401)
 
 
 @app.route("/logout")

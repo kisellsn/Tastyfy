@@ -37,7 +37,7 @@ def valid_token(resp):
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return redirect("/api/auth")
 
 @app.route('/api/profile')
 def profile():

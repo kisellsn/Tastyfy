@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+/* eslint-disable jsx-a11y/iframe-has-title */
+import React, { useEffect, useState } from 'react';
 import featureDescriptions from 'src/util/text';
 import styled from "styled-components";
 import arrowRight from 'src/assets/images/arrow-right.png';
 import arrowLeft from 'src/assets/images/arrow-left.png';
+import noimage from 'src/assets/images/NOimage.png';
 
 const FeatureViewer = ({ features }) => {
   const featureArray = Object.keys(features);
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  const [currentValue, setCurrentValue] = useState({}); 
 
   const switchToNextFeature = () => {
     setCurrentFeatureIndex((prevIndex) => (prevIndex + 1) % featureArray.length);
@@ -23,6 +26,10 @@ const FeatureViewer = ({ features }) => {
     (feature) => feature.name === currentFeature
   );
 
+  useEffect(() => {
+    setCurrentValue(features[featureArray[currentFeatureIndex]]);
+  }, [currentFeatureIndex, features, featureArray]);
+
   return (
     <FeatureWrapper>
       {currentFeature ? (
@@ -31,10 +38,23 @@ const FeatureViewer = ({ features }) => {
           <div className='middleBody'>
             <img className="arrowImg" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
             <div className='textBody'>
-                {/* <div className='texBody-text'> */}
+                <div className='texBody-text'>
                     <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
-                {/* </div>
-                <div className='texBody-example'>fdfd</div> */}
+                </div>
+                <div className='texBody-example'>
+                  {currentValue ? (
+                    <iframe 
+                      className='teframe'
+                      src={`https://open.spotify.com/embed/track/${currentValue.id}?utm_source=generator`}
+                      allowFullScreen="" 
+                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                      loading="lazy">
+
+                    </iframe>
+                  ) : (
+                    <img className='teimg' src={currentValue?.album.images[0].url || noimage} alt="Song"/>
+                  )}
+                </div>
             </div>
             <img className="arrowImg" src={arrowRight} onClick={switchToNextFeature} alt='Arrow right'/>
           </div>
@@ -71,10 +91,12 @@ const FeatureWrapper = styled.div`
     align-items: center;
 
     h3 {
-        font-size: 1.4vw;
+        ${'' /* font-size: 1.4vw; */}
+        font-size: 2vw;
     }
     p{
-        font-size: 1vw;
+        ${'' /* font-size: 1vw; */}
+        font-size: 1.4vw;
     }
     .middleBody{
         width: 100%;
@@ -99,7 +121,30 @@ const FeatureWrapper = styled.div`
             }
             .texBody-example{
                 width: 45%;
+                ${'' /* width: 100%; */}
                 position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                ${'' /* margin-top:10%; */}
+                .teimg{
+                  width: 70%;
+                }
+                .teframe{
+                  width: 100%;
+                  aspect-ratio: 3/5;
+                  border-radius: 20px;
+                  border-color: transparent;
+                  frame-border: 0;
+                  background-color: transparent;
+                }
+                .teframe2{
+                  width: 100%;
+                  aspect-ratio: 10/2;
+                  border-radius: 12px;
+                  border-color: transparent;
+                  frame-border: 0;
+                }
             }
         }
 

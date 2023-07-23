@@ -81,9 +81,9 @@ export const sircleDiagram = async() => {
     }
 }
 
-export const getTops = async() => {
+export const getTops = async(term) => {
     try {
-        const response = await axios.post('/api/user/top', { term: 'long_term' });
+        const response = await axios.post('/api/user/top', {term});
         return response.data;
     } catch (error) {
         console.error('Error', error);

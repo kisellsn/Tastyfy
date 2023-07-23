@@ -448,6 +448,20 @@
   padding: 2rem;
 }
 
+.topMenu{
+  display: flex;
+  direction: row;
+  width: 100%;
+  color: white;
+  text-decoration: underline;
+  gap: 5%;
+  align-items: center;
+  justify-content: center;
+  h4{
+    cursor: pointer;
+  }
+}
+
 
 @media (max-width: 675px) {
 

@@ -33,6 +33,7 @@ function Menu(props) {
   const [topSong, setTopSong] = useState([])
   const [textMusic, setTextMusic] = useState('')
   const [features, setFeatures] = useState({})
+  const [topTerm, setTopTerm] = useState('current')
   let countries = [ 'Algeria', 'Angola', 'Benin', 'Botswana', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Chad', 'Comoros', `Côte d'Ivoire`, 'Democratic Republic of the Congo', 'Djibouti', 'Egypt', 'Ethiopia', 'Equatorial Guinea', 'Eswatini', 'Gabon', 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Kenya', 'Lesotho', 'Liberia', 'Libya', 'Madagascar', 'Malawi', 'Mali', 'Mauritania', 'Mauritius', 'Morocco', 'Mozambique', 'Namibia', 'Niger', 'Nigeria', 'Republic of the Congo', 'Rwanda', 'São Tomé and Príncipe', 'Senegal', 'Seychelles', 'Sierra Leone', 'South Africa', 'Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe', 'Asia', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei Darussalam', 'Cambodia', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kuwait', 'Kyrgyzstan', 'Lao People\'s Democratic Republic', 'Lebanon', 'Macao', 'Malaysia', 'Maldives', 'Mongolia', 'Nepal', 'Oman', 'Pakistan', 'Palestine', 'Philippines', 'Qatar', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Taiwan', 'Tajikistan', 'Thailand', 'Timor-Leste', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Europe', 'Åland', 'Albania', 'Andorra', 'Anguilla', 'Ascension', 'Austria', 'Azores', 'Balearic Islands', 'Belarus', 'Belgium', 'Bermuda', 'Bosnia', 'British Virgin Islands', 'Bulgaria', 'Canary Islands', 'Cayman Islands', 'Ceuta', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Falkland Islands', 'Faroe Islands', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'Germany', 'Gibraltar', 'Greece', 'Greenland', 'Guadeloupe', 'Guernsey', 'Hungary', 'Iceland', 'Ireland', 'Isle of Man', 'Italy', 'Jersey', 'Kazakhstan', 'Kosovo', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madeira', 'Malta', 'Martinique', 'Mayotte', 'Melilla', 'Moldova', 'Monaco', 'Montenegro', 'Montserrat', 'Netherlands', 'New Caledonia', 'North Macedonia', 'Norway', 'Pitcairn Islands', 'Poland', 'Portugal', 'Romania', 'Réunion', 'Saint Barthélemy', 'Saint Helena', 'Saint Martin', 'Saint Pierre and Miquelon', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Svalbard', 'Sweden', 'Switzerland', 'Tristan da Cunha', 'Turkey', 'Turks and Caicos Islands', 'Ukraine', 'United Kingdom', 'Wallis and Futuna', 'North America', 'American Samoa', 'Antigua and Barbuda', 'Bahamas', 'Barbados', 'Belize', 'Canada', 'Costa Rica', 'Curaçao', 'Dominica', 'Dominican Republic', 'El Salvador', 'Grenada', 'Guam', 'Guatemala', 'Haiti', 'Honduras', 'Jamaica', 'Mexico', 'Nicaragua', 'Northern Mariana Islands', 'Panama', 'Puerto Rico', 'St. Kitts and Nevis', 'St. Lucia', 'St. Vincent and the Grenadines', 'Trinidad and Tobago', 'United States', 'United States Minor Outlying Islands (Navassa Island, Baker Island, Howland Island, Jarvis Island, Johnston Atoll, Kingman Reef, Midway Atoll, Wake Atoll)', 'United States Virgin Islands', 'South America', 'Argentina', 'Aruba', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Guyana', 'Paraguay', 'Peru', 'Sint Maarten', 'Suriname', 'Uruguay', 'Venezuela', 'Oceania', 'Australia', 'Bonaire', 'Christmas Island', 'Cocos (Keeling) Islands', 'Cook Islands', 'Fiji', 'Kiribati', 'Marshall Islands', 'Micronesia', 'Nauru', 'New Zealand', 'Niue', 'Norfolk Island', 'Palau', 'Papua New Guinea', 'Saba', 'Samoa', 'Sint Eustatius', 'Solomon Islands', 'Tokelau', 'Tonga', 'Tuvalu', 'Vanuatu' ];
   const options = useMemo(() => {
     const countryOptions = countryList().getData();
@@ -63,7 +64,7 @@ function Menu(props) {
   useEffect(() => {
     const fetchTopSongs = async () => {
       try {
-        const tops = await getTops();
+        const tops = await getTops(topTerm);
         setTopSong(tops);
       } catch (error) {
         console.error('Error fetching top songs:', error);
@@ -72,7 +73,7 @@ function Menu(props) {
     };
   
     fetchTopSongs();
-  }, []);
+  }, [topTerm]);
 
   useEffect(() => {
     const fetchRecSongs = async () => {
@@ -159,7 +160,13 @@ function Menu(props) {
           </div>
         </div>
         <div className='topContainer'>
-          <div id='titleA'><h4>Current Top Artist</h4></div>
+          <div id='titleA'><h4>Top Artist</h4></div>
+          <div className='topMenu'>
+            <h4 data-value='current' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Now</h4>
+            <h4 data-value='short_term' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Week</h4>
+            <h4 data-value='medium_term' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Month</h4>
+            <h4 data-value='long_term' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Year</h4>
+          </div>
           <div id='info'>
             <div id='grafficA'>
               {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
@@ -195,7 +202,7 @@ function Menu(props) {
           <div id='titleA'><h4>Recommendations from selected region</h4></div>
           <div id='listing'>
             <div className='countries' >
-              <Select options={options} value={value} onChange={changeHandler} 
+              <Select options={options} value={value} onChange={(changeHandler)} 
               placeholder="Select country"
               styles={{
                 control: (provided) => ({

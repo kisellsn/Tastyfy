@@ -132,11 +132,15 @@ const FeatureWrapper = styled.div`
                 }
                 .teframe{
                   width: 100%;
-                  aspect-ratio: 3/5;
-                  border-radius: 20px;
+                  aspect-ratio: 4/5;
+                  border-radius: 25px;
                   border-color: transparent;
                   frame-border: 0;
                   background-color: transparent;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
                 }
                 .teframe2{
                   width: 100%;

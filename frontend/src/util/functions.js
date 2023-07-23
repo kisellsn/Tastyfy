@@ -72,9 +72,9 @@ export const getRecs = async() => {
 }
 
 
-export const sircleDiagram = async() => {
+export const sircleDiagram = async(term) => {
     try {
-        const response = await axios.post('/api/user/diagram', { term: 'current' });
+        const response = await axios.post('/api/user/diagram', {term});
         return response.data;
     } catch (error) {
         console.error('Error', error);

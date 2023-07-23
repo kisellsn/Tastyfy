@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import { sircleDiagram } from 'src/util/functions';
 
-function PlotSircle() {
+function PlotSircle({term}) {
   const [plotData, setPlotData] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await sircleDiagram();
+        const data = await sircleDiagram(term);
         data.config = {'displayModeBar': false, 'zoomIn': false, 'dragMode': false, 'responsive': true}
         setPlotData(data);
       } catch (error) {
@@ -17,7 +17,7 @@ function PlotSircle() {
     }
 
     fetchData();
-  }, []);
+  }, [term]);
 
   return (
     <div style={{ width: '150%', 'aspectRatio': '1/1', position: 'relative'}}>

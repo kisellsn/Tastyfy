@@ -113,20 +113,21 @@ def visualize_features(features_dict):
 
 def get_smarter_recommendations(playlist_tracks):
     tracks = pd.DataFrame(playlist_tracks)
+    print(tracks.columns)
     tracks['artist_name'] = tracks['artists'].apply(lambda artists: [artist['name'] for artist in artists])
     tracks = tracks.explode('artists')
     tracks.drop_duplicates(subset=['artist_name'], inplace=True)
 
     return tracks['id'].values.tolist()[:9]
 
-    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    #     print(len(tracks))
-
 
 def collect_means(features):
     features.rename(columns={'valence': 'happiness'}, inplace=True)
-    names = ['id', 'acousticness', 'energy', 'liveness',
-             'danceability', 'happiness', 'instrumentalness', 'loudness']
+    names = ['id', 'acousticness', 'danceability',  'energy',
+             'happiness', 'instrumentalness', 'liveness', 'loudness']
+
+    # ['id', 'acousticness', 'energy', 'liveness',
+    #      'danceability', 'happiness', 'instrumentalness', 'loudness']
 
     features = features[names]
     features['loudness'] = (features['loudness'] + 60)/60

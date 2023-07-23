@@ -31,10 +31,10 @@ const FeatureViewer = ({ features }) => {
           <div className='middleBody'>
             <img className="arrowImg" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
             <div className='textBody'>
-                <div className='texBody-text'>
+                {/* <div className='texBody-text'> */}
                     <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
-                </div>
-                <div className='texBody-example'>fdfd</div>
+                {/* </div>
+                <div className='texBody-example'>fdfd</div> */}
             </div>
             <img className="arrowImg" src={arrowRight} onClick={switchToNextFeature} alt='Arrow right'/>
           </div>

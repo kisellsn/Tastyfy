@@ -91,15 +91,16 @@ def top_artists():
                 top_items = spotify.get_top_items(auth_header, 'tracks', term=term)  # tracks/artists
                 if len(top_items["items"]) < 1: return make_response("not enough data", 204)
                 top_ids = analysis.get_history_top_artists(top_items, is_top=True)
-                top = spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist])
-                res = make_response(jsonify(top["artists"][0:6]), 200)
+                top = spotify.get_several_artists(auth_header, top_ids)
+                print(top)
+                res = make_response(jsonify(top["artists"]), 200)
             elif term == 'current':
                 recently_played = spotify.get_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))
                 if len(tracks) < 1: return make_response("not enough data", 204)
                 top_ids = analysis.get_history_top_artists(recently_played)
-                top = spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist])
-                res = make_response(jsonify(top["artists"][0:6]), 200)
+                top = spotify.get_several_artists(auth_header, top_ids)
+                res = make_response(jsonify(top["artists"]), 200)
             else: res = make_response("need 'medium_term', 'short_term', 'long_term' or 'current'", 400)
 
     else: res = make_response("token not in session", 401)

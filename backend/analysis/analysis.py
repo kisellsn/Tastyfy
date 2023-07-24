@@ -91,7 +91,7 @@ def visualize_features(features_dict):
             fill='toself',
             fillcolor='rgba(114, 5, 31, 0.7)',
             line=dict(color='#72051F', width=3),
-            marker=dict(color='white', size=10, opacity=0.5)
+            marker=dict(color='white', size=15, opacity=0.5)
         )
     )
 
@@ -102,15 +102,16 @@ def visualize_features(features_dict):
         polar=dict(
             radialaxis=dict(range=[0, 10], gridcolor='white', gridwidth=3, showticklabels=False,
                             nticks=7, tickfont=dict(family='Helvetica', size=20)),
-            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=20)),
+            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=25)),
             bgcolor='#160620',
             gridshape='linear'
         ),
-        font=dict(color='white')
+        font=dict(color='white'),
+        #margin=dict(t=40, b=40)
     )
     fig.update_polars(angularaxis_direction='clockwise')
 
-    image = pio.to_image(fig, validate=True, engine='kaleido')
+    image = pio.to_image(fig, format='png', width=860, height=860, validate=True, engine='kaleido')
     return image, best_examples
 
 
@@ -201,7 +202,7 @@ def __normalize_history(json_data, for_diagram=False):
         df = df.explode('artist_id')
         df = df[['played_at', 'artist_id', 'track.name', 'track.album.name']]
         df.columns = ['Played At', 'artist_id', 'Track Name', 'Album Name']
-    print(df.to_string())
+
     return df
 
 
@@ -228,7 +229,7 @@ def __make_others_section(artists_count):
 
     if column_sum / tracks_sum <= 0.15 and artists_count[artists_count.columns[0]].count() > 9:
         if artists_count['Tracks listened'].max()/tracks_sum < 0.3:
-            artists_count = artists_count.head(9)
+            artists_count = artists_count.head(8)
         else:
             artists_count = artists_count.head(6)
 
@@ -271,7 +272,6 @@ def __draw_circles():
     big_circle = dict(
         type='circle',
         xref='paper', yref='paper',
-        # x0=0.23, y0=-0.07, x1=0.77, y1=1.07,
         x0=-0.07, y0=-0.05, x1=1.07, y1=1.05,
         line_color='black', line_width=5
     )
@@ -279,7 +279,6 @@ def __draw_circles():
     small_circle = dict(
         type='circle',
         xref='paper', yref='paper',
-        # x0=0.37, y0=0.22, x1=0.63, y1=0.78,
         x0=0.25, y0=0.25, x1=0.75, y1=0.75,
         line_color='grey', line_width=5
     )

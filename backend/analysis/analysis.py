@@ -8,7 +8,7 @@ def visualize_top_artists(json_data, is_top=False):
     if is_top:
         streaming_history = __normalize_top(json_data, True)
     else:
-        streaming_history = __normalize_history(json_data)
+        streaming_history = __normalize_history(json_data, True)
 
     artists_count = streaming_history.groupby(['Artist']).agg(Count=('Artist', 'count')).reset_index()
     artists_count.rename(columns={'Count': 'Tracks listened'}, inplace=True)

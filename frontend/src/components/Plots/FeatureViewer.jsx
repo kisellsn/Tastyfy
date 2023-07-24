@@ -112,35 +112,27 @@ const FeatureWrapper = styled.div`
             text-align: justify;
             display: flex;
             flex-direction: row;
-            align-items: center;
+            align-items: stretch;
             justify-content: space-between;
             gap: 5%;
             .texBody-text{
                 width: 45%;
                 position: relative;
+                p{
+                  margin-block-start: 0;
+                  margin-block-end: 0;
+                }
             }
             .texBody-example{
                 width: 45%;
-                ${'' /* width: 100%; */}
                 position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                ${'' /* margin-top:10%; */}
-                .teimg{
-                  width: 70%;
-                }
                 .teframe{
                   width: 100%;
-                  aspect-ratio: 4/5;
+                  height:100%;
                   border-radius: 25px;
                   border-color: transparent;
                   frame-border: 0;
                   background-color: transparent;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  justify-content: center;
                 }
                 .teframe2{
                   width: 100%;

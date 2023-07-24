@@ -22,7 +22,12 @@ function PlotWeb() {
   return (
     <div style={{ width: '100%', position: 'relative'}}>
       {plotData ? (
-        <img src={`data:image/png;base64,${plotData}`} alt="Plot" style={{position:'relative', width: '100%'}}/>
+        <img 
+          src={`data:image/jpeg;base64,${plotData}`} 
+          alt="Plot" 
+          style={{position:'relative', width: '100%', imageRendering: 'auto', objectFit: 'cover', filter: 'brightness(1.2) contrast(1.1) saturate(1.2)'}}
+            
+        />
       ) : (
 
         <p style={{position:'relative'}}> <br/><br/>Loading plot data...</p>

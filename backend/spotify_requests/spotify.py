@@ -456,8 +456,10 @@ music_genres=(
 "edm",
 "dance-pop",
 "electro",
-"hip-hop",
+"hollywood",
 "gospel",
 "metal",
 "ska",
-"grunge")
+"grunge",
+"rap",
+"indie")

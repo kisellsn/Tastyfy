@@ -88,9 +88,9 @@ def top_artists():
             data = request.json
             term = data.get('term')
             if term in ('medium_term', 'short_term', 'long_term'):
-                top = spotify.get_top_items(auth_header, 'tracks', term=term)  # tracks/artists
-                if len(top["items"]) < 1: return make_response("not enough data", 204)
-                top_ids = analysis.get_history_top_artists(top)
+                top_items = spotify.get_top_items(auth_header, 'tracks', term=term)  # tracks/artists
+                if len(top_items["items"]) < 1: return make_response("not enough data", 204)
+                top_ids = analysis.get_history_top_artists(top_items, is_top=True)
                 top = spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist])
                 res = make_response(jsonify(top["artists"][0:6]), 200)
             elif term == 'current':

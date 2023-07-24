@@ -68,7 +68,7 @@ def diagram():
             term = data.get('term')
             if term in ('medium_term', 'short_term', 'long_term'):
                 top = spotify.get_top_items(auth_header, 'tracks',term=term)  # tracks/artists
-                if len(top)<1: return make_response("not enough data", 204)
+                if len(top['items'])<1: return make_response("not enough data", 204)
                 fig = analysis.visualize_top_artists(top,is_top=True)
             elif term == 'current':
                 recently_played = spotify.get_recently_played(auth_header)
@@ -88,8 +88,11 @@ def top_artists():
             data = request.json
             term = data.get('term')
             if term in ('medium_term', 'short_term', 'long_term'):
-                top = spotify.get_top_items(auth_header, 'artists', term=term)  # tracks/artists
-                res = make_response(jsonify(top[0:6]), 200)
+                top = spotify.get_top_items(auth_header, 'tracks', term=term)  # tracks/artists
+                if len(top["items"]) < 1: return make_response("not enough data", 204)
+                top_ids = analysis.get_history_top_artists(top)
+                top = spotify.get_several_artists(auth_header, [item for sublist in top_ids for item in sublist])
+                res = make_response(jsonify(top["artists"][0:6]), 200)
             elif term == 'current':
                 recently_played = spotify.get_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))

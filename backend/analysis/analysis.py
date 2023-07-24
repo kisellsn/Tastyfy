@@ -25,6 +25,7 @@ def get_history_top_artists(json_data, is_top=False):
         streaming_history = __normalize_history(json_data)
 
     artist_counts = streaming_history.groupby(['artist_id']).agg(Count=('artist_id', 'count')).reset_index()
+    artist_counts.sort_values(by=['Count'], ascending=False, inplace=True)
     return artist_counts.head(6)['artist_id'].tolist()
 
 
@@ -188,13 +189,19 @@ def get_artist_ids(list_of_playlists):
     return df['artist_id'].values.tolist()
 
 
-def __normalize_history(json_data):
+def __normalize_history(json_data, for_diagram=False):
     df = pd.json_normalize(json_data['items'])
-    df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
-    df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
-    df = df.explode('artist')
-    df = df[['played_at', 'artist_id', 'artist', 'track.name', 'track.album.name']]
-    df.columns = ['Played At', 'artist_id', 'Artist', 'Track Name', 'Album Name']
+    if for_diagram:
+        df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
+        df = df.explode('artist')
+        df = df[['played_at', 'artist', 'track.name', 'track.album.name']]
+        df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']
+    else:
+        df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
+        df = df.explode('artist_id')
+        df = df[['played_at', 'artist_id', 'track.name', 'track.album.name']]
+        df.columns = ['Played At', 'artist_id', 'Track Name', 'Album Name']
+    print(df.to_string())
     return df
 
 
@@ -211,7 +218,6 @@ def __normalize_top(json_data, for_diagram=False):
         df = df[['artist_id', 'name', 'album.name']]
         df.columns = ['artist_id', 'Track Name', 'Album Name']
 
-    print(df.to_string())
     return df
 
 

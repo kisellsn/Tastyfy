@@ -6,7 +6,7 @@ import plotly.io as pio
 
 def visualize_top_artists(json_data, is_top=False):
     if is_top:
-        streaming_history = __normalize_top(json_data)
+        streaming_history = __normalize_top(json_data, True)
     else:
         streaming_history = __normalize_history(json_data)
 
@@ -24,9 +24,8 @@ def get_history_top_artists(json_data, is_top=False):
     else:
         streaming_history = __normalize_history(json_data)
 
-    artist_counts = streaming_history['artist_id'].value_counts()
-    top_artist_ids = artist_counts.head(6).index.tolist()
-    return top_artist_ids
+    artist_counts = streaming_history.groupby(['artist_id']).agg(Count=('artist_id', 'count')).reset_index()
+    return artist_counts.head(6)['artist_id'].tolist()
 
 
 def visualize_genres_barchart(genres_complex_list):
@@ -116,7 +115,6 @@ def visualize_features(features_dict):
 
 def get_smarter_recommendations(playlist_tracks):
     tracks = pd.DataFrame(playlist_tracks)
-    print(tracks.columns)
     tracks['artist_name'] = tracks['artists'].apply(lambda artists: [artist['name'] for artist in artists])
     tracks = tracks.explode('artists')
     tracks.drop_duplicates(subset=['artist_name'], inplace=True)
@@ -200,12 +198,20 @@ def __normalize_history(json_data):
     return df
 
 
-def __normalize_top(json_data):
+def __normalize_top(json_data, for_diagram=False):
     df = pd.json_normalize(json_data['items'])
-    df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
-    df = df.explode('artist')
-    df = df[['artist_id', 'artist', 'name', 'album.name']]
-    df.columns = ['artist_id', 'Artist', 'Track Name', 'Album Name']
+    if for_diagram:
+        df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
+        df = df.explode('artist')
+        df = df[['artist_id', 'artist', 'name', 'album.name']]
+        df.columns = ['artist_id', 'Artist', 'Track Name', 'Album Name']
+    else:
+        df['artist_id'] = df['artists'].apply(lambda artists: [artist['id'] for artist in artists])
+        df = df.explode('artist_id')
+        df = df[['artist_id', 'name', 'album.name']]
+        df.columns = ['artist_id', 'Track Name', 'Album Name']
+
+    print(df.to_string())
     return df
 
 

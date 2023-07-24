@@ -197,7 +197,7 @@ def __normalize_history(json_data):
 
 
 def __normalize_top(json_data):
-    df = pd.json_normalize(json_data['items'])
+    df = pd.json_normalize(json_data)
     df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
     df = df.explode('artist')
     df = df[['artist', 'name', 'album.name']]

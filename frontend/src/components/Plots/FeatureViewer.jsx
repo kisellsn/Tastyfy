@@ -109,6 +109,7 @@ const FeatureWrapper = styled.div`
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        height: 80%;
         gap: 3%;
 
         .textBody{
@@ -118,6 +119,7 @@ const FeatureWrapper = styled.div`
             flex-direction: row;
             align-items: stretch;
             justify-content: space-between;
+            height: 100%;
             gap: 5%;
             .texBody-text{
                 width: 45%;

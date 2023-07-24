@@ -442,7 +442,7 @@
 .featureInfo{
   background-color: rgba(255, 255, 255, 0.05);
   width: 80%;
-  min-height: 10rem;
+  aspect-ratio: 1/0.95;
   border-radius: 75px;
   display: flex;
   padding: 2rem;
@@ -452,14 +452,14 @@
   display: flex;
   direction: row;
   width: 100%;
-  color: white;
 
   text-decoration: underline;
   gap: 5%;
   align-items: center;
   justify-content: center;
   h4 {
-    color: grey; /* Set the initial color for all elements */
+    color: rgba(255, 255, 255, 0.35); /* Set the initial color for all elements */
+    text-decoration: underline;
     cursor: pointer; /* Change cursor to pointer when hovering over the elements */
   }
   

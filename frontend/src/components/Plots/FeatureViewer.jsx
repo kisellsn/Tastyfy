@@ -82,17 +82,21 @@ const FeatureViewer = ({ features }) => {
 
 const FeatureWrapper = styled.div`
   width: 100%;
+  height: 100%;
   position: relative;
   .FWContainer{
     width: 100%;
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 
     h3 {
         ${'' /* font-size: 1.4vw; */}
         font-size: 2vw;
+        margin-top:0;
     }
     p{
         ${'' /* font-size: 1vw; */}

@@ -25,7 +25,7 @@ function PlotWeb() {
         <img 
           src={`data:image/jpeg;base64,${plotData}`} 
           alt="Plot" 
-          style={{position:'relative', width: '100%', imageRendering: 'auto', objectFit: 'cover', filter: 'brightness(1.2) contrast(1.1) saturate(1.2)'}}
+          style={{position:'relative', width: '100%', imageRendering: 'auto', objectFit: 'cover'}}
             
         />
       ) : (

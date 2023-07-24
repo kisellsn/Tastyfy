@@ -190,7 +190,7 @@ function Menu(props) {
           <div id='info'>
             <div id='flex-half'>
               <div className='featureInfo'>
-                <FeatureViewer features={features} />
+                <FeatureViewer features={features} style={{height: "100%"}}/>
               </div>
             </div>
             <div id='flex-half'>

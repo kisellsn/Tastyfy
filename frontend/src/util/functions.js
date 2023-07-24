@@ -74,6 +74,7 @@ export const getRecs = async() => {
 
 export const sircleDiagram = async(term) => {
     try {
+        if(term === 'start') term = 'current'
         const response = await axios.post('/api/user/diagram', {term});
         return response.data;
     } catch (error) {
@@ -83,6 +84,7 @@ export const sircleDiagram = async(term) => {
 
 export const getTops = async(term) => {
     try {
+        if(term === 'start') term = 'current'
         const response = await axios.post('/api/user/top', {term});
         return response.data;
     } catch (error) {

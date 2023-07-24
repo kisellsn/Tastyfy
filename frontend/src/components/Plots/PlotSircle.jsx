@@ -3,7 +3,8 @@ import Plot from 'react-plotly.js';
 import { sircleDiagram } from 'src/util/functions';
 
 function PlotSircle({term}) {
-  const [plotData, setPlotData] = useState(null);
+  const [plotData, setPlotData] = useState(null); 
+
 
   useEffect(() => {
     async function fetchData() {

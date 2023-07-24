@@ -458,9 +458,18 @@
   gap: 5%;
   align-items: center;
   justify-content: center;
-  h4{
-    cursor: pointer;
+  h4 {
+    color: grey; /* Set the initial color for all elements */
+    cursor: pointer; /* Change cursor to pointer when hovering over the elements */
   }
+  
+  h4.active {
+    color: white; /* Set the color for the active element */
+  }
+}
+
+.smallHeight{
+  max-height: 8rem;
 }
 
 

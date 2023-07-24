@@ -203,8 +203,8 @@ def __normalize_top(json_data, for_diagram=False):
     if for_diagram:
         df['artist'] = df['artists'].apply(lambda artists: [artist['name'] for artist in artists])
         df = df.explode('artist')
-        df = df[['artist_id', 'artist', 'name', 'album.name']]
-        df.columns = ['artist_id', 'Artist', 'Track Name', 'Album Name']
+        df = df[['artist', 'name', 'album.name']]
+        df.columns = ['Artist', 'Track Name', 'Album Name']
     else:
         df['artist_id'] = df['artists'].apply(lambda artists: [artist['id'] for artist in artists])
         df = df.explode('artist_id')

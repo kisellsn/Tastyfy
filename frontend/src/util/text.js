@@ -2,36 +2,36 @@ const featureDescriptions = [
     {
       name: 'Acousticness',
       text:
-        'This feature measures the extent to which a song relies on acoustic instruments rather than electronic or synthesized elements. A higher acousticness value indicates a more organic and natural sound, often lending a mellow and intimate vibe to the music.'
+        'This tells you how much a song uses acoustic instruments instead of electronic ones. A higher value means it sounds more natural and calm.'
     },
     {
       name: 'Danceability',
       text:
-        "Reflecting the song's rhythm and tempo, danceability quantifies how suitable a track is for dancing. Higher danceability scores suggest a catchy beat, groovy rhythms, and a strong pulse, making it an ideal choice for getting people on their feet and moving to the music.",
+        "It shows how suitable a song is for dancing based on its rhythm and tempo. Higher scores mean the song has a catchy beat and is great for getting people moving.",
     },
     {
       name: 'Energy',
       text:
-        'Capturing the intensity and activity level of a song, energy showcases the dynamic nature of the music. A high-energy score signifies a powerful and lively track, often associated with genres like rock, pop, or EDM, while lower values may indicate more relaxed and tranquil compositions.',
+        "This measures how intense and lively a song is. A high-energy score means it's powerful and full of energy, often seen in genres like rock, pop, or EDM. Lower values suggest more relaxed and peaceful tunes.",
     },
     {
       name: 'Instrumentalness',
       text:
-        "Measuring the absence of vocals in a song, instrumentalness distinguishes whether a track is primarily instrumental or includes significant vocal elements. Higher instrumentalness values indicate tracks with limited or no vocals, making them popular choices for relaxation, studying, or complementing activities that require focus.",
+        "This shows whether a song has vocals or is mainly instrumental. Higher instrumentalness values mean it has limited or no vocals, making it popular for relaxation, studying, or focus-related activities.",
     },
     {
       name: 'Liveness',
       text:
-        "Reflecting the presence of a live audience or performance atmosphere in a recording, liveness captures the sense of immediacy and connection in a song. Higher liveness values indicate a live recording or concert performance, adding an authentic and engaging element to the music.",
+        "It reflects the sense of immediacy and connection in a song, as if it were recorded in front of a live audience. Higher values suggest a live recording or concert performance, adding authenticity and engagement to the music.",
     },
     {
       name: 'Loudness',
       text:
-        "This feature measures the overall volume of a song. Higher loudness values indicate a louder and more compressed audio profile, often associated with modern and commercial music, while lower values may signify a more dynamic and nuanced sound characteristic of certain classical or jazz compositions.",
+        "This feature measures the overall volume of a song. Higher loudness values mean it's louder and more compressed, often found in modern and commercial music. Lower values indicate a more dynamic and nuanced sound, common in certain classical or jazz compositions.",
     },
     {
       name: 'Happiness',
-      text: "This feature gauges the overall positive emotional content of a song. Higher happiness values suggest a cheerful and uplifting atmosphere, while lower scores may indicate a more somber or introspective tone, revealing the song's impact on the listener's mood.",
+      text: "It tells you the overall positive feeling of a song. Higher happiness values mean it's cheerful and uplifting, while lower scores indicate a more somber or thoughtful tone that can affect the listener's mood.",
     },
   ];
 

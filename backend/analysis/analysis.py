@@ -102,7 +102,7 @@ def visualize_features(features_dict):
         polar=dict(
             radialaxis=dict(range=[0, 10], gridcolor='white', gridwidth=3, showticklabels=False,
                             nticks=7, tickfont=dict(family='Helvetica', size=20)),
-            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=25)),
+            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=30)),
             bgcolor='#160620',
             gridshape='linear'
         ),
@@ -110,8 +110,8 @@ def visualize_features(features_dict):
         #margin=dict(t=40, b=40)
     )
     fig.update_polars(angularaxis_direction='clockwise')
-    # width must be bigger than height
-    image = pio.to_image(fig, format='png', width=860, height=860, validate=True, engine='kaleido')
+
+    image = pio.to_image(fig, format='png', width=1080, height=980, validate=True, engine='kaleido')
     return image, best_examples
 
 

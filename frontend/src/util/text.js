@@ -2,7 +2,7 @@ const featureDescriptions = [
     {
       name: 'Acousticness',
       text:
-        'This tells you how much a song uses acoustic instruments instead of electronic ones. A higher value means it sounds more natural and calm.'
+        'This tells you how much a song uses acoustic instruments instead of electronic ones. A higher acousticness value indicates a more organic and natural sound, often lending a mellow and intimate vibe to the music.'
     },
     {
       name: 'Danceability',
@@ -22,7 +22,7 @@ const featureDescriptions = [
     {
       name: 'Liveness',
       text:
-        "It reflects the sense of immediacy and connection in a song, as if it were recorded in front of a live audience. Higher values suggest a live recording or concert performance, adding authenticity and engagement to the music.",
+        "It reflects the sense of connection in a song, as if it were recorded in front of a live audience. Higher values suggest a live recording or concert performance, adding authenticity and engagement to the music.",
     },
     {
       name: 'Loudness',

@@ -164,11 +164,13 @@ def recommendations():
 def rose_chart():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
+        image, best, features_dict = analysis.visualize_features(spotify.get_audio_features(auth_header))
         new_best = spotify.new_dict_track_by_features(auth_header, best)
+
         return make_response(jsonify({
             "image": base64.b64encode(image).decode('utf-8'),
-            "best": new_best
+            "best": new_best,
+            "features_dict": features_dict
         }), 200)
     else:
         res = make_response("token not in session", 401)

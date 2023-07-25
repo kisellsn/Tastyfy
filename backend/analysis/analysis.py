@@ -78,6 +78,7 @@ def visualize_genres_barchart(genres_complex_list):
 def visualize_features(features_dict):
     features = pd.DataFrame.from_dict(features_dict)
     feature_names, feature_means, best_examples = collect_means(features)
+    features_dict = dict(zip(feature_names, feature_means))
     feature_names.append(feature_names[0])
     feature_means.append(feature_means[0])
 
@@ -100,7 +101,7 @@ def visualize_features(features_dict):
         paper_bgcolor='rgba(0, 0, 0, 0)',
         showlegend=False,
         polar=dict(
-            radialaxis=dict(range=[0, 10], gridcolor='white', gridwidth=3, showticklabels=False,
+            radialaxis=dict(range=[0, 100], gridcolor='white', gridwidth=3, showticklabels=False,
                             nticks=7, tickfont=dict(family='Helvetica', size=20)),
             angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=30)),
             bgcolor='#160620',
@@ -111,7 +112,7 @@ def visualize_features(features_dict):
     fig.update_polars(angularaxis_direction='clockwise')
 
     image = pio.to_image(fig, format='png', width=1080, height=980, validate=True, engine='kaleido')
-    return image, best_examples
+    return image, best_examples, features_dict
 
 
 def get_smarter_recommendations(playlist_tracks):
@@ -133,7 +134,7 @@ def collect_means(features):
 
     features = features[names]
     features['loudness'] = (features['loudness'] + 60)/60
-    features[features.select_dtypes(include=['number']).columns] *= 10
+    features[features.select_dtypes(include=['number']).columns] *= 100
 
     means = get_means(names, features)
     best_examples = get_best_examples(names, features)

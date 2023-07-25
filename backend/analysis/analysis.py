@@ -110,7 +110,7 @@ def visualize_features(features_dict):
         #margin=dict(t=40, b=40)
     )
     fig.update_polars(angularaxis_direction='clockwise')
-
+    # width must be bigger than height
     image = pio.to_image(fig, format='png', width=860, height=860, validate=True, engine='kaleido')
     return image, best_examples
 

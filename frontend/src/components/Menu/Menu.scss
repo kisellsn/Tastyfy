@@ -456,13 +456,14 @@
   width: 100%;
 
   text-decoration: underline;
-  gap: 5%;
+  gap: 7%;
   align-items: center;
   justify-content: center;
   h4 {
     color: rgba(255, 255, 255, 0.35); /* Set the initial color for all elements */
     text-decoration: underline;
     cursor: pointer; /* Change cursor to pointer when hovering over the elements */
+    font-size: 1.5vw;
   }
   
   h4.active {
@@ -471,7 +472,7 @@
 }
 
 .smallHeight{
-  max-height: 8rem;
+  max-height: 9rem;
 }
 
 

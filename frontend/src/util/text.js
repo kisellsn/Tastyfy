@@ -7,17 +7,17 @@ const featureDescriptions = [
     {
       name: 'Danceability',
       text:
-        "It shows how suitable a song is for dancing based on its rhythm and tempo. Higher scores mean the song has a catchy beat and is great for getting people moving.",
+        "Reflecting the song's rhythm and tempo, danceability quantifies how suitable a track is for dancing.. Higher scores mean the song has a catchy beat and is great for getting people moving.",
     },
     {
       name: 'Energy',
       text:
-        "This measures how intense and lively a song is. A high-energy score means it's powerful and full of energy, often seen in genres like rock, pop, or EDM. Lower values suggest more relaxed and peaceful tunes.",
+        "This measures how intense and lively a song is. A high-energy score is powerful and full of energy, often seen in genres like rock, pop, or EDM. Lower values suggest more relaxed and peaceful tunes.",
     },
     {
       name: 'Instrumentalness',
       text:
-        "This shows whether a song has vocals or is mainly instrumental. Higher instrumentalness values mean it has limited or no vocals, making it popular for relaxation, studying, or focus-related activities.",
+        "This shows whether a song has vocals or is primarily instrumental. Higher values mean it has limited or no vocals, making it popular for relaxation, studying, or focus-related activities.",
     },
     {
       name: 'Liveness',
@@ -27,7 +27,7 @@ const featureDescriptions = [
     {
       name: 'Loudness',
       text:
-        "This feature measures the overall volume of a song. Higher loudness values mean it's louder and more compressed, often found in modern and commercial music. Lower values indicate a more dynamic and nuanced sound, common in certain classical or jazz compositions.",
+        "This feature measures the overall volume of a song. Higher loudness is often found in modern music, while lower values indicate a more dynamic sound common in certain classical or jazz music.",
     },
     {
       name: 'Happiness',

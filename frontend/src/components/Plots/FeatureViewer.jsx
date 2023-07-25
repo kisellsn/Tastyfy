@@ -42,7 +42,7 @@ const FeatureViewer = ({ features, featuresPersent }) => {
             <img className="arrowImg" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
             <div className='textBody'>
                 <div className='texBody-text'>
-                  <p>Your value for this feature is {currentText}%.</p>
+                  <p>Your personal value for this feature is {currentText}%.</p>
                   <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
                 </div>
                 <div className='texBody-example'>

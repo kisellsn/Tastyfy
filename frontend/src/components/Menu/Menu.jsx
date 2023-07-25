@@ -1,5 +1,4 @@
 import { React, useEffect, useMemo, useState } from 'react';
-import avatar from '../../assets/images/menu/avatar.png'
 import './Menu.scss';
 import Song1 from './Song1';
 import Song2 from './Song2';
@@ -11,6 +10,7 @@ import PlotSircle from '../Plots/PlotSircle';
 import PlotTop from '../Plots/PlotTop';
 import PlotWeb from '../Plots/PlotWeb';
 import FeatureViewer from '../Plots/FeatureViewer';
+import Header from '../Header/Header';
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState('');
@@ -126,20 +126,7 @@ function Menu(props) {
   };
   return (
     <div id='analytics' className={props.className}>
-      <div id='header'>
-        <div id='headTastyfy'>Tastyfy</div>
-        <div id='menu'>
-          <div className='menuItem'>Analytics</div>
-          <div className='menuItem PG'>Playlist Generator</div>
-        </div>
-        <img 
-          id='avatar' 
-          src={url || avatar} 
-          loading="lazy" 
-          alt={'Avatar'} 
-          onClick={linkUser}
-        />
-      </div>
+      <Header url={url}  linkUser={linkUser}/>
       <div id='analyze'>
         <div className='musicContainer'>
           <div id='titleA'><h4>Your music results</h4></div>

@@ -6,10 +6,11 @@ import arrowRight from 'src/assets/images/arrow-right.png';
 import arrowLeft from 'src/assets/images/arrow-left.png';
 import noimage from 'src/assets/images/NOimage.png';
 
-const FeatureViewer = ({ features }) => {
+const FeatureViewer = ({ features, featuresPersent }) => {
   const featureArray = Object.keys(features);
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
   const [currentValue, setCurrentValue] = useState({}); 
+  const [currentText, setCurrentText] = useState({}); 
 
   const switchToNextFeature = () => {
     setCurrentFeatureIndex((prevIndex) => (prevIndex + 1) % featureArray.length);
@@ -28,7 +29,9 @@ const FeatureViewer = ({ features }) => {
 
   useEffect(() => {
     setCurrentValue(features[featureArray[currentFeatureIndex]]);
-  }, [currentFeatureIndex, features, featureArray]);
+    setCurrentText(featuresPersent[featureArray[currentFeatureIndex]]);
+
+  }, [currentFeatureIndex, features, featureArray, featuresPersent]);
 
   return (
     <FeatureWrapper>
@@ -39,7 +42,8 @@ const FeatureViewer = ({ features }) => {
             <img className="arrowImg" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
             <div className='textBody'>
                 <div className='texBody-text'>
-                    <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
+                  <p>Your value for this feature is {currentText}%.</p>
+                  <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
                 </div>
                 <div className='texBody-example'>
                   {currentValue ? (
@@ -49,7 +53,6 @@ const FeatureViewer = ({ features }) => {
                       allowFullScreen="" 
                       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                       loading="lazy">
-
                     </iframe>
                   ) : (
                     <img className='teimg' src={currentValue?.album.images[0].url || noimage} alt="Song"/>

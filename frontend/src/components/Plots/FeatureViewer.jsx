@@ -117,6 +117,7 @@ const FeatureWrapper = styled.div`
 
         .textBody{
             position: relative;
+            padding-top: 5%;
             text-align: justify;
             display: flex;
             flex-direction: row;

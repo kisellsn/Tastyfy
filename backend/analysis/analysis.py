@@ -106,8 +106,7 @@ def visualize_features(features_dict):
             bgcolor='#160620',
             gridshape='linear'
         ),
-        font=dict(color='white'),
-        #margin=dict(t=40, b=40)
+        font=dict(color='white')
     )
     fig.update_polars(angularaxis_direction='clockwise')
 

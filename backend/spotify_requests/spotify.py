@@ -326,15 +326,13 @@ def create_playlist(auth_header, user_id, name,description=None):
         return matching_playlist["id"]
     return resp.json()["id"]
 
-def set_image(auth_header, playlist_id):
+def set_image(auth_header, playlist_id, image):
     url = "{}/{playlists}/{id}/{images}".format(SPOTIFY_API_URL, id=playlist_id, playlists="playlists",
                                                        images="images")
     auth_header["Content-Type"] = "image/jpeg"
-    with open('static/imgs/image.jpg', 'rb') as image_file:
-        encoded_image_data = base64.b64encode(image_file.read())
+    encoded_image_data = base64.b64encode(image)
 
-    encoded_image_string = encoded_image_data.decode('utf-8')
-    resp = requests.put(url, data=encoded_image_string, headers=auth_header)
+    resp = requests.put(url, data=encoded_image_data, headers=auth_header)
     print(resp)
     return resp
 

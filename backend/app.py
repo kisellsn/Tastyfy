@@ -154,7 +154,7 @@ def recommendations():
 
         else:
             recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2)
-            res = make_response(jsonify(recommendations["tracks"]), 200)
+            res = make_response(recommendations["tracks"], 200)
     else:
         res = make_response("token not in session", 401)
     return res
@@ -173,31 +173,65 @@ def rose_chart():
             "features_dict": features_dict
         }), 200)
     else:
-        res = make_response("token not in session", 401)
+        return make_response("token not in session", 401)
 
 
 
-@app.route('/api/search')
+@app.route('/api/search', methods='POST')
 def search():
     try:
         name = request.args['name']
         return make_search(name)
     except:
-        return render_template('search.html')
+        return make_response("no content", 204)
 def make_search(name):
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        data = spotify.search(auth_header, name)
-        api_url = data["track" + 's']['href']
+        data = spotify.search(auth_header, name, limit = 15)
         items = data["track" + 's']['items']
 
-        return jsonify({
+        return make_response(jsonify({
             "name": name,
-            "results": items,
-            "api_url":api_url
-        })
+            "results": items
+        }),200)
     return make_response("token not in session", 401)
 
+@app.route('/api/generated_tracks', methods='POST')
+def get_generated_tracks():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        tracks = request.args['tracks']
+        generated_tracks = spotify.generate_playlist_tracks(auth_header, tracks, limit = 19)
+
+
+        return make_response(generated_tracks["tracks"], 200)
+    return make_response("token not in session", 401)
+
+@app.route('/api/create_playlist', methods='POST')
+def create_playlist():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        name = request.args['name']
+        description = request.args['description']
+        user_id = request.args['user_id']
+        tracks = request.args['tracks']
+        playlist_id = spotify.create_playlist(auth_header, user_id, name, description)
+        spotify.add_tracks_to_playlist(auth_header, playlist_id, tracks)
+        return make_response(playlist_id, 201)
+    return make_response("token not in session", 401)
+
+@app.route('/api/set_playlist_image', methods='POST')
+def set_playlist_image():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        image = request.args['image']
+        playlist_id = request.args['playlist_id']
+        try:
+            spotify.set_image(auth_header, playlist_id, image)
+            return make_response("image is installed", 202)
+        except:
+            return make_response("bad request", 400)
+    return make_response("token not in session", 401)
 
 @app.route("/logout")
 def logout():

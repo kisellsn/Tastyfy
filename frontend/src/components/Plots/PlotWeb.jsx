@@ -36,17 +36,17 @@ function PlotWeb({features, setCurrentFeatureIndex}) {
   }, []);
 
   return (
-    <div style={{ width: '100%', position: 'relative'}}>
+    <div className="Web"style={{ width: '100%', position: 'relative'}}>
       {plotData ? (
         <>
           <img src={`data:image/jpeg;base64,${plotData}`} alt="Plot" style={{ width: '100%', position: 'relative'}}/>
-          <a title="Acousticness" onClick={handleMapClick} style={{top: "5%", left: "5%", width: "10%", height: "10%"}}></a>
-          <a title="Danceability" onClick={handleMapClick} style={{top: "15%", left: "15%", width: "10%", height: "10%"}}></a>
-          <a title="Energy" onClick={handleMapClick} style={{top: "25%", left: "25%", width: "10%", height: "10%"}}></a>
-          <a title="Happiness" onClick={handleMapClick} style={{top: "35%", left: "35%", width: "10%", height: "10%"}}></a>
-          <a title="Instrumentalness" onClick={handleMapClick} style={{top: "45%", left: "45%", width: "10%", height: "10%"}}></a>
-          <a title="Liveness" onClick={handleMapClick} style={{top: "55%", left: "55%", width: "10%", height: "10%"}}></a>
-          <a title="Loudness" onClick={handleMapClick} style={{top: "65%", left: "65%", width: "10%", height: "10%"}}></a>
+          <button  title="Acousticness" onClick={handleMapClick} style={{top: "5%", left: "40%"}}/>
+          <button title="Danceability" onClick={handleMapClick} style={{top: "22%", left: "77%"}}/>
+          <button title="Energy" onClick={handleMapClick} style={{top: "58%", left: "80%"}}/>
+          <button title="Happiness" onClick={handleMapClick} style={{top: "87%", left: "62%"}}/>
+          <button title="Instrumentalness" onClick={handleMapClick} style={{top: "87%", left: "12%"}}/>
+          <button title="Liveness" onClick={handleMapClick} style={{top: "58%", left: "0%"}}/>
+          <button title="Loudness" onClick={handleMapClick} style={{top: "22%", left: "5%"}}/>
          </>
       ) : (
 

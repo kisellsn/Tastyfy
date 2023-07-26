@@ -2,7 +2,7 @@ export const swipeRight = (set, index) => {
     let elem = document.getElementById("swipeContainer");
     let title = document.getElementById("swipeTitle");
     let pos = 0;
-    let id = setInterval(frame, 1);
+    let id = setInterval(frame, 0.1);
     let start = 0;
     let clipValue = 100;
 
@@ -13,7 +13,7 @@ export const swipeRight = (set, index) => {
             setTimeout(() => {
                 pos = -100;
                 clipValue = 100;
-                id = setInterval(frame, 1);
+                id = setInterval(frame, 0.1);
             }, 100);
         } else if (pos === 0 && start === 1) {
             clearInterval(id);
@@ -41,7 +41,7 @@ export const swipeLeft = (set, index) => {
     let elem = document.getElementById("swipeContainer");
     let title = document.getElementById("swipeTitle");
     let pos = 0;
-    let id = setInterval(frame, 1);
+    let id = setInterval(frame, 0.1);
     let start = 0;
     let clipValue = 0;
 
@@ -52,7 +52,7 @@ export const swipeLeft = (set, index) => {
             setTimeout(() => {
                 pos = -100;
                 clipValue = 0;
-                id = setInterval(frame, 1);
+                id = setInterval(frame, 0.1);
             }, 100);
         } else if (pos === 0 && start === 1) {
             clearInterval(id);

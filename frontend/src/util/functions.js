@@ -52,7 +52,7 @@ export const topDiagram = async() => {
 
 export const getText = async() => {
     try {
-        const response = await axios.get('/api/user/text');
+        const response = await axios.get('/api/user/genres_overview');
         return response.data;
     } catch (error) {
         console.error('Error', error);

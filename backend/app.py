@@ -117,8 +117,8 @@ def top_genres():
     else: res = make_response("token not in session", 401)
     return res
 
-@app.route('/api/user/text')
-def get_text():
+@app.route('/api/user/genres_overview')
+def get_genres_overview():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)

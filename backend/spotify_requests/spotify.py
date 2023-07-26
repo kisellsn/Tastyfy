@@ -297,15 +297,15 @@ def save_track(auth_header, tracks):
 #-----------------Generate Playlist-------------------------
 
 
-def generate_playlist_tracks(auth_header, tracks):
+def generate_playlist_tracks(auth_header, tracks, limit = 20):
 
     tracks_ids = ','.join([track["track"]['id'] for track in tracks['items'][0:5]])
     seed_tracks = "seed_tracks=" + tracks_ids
 
     seed_artists = "seed_artists="
     seed_genres = "seed_genres="
-    url = '{}?{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, seed_artists, seed_genres,
-                                         seed_tracks)
+    url = '{}?{}&{}&{}&limit={}'.format(RECOMMENDATIONS_ENDPOINT, seed_artists, seed_genres,
+                                         seed_tracks,limit)
 
     resp = requests.get(url, headers=auth_header)
     return resp.json()
@@ -338,7 +338,7 @@ def set_image(auth_header, playlist_id):
     print(resp)
     return resp
 
-def add_playlist_tracks(auth_header, playlist_id, tracks):
+def add_tracks_to_playlist(auth_header, playlist_id, tracks):
     uris = ','.join([track['uri'] for track in tracks['tracks']])
     url = "{}/{playlists}/{id}/{tracks}?{uris}".format(SPOTIFY_API_URL, id=playlist_id, playlists="playlists", tracks="tracks", uris="uris="+uris)
 

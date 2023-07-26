@@ -39,23 +39,15 @@ function PlotWeb({features, setCurrentFeatureIndex}) {
     <div style={{ width: '100%', position: 'relative'}}>
       {plotData ? (
         <>
-          <img 
-            src={`data:image/jpeg;base64,${plotData}`} 
-            alt="Plot" 
-            useMap="#workmap"
-            style={{position:'relative', width: '100%'}}
-              
-          />
-          <map name="workmap">
-            <area title="Acousticness" shape="rect" coords="458,78,282,47" alt="Acousticness" onClick={handleMapClick} href="#"/>
-            <area title="Danceability" shape="rect" coords="548,137,761,174" alt="Danceability" onClick={handleMapClick} href="#"/>
-            <area title="Energy" shape="rect" coords="548,366,761,403" alt="Energy" onClick={handleMapClick} href="#"/>
-            <area title="Happiness" shape="rect" coords="441,570,654,607" alt="Happiness" onClick={handleMapClick} href="#"/>
-            <area title="Instrumentalness" shape="rect" coords="89,572,302,610" alt="Instrumentalness" onClick={handleMapClick} href="#"/>
-            <area title="Liveness" shape="rect" coords="-21,363,193,401" alt="Liveness" onClick={handleMapClick} href="#"/>
-            <area title="Loudness" shape="rect" coords="224,184,49,139" alt="Loudness" onClick={handleMapClick} href="#"/>
-          </map>
-        </>
+          <img src={`data:image/jpeg;base64,${plotData}`} alt="Plot" style={{ width: '100%', position: 'relative'}}/>
+          <a title="Acousticness" onClick={handleMapClick} style={{top: "5%", left: "5%", width: "10%", height: "10%"}}></a>
+          <a title="Danceability" onClick={handleMapClick} style={{top: "15%", left: "15%", width: "10%", height: "10%"}}></a>
+          <a title="Energy" onClick={handleMapClick} style={{top: "25%", left: "25%", width: "10%", height: "10%"}}></a>
+          <a title="Happiness" onClick={handleMapClick} style={{top: "35%", left: "35%", width: "10%", height: "10%"}}></a>
+          <a title="Instrumentalness" onClick={handleMapClick} style={{top: "45%", left: "45%", width: "10%", height: "10%"}}></a>
+          <a title="Liveness" onClick={handleMapClick} style={{top: "55%", left: "55%", width: "10%", height: "10%"}}></a>
+          <a title="Loudness" onClick={handleMapClick} style={{top: "65%", left: "65%", width: "10%", height: "10%"}}></a>
+         </>
       ) : (
 
         <p style={{position:'relative'}}> <br/><br/>Loading plot data...</p>

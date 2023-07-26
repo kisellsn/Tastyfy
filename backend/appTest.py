@@ -64,7 +64,7 @@ def profile():
             rec.extend(item["track"] for item in track["items"])
 
         analysis.get_smarter_recommendations(rec)
-        image, best = analysis.visualize_features(spotify.get_audio_features(auth_header))
+        image, best, f = analysis.visualize_features(spotify.get_audio_features(auth_header))
         new_best = spotify.new_dict_track_by_features(auth_header, best)
 
 

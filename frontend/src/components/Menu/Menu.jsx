@@ -132,7 +132,7 @@ function Menu(props) {
       <Header url={url}  linkUser={linkUser}/>
       <div id='analyze'>
         <div className='musicContainer'>
-          <div id='titleA'><h4>Unveiling Your Top Music Genres/Genre Spotlight</h4></div>
+          <div id='titleA'><h4>Top Genres Spotlight</h4></div>
           <div id='info'>
             <div id='infoLeft'>
               <div id='textInfo' className='textBlock'>
@@ -150,7 +150,7 @@ function Menu(props) {
           </div>
         </div>
         <div className='topContainer'>
-          <div id='titleA' className='smallHeight'><h4>Top Artist</h4></div>
+          <div id='titleA' className='smallHeight'><h4>Favorite Artists Breakdown</h4></div>
           <div className='topMenu'>
             <h4 className={(topTerm === 'current' || topTerm === 'start') ? 'active' : ''} data-value='current' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Now</h4>
             <h4 className={(topTerm === 'short_term' || topTerm === 'start') ? 'active' : ''} data-value='short_term' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Week</h4>
@@ -176,7 +176,7 @@ function Menu(props) {
           </div>
         </div>
         <div className='featureContainer'>
-          <div id='titleA'><h4>Top Features</h4></div>
+          <div id='titleA'><h4>Exploring Peak Features</h4></div>
           <div id='info'>
             <div id='flex-half'>
               <div className='featureInfo'>
@@ -195,7 +195,7 @@ function Menu(props) {
           </div>
         </div>
         <div className='recommendationContainer'>
-          <div id='titleA'><h4>Recommendations from selected region</h4></div>
+          <div id='titleA'><h4>Recommendations Worldwide</h4></div>
           <div id='listing'>
             <div className='countries' >
               <Select options={options} value={value} onChange={(changeHandler)} 

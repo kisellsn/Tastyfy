@@ -14,8 +14,6 @@
     overflow: hidden;
 }
 
-
-  
   #VectorSmartObject1 {
     width: 170%;
     top: -40%;
@@ -24,9 +22,6 @@
     opacity: 0.3;
     transform: scale(1);
     transform-origin: bottom left;
-    -webkit-animation: changeSize 20s linear infinite;
-    -moz-animation: changeSize 20s linear infinite;
-    -ms-animation: changeSize 20s linear infinite;
     animation: changeSize 20s linear infinite;
   }
 
@@ -208,63 +203,6 @@
       }
   }
 
-          
-@-webkit-keyframes changeSize {
-    0% {
-        transform: scale(1);
-        transform-origin: bottom left;
-    }
-    40% {
-        transform: scale(0.91);
-        transform-origin: bottom left;
-    }
-    60% {
-        transform: scale(1.23);
-        transform-origin: top right;
-    }
-    100% {
-        transform: scale(1);
-        transform-origin: top right;
-    }
-}
-        
-@-moz-keyframes changeSize {
-    0% {
-        transform: scale(1);
-        transform-origin: bottom left;
-    }
-    40% {
-        transform: scale(0.91);
-        transform-origin: bottom left;
-    }
-    60% {
-        transform: scale(1.23);
-        transform-origin: top right;
-    }
-    100% {
-        transform: scale(1);
-        transform-origin: top right;
-    }
-}
-        
-@-ms-keyframes changeSize {
-    0% {
-        transform: scale(1);
-        transform-origin: bottom left;
-    }
-    40% {
-        transform: scale(0.91);
-        transform-origin: bottom left;
-    }
-    60% {
-        transform: scale(1.23);
-        transform-origin: top right;
-    }
-    100% {
-        transform: scale(1);
-        transform-origin: top right;
-    }
-}
 
 @keyframes changeSize {
     0% {

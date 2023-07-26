@@ -222,7 +222,7 @@
 }
 
 .song_content > div {
-  flex-basis: calc(33.33% - 10%);
+  flex-basis: 23.33%;
 }
 
 
@@ -474,6 +474,14 @@
 
 .smallHeight{
   max-height: 9rem;
+}
+map{
+  width: 100%;
+  height: 100%;
+  area {
+    width: 10rem;
+    height: 2rem;
+  }
 }
 
 

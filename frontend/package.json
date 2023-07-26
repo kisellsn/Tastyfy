@@ -15,6 +15,7 @@
     "axios": "^1.4.0",
     "gatsby": "^5.11.0",
     "i18n-iso-countries": "^7.6.0",
+    "image-map-resizer": "^1.0.10",
     "node-sass": "^7.0.3",
     "plotly.js": "^2.23.2",
     "react": "^18.2.0",

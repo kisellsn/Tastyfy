@@ -1,4 +1,4 @@
-export const swipeRight = (set, index) => {
+export const swipeLeft = (set, index) => {
     let elem = document.getElementById("swipeContainer");
     let title = document.getElementById("swipeTitle");
     let pos = 0;
@@ -37,7 +37,7 @@ export const swipeRight = (set, index) => {
     }
 };
 
-export const swipeLeft = (set, index) => {
+export const swipeRight = (set, index) => {
     let elem = document.getElementById("swipeContainer");
     let title = document.getElementById("swipeTitle");
     let pos = 0;

@@ -5,10 +5,12 @@ import styled from "styled-components";
 import arrowRight from 'src/assets/images/arrow-right.png';
 import arrowLeft from 'src/assets/images/arrow-left.png';
 import noimage from 'src/assets/images/NOimage.png';
+// import Swiper from 'swiper'; // Import Swiper JS
 
-const FeatureViewer = ({ features, featuresPersent }) => {
+
+const FeatureViewer = ({ features, featuresPersent, currentFeatureIndex, setCurrentFeatureIndex }) => {
   const featureArray = Object.keys(features);
-  const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  // const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
   const [currentValue, setCurrentValue] = useState({}); 
   const [currentText, setCurrentText] = useState({}); 
 
@@ -33,13 +35,14 @@ const FeatureViewer = ({ features, featuresPersent }) => {
 
   }, [currentFeatureIndex, features, featureArray, featuresPersent]);
 
+
   return (
     <FeatureWrapper>
       {currentFeature ? (
         <div className='FWContainer'>
           <h3>{currentFeature}</h3>
           <div className='middleBody'>
-            <img className="arrowImg" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
+            <img className="arrowImg swiper-button-next" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
             <div className='textBody'>
                 <div className='texBody-text'>
                   <p>Your personal value for this feature is {currentText}%.</p>
@@ -59,7 +62,7 @@ const FeatureViewer = ({ features, featuresPersent }) => {
                   )}
                 </div>
             </div>
-            <img className="arrowImg" src={arrowRight} onClick={switchToNextFeature} alt='Arrow right'/>
+            <img className="arrowImg swiper-button-prev" src={arrowRight} onClick={switchToNextFeature} alt='Arrow right'/>
           </div>
           <CircleWrapper>
             {featureArray.map((feature, index) => (

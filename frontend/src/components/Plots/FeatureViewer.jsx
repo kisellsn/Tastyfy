@@ -5,6 +5,7 @@ import styled from "styled-components";
 import arrowRight from 'src/assets/images/arrow-right.png';
 import arrowLeft from 'src/assets/images/arrow-left.png';
 import noimage from 'src/assets/images/NOimage.png';
+import { swipeLeft, swipeRight } from 'src/util/swiper';
 // import Swiper from 'swiper'; // Import Swiper JS
 
 
@@ -14,20 +15,24 @@ const FeatureViewer = ({ features, featuresPersent, currentFeatureIndex, setCurr
   const [currentValue, setCurrentValue] = useState({}); 
   const [currentText, setCurrentText] = useState({}); 
 
+
   const switchToNextFeature = () => {
-    setCurrentFeatureIndex((prevIndex) => (prevIndex + 1) % featureArray.length);
+    let newIndex = (prevIndex) => (prevIndex + 1) % featureArray.length;
+    swipeRight(setCurrentFeatureIndex, newIndex);
+    // setCurrentFeatureIndex();
   };
 
   const switchToPreviousFeature = () => {
-    setCurrentFeatureIndex((prevIndex) =>
-      prevIndex === 0 ? featureArray.length - 1 : prevIndex - 1
-    );
+    let newIndex = (prevIndex) => prevIndex === 0 ? featureArray.length - 1 : prevIndex - 1;
+    swipeLeft(setCurrentFeatureIndex, newIndex);
+
   };
 
   const currentFeature = featureArray[currentFeatureIndex];
   const currentFeatureDescription = featureDescriptions.find(
     (feature) => feature.name === currentFeature
   );
+
 
   useEffect(() => {
     setCurrentValue(features[featureArray[currentFeatureIndex]]);
@@ -40,10 +45,10 @@ const FeatureViewer = ({ features, featuresPersent, currentFeatureIndex, setCurr
     <FeatureWrapper>
       {currentFeature ? (
         <div className='FWContainer'>
-          <h3>{currentFeature}</h3>
-          <div className='middleBody'>
-            <img className="arrowImg swiper-button-next" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
-            <div className='textBody'>
+          <div id="swipeTitle" style={{position: 'relative'}}><h3>{currentFeature}</h3></div>
+          <div className='middleBody mySwiper' >
+            <img className="arrowImg" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
+            <div className='textBody' id="swipeContainer">
                 <div className='texBody-text'>
                   <p>Your personal value for this feature is {currentText}%.</p>
                   <p>{currentFeatureDescription?.text || 'Description not available.'}</p>

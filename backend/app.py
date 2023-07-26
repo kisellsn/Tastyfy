@@ -177,7 +177,7 @@ def rose_chart():
 
 
 
-@app.route('/api/search', methods='POST')
+@app.route('/api/search', methods=['POST'])
 def search():
     try:
         name = request.args['name']
@@ -196,7 +196,7 @@ def make_search(name):
         }),200)
     return make_response("token not in session", 401)
 
-@app.route('/api/generated_tracks', methods='POST')
+@app.route('/api/generated_tracks', methods=['POST'])
 def get_generated_tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -207,7 +207,7 @@ def get_generated_tracks():
         return make_response(generated_tracks["tracks"], 200)
     return make_response("token not in session", 401)
 
-@app.route('/api/create_playlist', methods='POST')
+@app.route('/api/create_playlist', methods=['POST'])
 def create_playlist():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -220,7 +220,7 @@ def create_playlist():
         return make_response(playlist_id, 201)
     return make_response("token not in session", 401)
 
-@app.route('/api/set_playlist_image', methods='POST')
+@app.route('/api/set_playlist_image', methods=['POST'])
 def set_playlist_image():
     if 'auth_header' in session:
         auth_header = session['auth_header']

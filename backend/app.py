@@ -180,17 +180,11 @@ def rose_chart():
 
 @app.route('/api/search', methods=['POST'])
 def search():
-    try:
-        name = request.args['name']
-        return make_search(name)
-    except:
-        return make_response("no content", 204)
-def make_search(name):
     if 'auth_header' in session:
+        name = request.args['name']
         auth_header = session['auth_header']
         data = spotify.search(auth_header, name, limit = 15)
         items = data["track" + 's']['items']
-
         return make_response(items,200)
     return make_response("token not in session", 401)
 

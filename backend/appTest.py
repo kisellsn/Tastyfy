@@ -19,7 +19,7 @@ def auth():
 @app.route("/callback/")
 def callback():
     auth_token = request.args['code']
-    auth_header,refresh_header = spotify.authorize(auth_token)
+    auth_header,refresh_header,ex = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
     session['refresh_token']=refresh_header
     #return jsonify({
@@ -67,7 +67,10 @@ def profile():
         image, best, f = analysis.visualize_features(spotify.get_audio_features(auth_header))
         new_best = spotify.new_dict_track_by_features(auth_header, best)
 
-
+        data = spotify.search(auth_header, "poor infoturnate soul ", limit=15)
+        print(data)
+        items = data["track" + 's']['items']
+        print(items)
 
         if valid_token(recently_played):
             return jsonify({

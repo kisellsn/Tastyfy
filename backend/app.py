@@ -190,10 +190,7 @@ def make_search(name):
         data = spotify.search(auth_header, name, limit = 15)
         items = data["track" + 's']['items']
 
-        return make_response(jsonify({
-            "name": name,
-            "results": items
-        }),200)
+        return make_response(items,200)
     return make_response("token not in session", 401)
 
 @app.route('/api/generated_tracks', methods=['POST'])

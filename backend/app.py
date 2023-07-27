@@ -218,11 +218,8 @@ def set_playlist_image():
         auth_header = session['auth_header']
         image = request.args['image']
         playlist_id = request.args['playlist_id']
-        try:
-            spotify.set_image(auth_header, playlist_id, image)
-            return make_response("image is installed", 202)
-        except:
-            return make_response("bad request", 400)
+        spotify.set_image(auth_header, playlist_id, image)
+        return make_response("image is installed", 202)
     return make_response("token not in session", 401)
 
 @app.route("/logout")

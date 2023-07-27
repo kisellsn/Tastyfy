@@ -87,11 +87,11 @@ def authorize(auth_token):
     response_data = json.loads(post_request.text)
     access_token = response_data["access_token"]
     refresh_token = response_data["refresh_token"]
-
+    expires_in = response_data["expires_in"]
     # use the access token to access Spotify API
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     refresh_header = {"Authorization": "Bearer {}".format(refresh_token)}
-    return auth_header,refresh_header
+    return auth_header,refresh_header,expires_in
 
 
 

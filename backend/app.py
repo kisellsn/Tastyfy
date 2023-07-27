@@ -21,9 +21,10 @@ def auth():
 def callback():
     if 'code' in request.args:
         auth_token = request.args['code']
-        auth_header, refresh_header = spotify.authorize(auth_token)
+        auth_header, refresh_header, expires_in = spotify.authorize(auth_token)
         session['auth_header'] = auth_header
         session['refresh_token'] = refresh_header
+        session['expires_in'] = expires_in
         return redirect("http://localhost:3000/menu")
     return redirect("http://localhost:3000/")
 

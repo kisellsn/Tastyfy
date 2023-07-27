@@ -16,21 +16,6 @@ function Login(props) {
       console.error('Authentication failed', error);
     }
   };
-  // useEffect(() => {
-  //   const handleWindowLoad = () => {
-  //     const screenHeight = window.innerHeight;
-  //     const mainElement = document.getElementById('main');
-  //     if (mainElement) {
-  //       mainElement.style.minHeight = screenHeight + 'px';
-  //     }
-  //   };
-
-  //   window.addEventListener('load', handleWindowLoad);
-
-  //   return () => {
-  //     window.removeEventListener('load', handleWindowLoad);
-  //   };
-  // }, []);
 
   return (
     <div id='main' className={props.className}>

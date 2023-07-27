@@ -8,7 +8,8 @@ import Footer from "./components/Footer/footer";
 import About from './components/About/About';
 import Menu from './components/Menu/Menu';
 import Privacy from './components/Privacy/Privacy';
-import PlotComponent from './components/Plots/PlotSircle';
+import PlaylistGenerator from './components/PlaylistGenerator/PlaylistGenerator';
+
 
 function App() {
 
@@ -19,9 +20,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/playlists" element={<PlaylistGenerator />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<Privacy />} />
-              <Route path="/plot" element={<PlotComponent />} />
             </Routes>
             <Footer />
           </ThemeProvider>

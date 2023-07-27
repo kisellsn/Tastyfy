@@ -4,7 +4,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import VectorImage from 'src/assets/images/start1_Vector.png';
 import './footer.scss';
 import axios from 'axios';
-
+import { clearLocalStorage } from 'src/util/local';
 
 
 function Footer() {
@@ -13,6 +13,7 @@ function Footer() {
     const handleLogOut = async () => {
         try {
           await axios.get('/logout');
+          clearLocalStorage();
           navigate('/');
         } catch (error) {
           console.error('Error', error);

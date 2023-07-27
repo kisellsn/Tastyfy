@@ -1,0 +1,142 @@
+#generator{
+    background: rgb(16, 0, 35);
+    mix-blend-mode: hard-light;
+    display: flex;
+    position: relative;
+    isolation: isolate;
+    flex-direction: column;
+
+    min-height: 55vw;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-attachment: fixed;
+    
+
+    #circle1{
+        position:absolute;
+        background-color: rgba(66, 7, 87, 0.5);
+        filter: blur(3rem);
+        width: 54%;
+        aspect-ratio: 1030/896;
+        top:-27%;
+        left:-15%;
+        border-radius: 100%;
+        z-index:1;
+    }
+    #circle2{
+        position:absolute;
+        background-color: rgba(8, 61, 3, 0.5);
+        filter: blur(3rem);
+        width: 67%;
+        aspect-ratio: 1283/1003;
+        top:-18%;
+        left:67%;
+        border-radius: 100%;
+        z-index:1;
+    }
+    #circle3{
+        position:absolute;
+        background-color: rgba(8, 3, 61, 0.5);
+        filter: blur(3rem);
+        width: 67%;
+        aspect-ratio: 1283/1003;
+        top:55%;
+        left:12%;
+        border-radius: 100%;
+        z-index:1;
+    }
+    .body{
+        text-align: center;
+        width:100%;
+        padding-top: 2%;
+        color:white;
+
+        .playlistContainer{
+            color:white;
+            position: relative;
+            padding:0 3% 0 3%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            .searching{
+                color:white;
+                margin-bottom:2%;
+                display: flex;
+                form {
+                    display: flex;
+                    justify-content: space-between;
+                    flex-basis:63%;
+                    aspect-ratio: 1150/70;
+                    border-radius: 40px;
+                    background-color: rgba(100, 65, 144, 0.28);
+                    align-items: center;
+                    svg{
+                        padding:  0% 2% 0% 2%;
+                        cursor: pointer;
+                        z-index: 2;
+                    }
+
+                    input {
+                        background-color: transparent;
+                        border-color: transparent;
+                        display: flex;
+                        z-index:2;
+                        border:none;
+                        padding: 0;
+                        color: white;
+                        width:85%;
+                        height: 100%;
+                        font-size: 1.3vw;
+                        font-family: Sansation;
+
+                        &:focus {
+                            outline: none;
+                          }
+                    }
+
+                }
+            }
+            .searchSong{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                position: relative;
+                align-items: stretch;
+                .songList{
+                    position: relative;
+                    background-color: rgba(217, 217, 217, 0.14);
+                    border-radius: 45px;
+                }
+
+            }
+
+            .done{
+                margin:3%;
+                z-index: 2;
+                button{
+                    z-index: 2;
+                    width:16%;
+                    aspect-ratio: 297/60;
+                    border:none;
+                    font-family: Sansation;
+                    border-radius: 30px;
+                    background-color: rgba(65, 18, 77, 0.79);
+                    color: white;
+                    font-size: 1.3vw;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .flex-two{
+        flex-basis:63%;
+        aspect-ratio: 1121/560;
+    }
+    .flex-one{
+        flex-basis:33%;
+    }
+
+}

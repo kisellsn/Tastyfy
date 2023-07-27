@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useState } from 'react';
+import { React, useEffect, useMemo, useRef, useState } from 'react';
 import './Menu.scss';
 import Song1 from './Song1';
 import Song2 from './Song2';
@@ -11,22 +11,50 @@ import PlotTop from '../Plots/PlotTop';
 import PlotWeb from '../Plots/PlotWeb';
 import FeatureViewer from '../Plots/FeatureViewer';
 import Header from '../Header/Header';
+import { clearLocalStorage, getTokenFromStorage, getUserFromStorage, storeToken, storeUser } from 'src/util/local';
+
+
 
 function Menu(props) {
-  const [userInfo, setUserInfo] = useState('');
-  const [userName, setUserName] = useState('');
-  const navigate = useNavigate();
+
+  const startRef = useRef(Date.now());
   useEffect(() => {
-    if (userName) return;
+    if(getTokenFromStorage()) return;
     getToken().then(token => {
       if (!token.Authorization) navigate('/');
+      storeToken(token);
     })
     registerSpotify().then(user => {
       if (!user) navigate('/');
+      storeUser(user);
       setUserInfo(user);
-      setUserName(user.display_name);
     });
   })
+
+  const [userInfo, setUserInfo] = useState(getUserFromStorage());
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthorization = () => {
+      const token = getTokenFromStorage();
+      if (Date.now() - startRef > 3600000) {
+        clearLocalStorage();
+        navigate('/');
+      } else {
+        storeToken(token);
+      }
+    };
+    const fetchSpotifyUser = async() => {
+      const user = getUserFromStorage();
+      if (user) {
+        setUserInfo(user);
+      }
+    };
+    checkAuthorization(); 
+    fetchSpotifyUser();
+
+  }, [navigate]);
+
 
   const [value, setValue] = useState('')
   const [rec, setRec] = useState([])
@@ -121,7 +149,7 @@ function Menu(props) {
   }, []);
   
   let url = ''
-  if (userInfo.images) url=userInfo.images[0].url
+  if (userInfo?.images) url=userInfo.images[0].url
 
   const linkUser = () => {
     const url = userInfo.external_urls.spotify;
@@ -129,7 +157,7 @@ function Menu(props) {
   };
   return (
     <div id='analytics' className={props.className}>
-      <Header url={url}  linkUser={linkUser}/>
+      <Header url={url}  linkUser={linkUser} back={"rgb(26, 0, 36)"}/>
       <div id='analyze'>
         <div className='musicContainer'>
           <div id='titleA'><h4>Top Genres Spotlight</h4></div>

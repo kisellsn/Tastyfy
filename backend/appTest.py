@@ -68,9 +68,15 @@ def profile():
         new_best = spotify.new_dict_track_by_features(auth_header, best)
 
         data = spotify.search(auth_header, "poor infoturnate soul ", limit=15)
-        print(data)
-        items = data["track" + 's']['items']
-        print(items)
+        items = data["track" + 's']["items"]
+
+        generated_tracks = spotify.generate_playlist_tracks(auth_header, items, limit=19)
+        print(generated_tracks)
+        playlist_id = spotify.create_playlist(auth_header, profile_data["id"], "name", "description")
+        print(playlist_id)
+        spotify.add_tracks_to_playlist(auth_header, playlist_id, generated_tracks["tracks"])
+
+
 
         if valid_token(recently_played):
             return jsonify({

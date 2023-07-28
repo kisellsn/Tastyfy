@@ -1,6 +1,7 @@
 import base64
 import json
 import webbrowser
+from datetime import timedelta
 
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
 from backend.spotify_requests import spotify
@@ -9,7 +10,7 @@ from backend.analysis import analysis
 # from flask_cors import CORS
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
-
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
 # CORS(app)
 # ----------------------- AUTH -------------------------
@@ -30,6 +31,7 @@ def callback():
         session['auth_header'] = auth_header
         session['refresh_token'] = refresh_header
         session['expires_at'] = expires_at
+        session.permanent = True
     resp = make_response("http://localhost:3000/menu", 200)
     resp.set_cookie("session", "" , expires=session['expires_at'])
     return resp
@@ -45,8 +47,8 @@ def callback():
         resp = make_response(redirect("http://localhost:3000/menu"))
         resp.set_cookie("session", "", max_age=3600)
         return resp
-    return make_response(redirect("http://localhost:3000/"))"""
-
+    return make_response(redirect("http://localhost:3000/"))
+"""
 def valid_token(resp):
     return resp is not None and not 'error' in resp
 

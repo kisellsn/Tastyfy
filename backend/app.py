@@ -31,11 +31,11 @@ def callback():
         session['auth_header'] = auth_header
         session['refresh_token'] = refresh_header
         session['expires_in'] = expires_in
+        return
     #elif request.method == 'GET':
-        resp = make_response(session['auth_header'], 200)
-        resp.set_cookie("session", "" , max_age=expires_in)
-        return resp
-    else: return make_response("http://localhost:3000/", 400)
+    resp = make_response(session['auth_header'], 200)
+    resp.set_cookie("session", "" , max_age=session['expires_in'])
+    return resp
 """
 @app.route("/callback/")
 def callback():

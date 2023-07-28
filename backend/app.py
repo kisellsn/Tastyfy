@@ -183,8 +183,11 @@ def search():
     if 'auth_header' in session:
         name = request.args['name']
         auth_header = session['auth_header']
+        print(name, "\n", auth_header)
         data = spotify.search(auth_header, name, limit = 15)
         items = data["track" + 's']['items']
+        print(data)
+        print(items)
         return make_response(items,200)
     return make_response("token not in session", 401)
 

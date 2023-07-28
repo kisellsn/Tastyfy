@@ -6,6 +6,7 @@ import sys
 import string
 import random
 from collections import Counter
+from datetime import datetime, timedelta
 
 try:
     import urllib.request, urllib.error
@@ -86,15 +87,14 @@ def authorize(auth_token):
     post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload,
                                  headers=headers)
 
-    # tokens are returned to the app
     response_data = json.loads(post_request.text)
     access_token = response_data["access_token"]
     refresh_token = response_data["refresh_token"]
     expires_in = response_data["expires_in"]
-    # use the access token to access Spotify API
+
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     refresh_header = {"Authorization": "Bearer {}".format(refresh_token)}
-    return auth_header, refresh_header, expires_in
+    return auth_header, refresh_header,  datetime.now() + timedelta(seconds=expires_in)
 
 
 # spotify endpoints

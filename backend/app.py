@@ -24,18 +24,20 @@ def auth():
 
 @app.route("/callback/", methods=('GET', 'POST'))
 def callback():
-    if request.method == 'POST' and 'code' in request.args:
+    #if request.method == 'POST' and 'code' in request.args:
+    if 'code' in request.args:
         auth_token = request.args['code']
         auth_header, refresh_header, expires_in = spotify.authorize(auth_token)
         session['auth_header'] = auth_header
         session['refresh_token'] = refresh_header
         session['expires_in'] = expires_in
-    elif request.method == 'GET':
-        resp = make_response("http://localhost:3000/menu", 200)
-        resp.set_cookie("session", "" , max_age=3600)
+    #elif request.method == 'GET':
+        resp = make_response(session['auth_header'], 200)
+        resp.set_cookie("session", "" , max_age=expires_in)
         return resp
     else: return make_response("http://localhost:3000/", 400)
-"""@app.route("/callback/")
+"""
+@app.route("/callback/")
 def callback():
     if 'code' in request.args:
         auth_token = request.args['code']
@@ -43,8 +45,10 @@ def callback():
         session['auth_header'] = auth_header
         session['refresh_token'] = refresh_header
         session['expires_in'] = expires_in
-        return redirect("http://localhost:3000/menu")
-    return redirect("http://localhost:3000/")"""
+        resp = make_response(redirect("http://localhost:3000/menu"))
+        resp.set_cookie("session", "", max_age=3600)
+        return resp
+    return make_response(redirect("http://localhost:3000/"))"""
 
 def valid_token(resp):
     return resp is not None and not 'error' in resp

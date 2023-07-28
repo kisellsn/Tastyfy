@@ -20,7 +20,7 @@ function Login(props) {
   React.useEffect(() => {
     const handleCallback = async () => {
       try {
-        const response2 = await axios.get('/api/callback');
+        const response2 = await axios.get('/callback');
         const { link2 } = response2.data;
         window.location.href = link2;
       } catch (error) {

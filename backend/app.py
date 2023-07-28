@@ -36,7 +36,7 @@ def callback():
     resp = make_response(redirect("frontend:"))
     resp.set_cookie("session", "" , expires=session['expires_at'])
     return resp
-"""
+
 """
 @app.route("/redirect", methods=('GET', 'POST'))
 def callback():
@@ -65,7 +65,7 @@ def callback():
         resp.set_cookie("session", "" , expires=session['expires_at'])
         return resp
     return make_response(redirect("http://localhost:3000/"))
-
+"""
 def valid_token(resp):
     return resp is not None and not 'error' in resp
 

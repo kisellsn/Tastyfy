@@ -4,11 +4,14 @@ import requests
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
-#from flask_cors import CORS
+
+# from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
-#CORS(app)
+
+
+# CORS(app)
 # ----------------------- AUTH -------------------------
 
 @app.route("/api/auth")
@@ -16,15 +19,15 @@ def auth():
     return redirect(spotify.AUTH_URL)
 
 
-@app.route("/callback/")
+@app.route("/callback/", methods=('GET', 'POST'))
 def callback():
     auth_token = request.args['code']
-    auth_header,refresh_header,ex = spotify.authorize(auth_token)
+    print(auth_token)
+    auth_header, refresh_header, expires_in = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
-    session['refresh_token']=refresh_header
-    #return jsonify({
-    #    "profile": url_for('profile')
-    #})
+    session['refresh_token'] = refresh_header
+    session['expires_in'] = expires_in
+    print(session['expires_in'])
     return redirect(url_for('profile'))
 
 
@@ -39,6 +42,7 @@ def valid_token(resp):
 def index():
     return redirect("/api/auth")
 
+
 @app.route('/api/profile')
 def profile():
     if 'auth_header' in session:
@@ -48,11 +52,9 @@ def profile():
 
         recently_played = spotify.get_recently_played(auth_header)
 
-
         genres = spotify.get_user_genres(auth_header)
         genre = analysis.convert_genres(genres).loc[0, 'Genre']
         country = "United States"
-
 
         print(genre)
         search = spotify.search(auth_header, name=f"{country} trending {genre}", search_type="playlist", limit=1)
@@ -76,8 +78,6 @@ def profile():
         print(playlist_id)
         spotify.add_tracks_to_playlist(auth_header, playlist_id, generated_tracks["tracks"])
 
-
-
         if valid_token(recently_played):
             return jsonify({
                 "user": profile_data,
@@ -88,12 +88,14 @@ def profile():
         "index": url_for('index')
     })
 
+
 def is_valid_json(obj):
     try:
         json.dumps(obj)
         return True
     except ValueError:
         return False
+
 
 @app.route('/api/search')
 def search():
@@ -102,6 +104,8 @@ def search():
         return make_search(name)
     except:
         return render_template('search.html')
+
+
 def make_search(name):
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -112,9 +116,10 @@ def make_search(name):
         return jsonify({
             "name": name,
             "results": items,
-            "api_url":api_url
+            "api_url": api_url
         })
     return redirect(url_for('index'))
+
 
 @app.route("/api/logout")
 def logout():

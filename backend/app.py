@@ -1,23 +1,41 @@
 import base64
+import json
 import webbrowser
 
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
-from flask_cors import CORS
+
+# from flask_cors import CORS
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
-CORS(app)
+
+
+# CORS(app)
 # ----------------------- AUTH -------------------------
 
 @app.route("/api/auth")
 def auth():
-     return jsonify({
-         "link": spotify.AUTH_URL
-     })
-     #return redirect(spotify.AUTH_URL)
+    return jsonify({
+        "link": spotify.AUTH_URL
+    })
+    # return redirect(spotify.AUTH_URL)
 
-@app.route("/callback/")
+
+@app.route("/callback/", methods=('GET', 'POST'))
+def callback():
+    if request.method == 'POST' and 'code' in request.args:
+        auth_token = request.args['code']
+        auth_header, refresh_header, expires_in = spotify.authorize(auth_token)
+        session['auth_header'] = auth_header
+        session['refresh_token'] = refresh_header
+        session['expires_in'] = expires_in
+    elif request.method == 'GET':
+        resp = make_response("http://localhost:3000/menu", 200)
+        resp.set_cookie("session", "" , max_age=3600)
+        return resp
+    else: return make_response("http://localhost:3000/", 400)
+"""@app.route("/callback/")
 def callback():
     if 'code' in request.args:
         auth_token = request.args['code']
@@ -26,19 +44,22 @@ def callback():
         session['refresh_token'] = refresh_header
         session['expires_in'] = expires_in
         return redirect("http://localhost:3000/menu")
-    return redirect("http://localhost:3000/")
-
+    return redirect("http://localhost:3000/")"""
 
 def valid_token(resp):
     return resp is not None and not 'error' in resp
+
 
 @app.route("/token")
 def get_code():
     if 'auth_header' in session:
         if valid_token(spotify.get_current_profile(session["auth_header"])):
-            return make_response(jsonify(session['auth_header']), 200)
+            response = make_response(jsonify(session['auth_header']), 200)
+
+            return response
     session.clear()
-    return make_response('the token has expired',403)
+    return make_response('the token has expired', 403)
+
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -56,7 +77,8 @@ def get_profile():
         res = make_response(profile_data, 200)
         # res.set_cookie('auth_header', auth_header)
 
-    else: res = make_response("token not in session", 401)
+    else:
+        res = make_response("token not in session", 401)
     return res
 
 
@@ -68,9 +90,9 @@ def diagram():
             data = request.json
             term = data.get('term')
             if term in ('medium_term', 'short_term', 'long_term'):
-                top = spotify.get_top_items(auth_header, 'tracks',term=term)  # tracks/artists
-                if len(top['items'])<1: return make_response("not enough data", 204)
-                fig = analysis.visualize_top_artists(top,is_top=True)
+                top = spotify.get_top_items(auth_header, 'tracks', term=term)  # tracks/artists
+                if len(top['items']) < 1: return make_response("not enough data", 204)
+                fig = analysis.visualize_top_artists(top, is_top=True)
             elif term == 'current':
                 recently_played = spotify.get_recently_played(auth_header)
                 tracks = tuple((track['track'] for track in recently_played['items']))
@@ -78,8 +100,10 @@ def diagram():
                 fig = analysis.visualize_top_artists(recently_played)
             res = make_response(fig, 200)
 
-    else: res = make_response("token not in session", 401)
+    else:
+        res = make_response("token not in session", 401)
     return res
+
 
 @app.route('/api/user/top', methods=('GET', 'POST'))
 def top_artists():
@@ -102,33 +126,38 @@ def top_artists():
                 top_ids = analysis.get_history_top_artists(recently_played)
                 top = spotify.get_several_artists(auth_header, top_ids)
                 res = make_response(jsonify(top["artists"]), 200)
-            else: res = make_response("need 'medium_term', 'short_term', 'long_term' or 'current'", 400)
+            else:
+                res = make_response("need 'medium_term', 'short_term', 'long_term' or 'current'", 400)
 
-    else: res = make_response("token not in session", 401)
+    else:
+        res = make_response("token not in session", 401)
     return res
+
 
 @app.route('/api/user/top_genres')
 def top_genres():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)
-        if len(genres)<1: return make_response("not enough data", 204)
+        if len(genres) < 1: return make_response("not enough data", 204)
         fig = analysis.visualize_genres_barchart(genres)
         res = make_response(fig, 200)
-    else: res = make_response("token not in session", 401)
+    else:
+        res = make_response("token not in session", 401)
     return res
+
 
 @app.route('/api/user/genres_overview')
 def get_genres_overview():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         genres = spotify.get_user_genres(auth_header)
-        if len(genres)<1: return make_response("not enough data", 204)
+        if len(genres) < 1: return make_response("not enough data", 204)
         text = analysis.generate_genres_text(genres)
         res = make_response(text, 200)
-    else: res = make_response("token not in session", 401)
+    else:
+        res = make_response("token not in session", 401)
     return res
-
 
 
 @app.route('/api/user/recommendations', methods=('GET', 'POST'))
@@ -145,7 +174,7 @@ def recommendations():
                                     search_type="playlist", limit=1, market=market.split('_')[1])
             resp = search["playlists"]
             tracks = []
-            playlists_items=spotify.get_playlists_tracks(auth_header, resp, 50)
+            playlists_items = spotify.get_playlists_tracks(auth_header, resp, 50)
             for track in playlists_items:
                 tracks.extend(item["track"] for item in track["items"])
 
@@ -177,7 +206,6 @@ def rose_chart():
         return make_response("token not in session", 401)
 
 
-
 @app.route('/api/search', methods=['POST'])
 def search():
     if 'auth_header' in session:
@@ -185,24 +213,25 @@ def search():
         name = data.get('name')
         auth_header = session['auth_header']
         print(name, "\n", auth_header)
-        data = spotify.search(auth_header, name, limit = 15)
+        data = spotify.search(auth_header, name, limit=15)
         items = data["track" + 's']['items']
         print(data)
         print(items)
-        return make_response(items,200)
+        return make_response(items, 200)
     return make_response("token not in session", 401)
 
-@app.route('/api/generated_tracks',  methods=['POST'])
+
+@app.route('/api/generated_tracks', methods=['POST'])
 def get_generated_tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         data = request.json
         tracks = data.get('tracks')
-        generated_tracks = spotify.generate_playlist_tracks(auth_header, tracks, limit = 19)
-
+        generated_tracks = spotify.generate_playlist_tracks(auth_header, tracks, limit=19)
 
         return make_response(generated_tracks["tracks"], 200)
     return make_response("token not in session", 401)
+
 
 @app.route('/api/create_playlist', methods=['POST'])
 def create_playlist():
@@ -218,6 +247,7 @@ def create_playlist():
         return make_response(playlist_id, 201)
     return make_response("token not in session", 401)
 
+
 @app.route('/api/set_playlist_image', methods=['POST'])
 def set_playlist_image():
     if 'auth_header' in session:
@@ -228,6 +258,7 @@ def set_playlist_image():
         spotify.set_image(auth_header, playlist_id, image)
         return make_response("image is installed", 202)
     return make_response("token not in session", 401)
+
 
 @app.route("/logout")
 def logout():

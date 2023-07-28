@@ -2,14 +2,14 @@ const TOKEN_KEY = 'spotifyToken';
 const USER_KEY = 'spotifyUser';
 
 
-export const storeToken = (token) => {
-  localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
-};
+// export const storeToken = (token) => {
+//   localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+// };
 
-export const getTokenFromStorage = () => {
-  const token = localStorage.getItem(TOKEN_KEY);
-  return token ? JSON.parse(token) : null;
-};
+// export const getTokenFromStorage = () => {
+//   const token = localStorage.getItem(TOKEN_KEY);
+//   return token ? JSON.parse(token) : null;
+// };
 
 export const storeUser = (user) => {
   localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -23,6 +23,23 @@ export const getUserFromStorage = () => {
 export const clearLocalStorage = () => {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+};
+
+export const getCookie = (cname='session') => {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  console.log(decodedCookie, " + ")
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 };
 
 

@@ -24,16 +24,13 @@ def auth():
 
 @app.route("/callback/", methods=('GET', 'POST'))
 def callback():
-    #if request.method == 'POST' and 'code' in request.args:
     if 'code' in request.args:
         auth_token = request.args['code']
         auth_header, refresh_header, expires_in = spotify.authorize(auth_token)
         session['auth_header'] = auth_header
         session['refresh_token'] = refresh_header
         session['expires_in'] = expires_in
-        return
-    #elif request.method == 'GET':
-    resp = make_response(session['auth_header'], 200)
+    resp = make_response("http://localhost:3000/menu", 200)
     resp.set_cookie("session", "" , max_age=session['expires_in'])
     return resp
 """

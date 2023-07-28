@@ -37,6 +37,21 @@ def callback():
     resp.set_cookie("session", "" , expires=session['expires_at'])
     return resp
 """
+"""
+@app.route("/redirect", methods=('GET', 'POST'))
+def callback():
+    data = request.json
+    auth_token = data.get('code')
+    auth_header, refresh_header, expires_at = spotify.authorize(auth_token)
+    session['auth_header'] = auth_header
+    session['refresh_token'] = refresh_header
+    session['expires_at'] = expires_at
+    session.permanent = True
+    resp = jsonify({
+        "link": "http://localhost:3000/menu"
+    })
+    return resp
+"""
 @app.route("/callback/")
 def callback():
     if 'code' in request.args:

@@ -101,3 +101,12 @@ export const featureDiagram = async() => {
         throw error;
     }
 }
+
+export const playlistSongs = async(name) => {
+    try {
+        const response = await axios.post('/api/search', {name});
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}

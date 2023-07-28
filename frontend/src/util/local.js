@@ -17,7 +17,7 @@ export const storeUser = (user) => {
 
 export const getUserFromStorage = () => {
   const user = localStorage.getItem(USER_KEY);
-  return user ? JSON.parse(user) : null;
+  return (user && JSON.parse(user)) ? JSON.parse(user) : null;
 };
 
 export const clearLocalStorage = () => {

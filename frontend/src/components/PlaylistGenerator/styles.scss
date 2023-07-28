@@ -17,8 +17,8 @@
 
     #circle1{
         position:absolute;
-        background-color: rgba(66, 7, 87, 0.5);
-        filter: blur(3rem);
+        background-color: rgba(115, 22, 149, 0.3);
+        filter: blur(5rem);
         width: 54%;
         aspect-ratio: 1030/896;
         top:-27%;
@@ -28,8 +28,8 @@
     }
     #circle2{
         position:absolute;
-        background-color: rgba(8, 61, 3, 0.5);
-        filter: blur(3rem);
+        background-color: rgba(15, 111, 6, 0.3);
+        filter: blur(5rem);
         width: 67%;
         aspect-ratio: 1283/1003;
         top:-18%;
@@ -39,8 +39,8 @@
     }
     #circle3{
         position:absolute;
-        background-color: rgba(8, 3, 61, 0.5);
-        filter: blur(3rem);
+        background-color: rgba(18, 7, 136, 0.3);
+        filter: blur(5rem);
         width: 67%;
         aspect-ratio: 1283/1003;
         top:55%;
@@ -107,7 +107,7 @@
                 align-items: stretch;
                 .songList{
                     position: relative;
-                    background-color: rgba(217, 217, 217, 0.14);
+                    background-color: rgba(217, 217, 217, 0.183);
                     border-radius: 45px;
                 }
 

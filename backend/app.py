@@ -22,7 +22,7 @@ def auth():
     })
     # return redirect(spotify.AUTH_URL)
 
-
+"""
 @app.route("/callback/", methods=('GET', 'POST'))
 def callback():
     if 'code' in request.args:
@@ -32,7 +32,8 @@ def callback():
         session['refresh_token'] = refresh_header
         session['expires_at'] = expires_at
         session.permanent = True
-    resp = make_response("http://localhost:3000/menu", 200)
+    #resp = make_response("http://localhost:3000/menu", 200)
+    resp = make_response(redirect("frontend:"))
     resp.set_cookie("session", "" , expires=session['expires_at'])
     return resp
 """
@@ -40,15 +41,16 @@ def callback():
 def callback():
     if 'code' in request.args:
         auth_token = request.args['code']
-        auth_header, refresh_header, expires_in = spotify.authorize(auth_token)
+        auth_header, refresh_header, expires_at = spotify.authorize(auth_token)
         session['auth_header'] = auth_header
         session['refresh_token'] = refresh_header
-        session['expires_in'] = expires_in
+        session['expires_at'] = expires_at
+        session.permanent = True
         resp = make_response(redirect("http://localhost:3000/menu"))
-        resp.set_cookie("session", "", max_age=3600)
+        resp.set_cookie("session", "" , expires=session['expires_at'])
         return resp
     return make_response(redirect("http://localhost:3000/"))
-"""
+
 def valid_token(resp):
     return resp is not None and not 'error' in resp
 

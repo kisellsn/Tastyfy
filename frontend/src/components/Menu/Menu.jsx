@@ -11,7 +11,7 @@ import PlotTop from '../Plots/PlotTop';
 import PlotWeb from '../Plots/PlotWeb';
 import FeatureViewer from '../Plots/FeatureViewer';
 import Header from '../Header/Header';
-import { clearLocalStorage, getTokenFromStorage, getUserFromStorage, storeToken, storeUser } from 'src/util/local';
+import { clearLocalStorage, getUserFromStorage, storeUser } from 'src/util/local';
 
 
 
@@ -19,10 +19,9 @@ function Menu(props) {
 
   const startRef = useRef(Date.now());
   useEffect(() => {
-    if(getTokenFromStorage()) return;
+    if(getUserFromStorage()) return;
     getToken().then(token => {
       if (!token.Authorization) navigate('/');
-      storeToken(token);
     })
     registerSpotify().then(user => {
       if (!user) navigate('/');
@@ -36,22 +35,17 @@ function Menu(props) {
 
   useEffect(() => {
     const checkAuthorization = () => {
-      const token = getTokenFromStorage();
+      const user = getUserFromStorage();
       if (Date.now() - startRef > 3600000) {
         clearLocalStorage();
         navigate('/');
       } else {
-        storeToken(token);
-      }
-    };
-    const fetchSpotifyUser = async() => {
-      const user = getUserFromStorage();
-      if (user) {
+        storeUser(user);
         setUserInfo(user);
       }
     };
+
     checkAuthorization(); 
-    fetchSpotifyUser();
 
   }, [navigate]);
 

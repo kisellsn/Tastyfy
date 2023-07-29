@@ -10,7 +10,7 @@ from backend.analysis import analysis
 from flask_cors import CORS
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
 CORS(app)
 # ----------------------- AUTH -------------------------

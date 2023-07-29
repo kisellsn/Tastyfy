@@ -1,0 +1,231 @@
+.generatorContainer{
+    position: relative;
+    display: flex;
+    padding: 5%;
+    padding-top: 2%;
+    width: 90%;
+    gap: 3%;
+    align-items: stretch;
+    max-height: 560px;
+    justify-content: space-between;
+    .playlistData{
+        width: 35%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        z-index: 2;
+        .data_img{
+            width: 40%;
+            aspect-ratio: 1/1;
+            background-image: linear-gradient(to bottom right, rgba(47, 25, 136, 0.63), rgba(174, 0, 167, 0.17));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            img{
+                width:100%;
+                height:100%;
+                object-fit: cover;
+                border-radius: 15px;
+            }
+        }
+        .data_name{
+            position: relative;
+            width: 100%;
+            form{
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                aspect-ratio: 658/84;
+                border-radius: 20px;
+                background-color: rgba(217, 217, 217, 0.12);
+                align-items: center;
+                input {
+                    background-color: transparent;
+                    border-color: transparent;
+                    display: flex;
+                    z-index:2;
+                    border:none;
+                    padding: 0;
+                    color: white;
+                    margin-left:4%;
+                    margin-right:4%;
+                    width:100%;
+                    height: 100%;
+                    font-size: 1vw;
+                    font-family: Sansation;
+
+                    &:focus {
+                        outline: none;
+                      }
+                    &::placeholder{
+                        color:rgba(255, 255, 255, 0.17)
+                    }
+                }
+            }
+        }
+        .data_description{
+            position: relative;
+            width: 100%;
+            form{
+                display: flex;
+                justify-content: flex-start;
+                width: 100%;
+                aspect-ratio: 658/191;
+                border-radius: 20px;
+                background-color: rgba(217, 217, 217, 0.12);
+                align-items: flex-start;
+                textarea {
+                    background-color: transparent;
+                    border-color: transparent;
+                    display: flex;
+                    z-index:2;
+                    border:none;
+                    padding: 0;
+                    color: white;
+                    margin-left:4%;
+                    margin-right:4%;
+                    width:98%;
+                    padding-top: 2%;
+                    padding-bottom: 2%;
+                    resize: none;
+
+                    height: 100%;
+                    font-size: 1vw;
+                    font-family: Sansation;
+                    word-wrap: break-word;
+
+                    &:focus {
+                        outline: none;
+                    }
+                    &::placeholder{
+                        color:rgba(255, 255, 255, 0.17)
+                    }
+                }
+            }
+        }
+    }
+    .generatedTracks{
+        position: relative;
+        width: 55%;
+        background-color: rgba(217, 217, 217, 0.183);
+        border-radius: 20px;
+        padding: 1% 1% 1% 3%;
+        z-index:2;
+        aspect-ratio: 961/569;
+        .scrollList{
+            width:97%;
+            height: 100%;
+            margin-right:1%;
+            padding-right: 2%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: scroll;
+            z-index:2;
+            gap:5%;
+
+            &::-webkit-scrollbar {
+                width: 10px;
+                margin-right: 5%;
+            }
+            
+            /* Styling the scrollbar thumb (the draggable part) */
+            &::-webkit-scrollbar-thumb {
+                background-color: white;
+                border-radius: 5px;
+            }
+            
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: transparent;
+            }
+            
+
+            &::-webkit-scrollbar-thumb:active {
+                background-color: transparent;
+            }
+            
+
+            &::-webkit-scrollbar-track {
+                background-color: transparent;
+
+            }
+
+            .gPlaylist-card{
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                width: 99%;
+                aspect-ratio: 1000/85;
+                justify-content: space-between;
+                align-items: center;
+                margin-right: 1%;
+                .gPlaylist-card_img{
+                    min-height: 2px;
+                    width: 7%;
+                    img{
+                        width: 100%;
+                        border-radius: 5px;
+                    }
+                }
+                .gPlaylist-card_content{
+                    display: flex;
+                    flex-direction: row;
+                    width: 50%;
+                    margin-right: 15%;
+                    text-align: left;
+                    justify-content: flex-start;
+                    gap: 15%;
+                    h4{
+                        width: 50%;
+                    }
+                }
+                .gPlaylist-card_remove{
+                    min-height: 2px;
+                    width: 4%;
+                    svg{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+    }
+
+
+}
+
+.buttons{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+    width: 100%;
+    .buttonCreate{
+        margin:2%;
+        z-index: 2;
+        width: 10%;
+        button{
+            z-index: 2;
+            width:100%;
+            aspect-ratio: 185/53;
+            border:none;
+            font-family: Lexend;
+            border-radius: 20px;
+            background-color: rgba(65, 18, 77, 0.79);
+            color: white;
+            font-size: 1.5vw;
+            cursor: pointer;
+            
+        }
+        .unactive_button{
+            cursor: auto;
+            background-color: rgba(65, 18, 77, 0.5);
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}

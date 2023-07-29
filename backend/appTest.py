@@ -36,7 +36,7 @@ def callback():
 @app.route("/token")
 def get_code():
     if 'auth_header' in session:
-        if session['expires_at'] - datetime.now(timezone.utc) < timedelta(hours=1):
+        if session['expires_at'].replace(tzinfo=datetime.today().tzinfo) - datetime.today() <= timedelta(hours=1):
             auth_header, refresh_token, expires_at = spotify.get_refresh_token(session['refresh_token'])
             session['auth_header'] = auth_header
             session['expires_at'] = expires_at
@@ -88,12 +88,11 @@ def profile():
         print(playlist_id)
         spotify.add_tracks_to_playlist(auth_header, playlist_id, generated_tracks["tracks"])
 
-        if valid_token(recently_played):
-            return jsonify({
+        return jsonify({
                 "user": profile_data,
                 "rec": rec,
                 "new_best": new_best
-            })
+        })
     return jsonify({
         "index": url_for('index')
     })

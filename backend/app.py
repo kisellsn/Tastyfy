@@ -7,12 +7,12 @@ from flask import Flask, request, redirect, render_template, session, url_for, j
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
 
-# from flask_cors import CORS
+from flask_cors import CORS
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
-# CORS(app)
+CORS(app)
 # ----------------------- AUTH -------------------------
 
 @app.route("/api/auth")
@@ -70,13 +70,13 @@ def callback():
 @app.route("/token")
 def get_code():
     if 'auth_header' in session:
-        if session['expires_at'] - datetime.now(timezone.utc) < timedelta(hours=1):
+        if session['expires_at'].replace(tzinfo=datetime.today().tzinfo) - datetime.today() <= timedelta(hours=1):
             auth_header, refresh_token, expires_at = spotify.get_refresh_token(session['refresh_token'])
             session['auth_header'] = auth_header
             session['expires_at'] = expires_at
-            return 'new token was created'
+            return make_response('new token was created', 201)
     session.clear()
-    return 'the token has expired'
+    return make_response('the token has expired', 404)
 
 # -------------------------- API REQUESTS ----------------------------
 

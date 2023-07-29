@@ -42,9 +42,9 @@ def callback():
 def callback():
     data = request.json
     auth_token = data.get('code')
-    auth_header, refresh_header, expires_at = spotify.authorize(auth_token)
+    auth_header, refresh_token, expires_at = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
-    session['refresh_token'] = refresh_header
+    session['refresh_token'] = refresh_token
     session['expires_at'] = expires_at
     session.permanent = True
     resp = jsonify({

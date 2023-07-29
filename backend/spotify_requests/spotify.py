@@ -93,8 +93,7 @@ def authorize(auth_token):
     expires_in = response_data["expires_in"]
 
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
-    refresh_header = {"Authorization": "Bearer {}".format(refresh_token)}
-    return auth_header, refresh_header,  datetime.now() + timedelta(seconds=expires_in)
+    return auth_header, refresh_token,  datetime.now() + timedelta(seconds=expires_in)
 
 
 # spotify endpoints

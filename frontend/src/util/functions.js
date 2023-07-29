@@ -110,3 +110,33 @@ export const playlistSongs = async(name) => {
         console.error('Error', error);
     }
 }
+
+export const generateTracks = async(tracks) => {
+    try {
+        const response = await axios.post('/api/generated_tracks', {tracks});
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}
+
+
+export const createPlaylist = async(name, description, user_id, tracks) => {
+    try {
+        const response = await axios.post('/api/create_playlist', {name, description, user_id, tracks});
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}
+
+export const addImage = async(image, playlist_id) => {
+    try {
+        const response = await axios.post('/api/set_playlist_image', {image, playlist_id});
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}
+
+

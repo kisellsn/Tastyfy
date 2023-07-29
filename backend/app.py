@@ -1,7 +1,7 @@
 import base64
 import json
 import webbrowser
-from datetime import timedelta
+from datetime import timedelta, datetime, timezone
 
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
 from backend.spotify_requests import spotify
@@ -66,20 +66,17 @@ def callback():
         return resp
     return make_response(redirect("http://localhost:3000/"))
 """
-def valid_token(resp):
-    return resp is not None and not 'error' in resp
-
 
 @app.route("/token")
 def get_code():
     if 'auth_header' in session:
-        if valid_token(spotify.get_current_profile(session["auth_header"])):
-            response = make_response(jsonify(session['auth_header']), 200)
-
-            return response
+        if session['expires_at'] - datetime.now(timezone.utc) < timedelta(hours=1):
+            auth_header, refresh_token, expires_at = spotify.get_refresh_token(session['refresh_token'])
+            session['auth_header'] = auth_header
+            session['expires_at'] = expires_at
+            return 'new token was created'
     session.clear()
-    return make_response('the token has expired', 403)
-
+    return 'the token has expired'
 
 # -------------------------- API REQUESTS ----------------------------
 

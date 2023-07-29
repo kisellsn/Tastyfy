@@ -1,7 +1,9 @@
 import json
 import time
+from datetime import datetime, timedelta, timezone
+
 import requests
-from flask import Flask, request, redirect, render_template, session, url_for, jsonify
+from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
 
@@ -23,16 +25,24 @@ def auth():
 def callback():
     auth_token = request.args['code']
     print(auth_token)
-    auth_header, refresh_header, expires_in = spotify.authorize(auth_token)
+    auth_header, refresh_token, expires_at = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
-    session['refresh_token'] = refresh_header
-    session['expires_in'] = expires_in
-    print(session['expires_in'])
+    session['refresh_token'] = refresh_token
+    session['expires_at'] = expires_at
+    session.permanent = True
     return redirect(url_for('profile'))
 
 
-def valid_token(resp):
-    return resp is not None and not 'error' in resp
+@app.route("/token")
+def get_code():
+    if 'auth_header' in session:
+        if session['expires_at'] - datetime.now(timezone.utc) < timedelta(hours=1):
+            auth_header, refresh_token, expires_at = spotify.get_refresh_token(session['refresh_token'])
+            session['auth_header'] = auth_header
+            session['expires_at'] = expires_at
+            return 'new token was created'
+    session.clear()
+    return 'the token has expired'
 
 
 # -------------------------- API REQUESTS ----------------------------

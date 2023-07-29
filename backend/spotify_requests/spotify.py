@@ -95,6 +95,27 @@ def authorize(auth_token):
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     return auth_header, refresh_token,  datetime.now() + timedelta(seconds=expires_in)
 
+def get_refresh_token(refresh_token):
+    body = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token
+    }
+    # python 3 or above
+    if sys.version_info[0] >= 3:
+        base64encoded = base64.b64encode(("{}:{}".format(CLIENT_ID, CLIENT_SECRET)).encode())
+        headers = {"Authorization": "Basic {}".format(base64encoded.decode())}
+    else:
+        base64encoded = base64.b64encode("{}:{}".format(CLIENT_ID, CLIENT_SECRET))
+        headers = {"Authorization": "Basic {}".format(base64encoded)}
+
+    post_refresh = requests.post(SPOTIFY_TOKEN_URL, data=body, headers=headers)
+    response_data = json.loads(post_refresh.text)
+    access_token = response_data["access_token"]
+    expires_in = response_data["expires_in"]
+
+    auth_header = {"Authorization": "Bearer {}".format(access_token)}
+    return auth_header, refresh_token, datetime.now() + timedelta(seconds=expires_in)
+
 
 # spotify endpoints
 USER_PROFILE_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'me')

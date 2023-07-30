@@ -229,11 +229,8 @@ def search():
         data = request.json
         name = data.get('name')
         auth_header = session['auth_header']
-        print(name, "\n", auth_header)
         data = spotify.search(auth_header, name, limit=15)
         items = data["track" + 's']['items']
-        print(data)
-        print(items)
         return make_response(items, 200)
     return make_response("token not in session", 401)
 
@@ -265,15 +262,17 @@ def create_playlist():
     return make_response("token not in session", 401)
 
 
-@app.route('/api/set_playlist_image', methods=['POST'])
+@app.route('/api/set_playlist_image', methods=('POST', 'PUT'))
 def set_playlist_image():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         data = request.json
         image = data.get('image')
-        playlist_id = data.get('playlist_id')
-        spotify.set_image(auth_header, playlist_id, image)
-        return make_response("image is installed", 202)
+        if (len(image) * 3) / 4 - image.count('=', -2) < 256000:
+            playlist_id = data.get('playlist_id')
+            spotify.set_image(auth_header, playlist_id, image)
+            return make_response("image is installed", 202)
+        else: make_response("image size is too big", 400)
     return make_response("token not in session", 401)
 
 

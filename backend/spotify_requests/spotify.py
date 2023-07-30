@@ -1,8 +1,8 @@
 from __future__ import print_function
-import base64
 import json
 import requests
 import sys
+import base64
 import string
 import random
 from collections import Counter
@@ -373,13 +373,9 @@ def create_playlist(auth_header, user_id, name, description=None):
 
 
 def set_image(auth_header, playlist_id, image):
-    url = "{}/{playlists}/{id}/{images}".format(SPOTIFY_API_URL, id=playlist_id, playlists="playlists",
-                                                images="images")
+    url = "{}/playlists/{id}/images".format(SPOTIFY_API_URL, id=playlist_id)
     auth_header["Content-Type"] = "image/jpeg"
-    encoded_image_data = base64.b64encode(image)
-
-    resp = requests.put(url, data=encoded_image_data, headers=auth_header)
-    print(resp)
+    resp = requests.put(url, data=image, headers=auth_header)
     return resp
 
 

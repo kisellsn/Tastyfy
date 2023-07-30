@@ -141,7 +141,7 @@ function PlaylistGenerator(props) {
                         </div>
                     </div>
                     <div className='done'>
-                        <button className={playlist.length === 5 ? '' : 'unactive_button'} onClick={handleGeneration}>Done</button>
+                        <button className={playlist.length  ? '' : 'unactive_button'} onClick={handleGeneration}>Done</button>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import '../PlaylistGenerator/styles.scss'
 import './styles.scss'
@@ -7,13 +8,15 @@ import { clearLocalStorage, getUserFromStorage, storeUser } from 'src/util/local
 import { usePlaylistContext } from 'src/context/playlistContext';
 import GeneratedTrack from './GeneratedTrack';
 import { addImage, createPlaylist, generateTracks } from 'src/util/functions';
+import { useNewtracksContext } from 'src/context/newtracksContext';
 
 
 function Generator(props) {
     const [userInfo, setUserInfo] = useState('');
     const navigate = useNavigate();
     const startRef = useRef(Date.now());
-    const {playlist, removeItem} = usePlaylistContext();
+    const {playlist} = usePlaylistContext();
+    const {tracks, removeTrack, generateItems} = useNewtracksContext();
 
 
     useEffect(() => {
@@ -28,7 +31,7 @@ function Generator(props) {
           }
         };
         const checkPlaylist = () => {
-            if(!playlist || playlist.length !== 5)navigate('/playlists');
+            if(!playlist || !playlist.length)navigate('/playlists');
         }
         checkAuthorization();
         checkPlaylist(); 
@@ -42,7 +45,7 @@ function Generator(props) {
       window.location.href = url;
     };
     const [flag, setFlag] = useState(0);
-    const [tracks, setTracks] = useState([]);
+    // const [newtracks, setNewtracks] = useState([]);
 
     useEffect(() => {
         const fetchTracks = async() =>{
@@ -50,18 +53,19 @@ function Generator(props) {
                 setFlag(1);
                 const arrayOfObjects = playlist.map((item) => item.song);
                 const options = await generateTracks(arrayOfObjects);
-                setTracks(options);
+                if(playlist && options)generateItems(playlist, options)
                 setFlag(0);
             } catch (error) {
                 // Handle any errors that might occur during the Promise resolution
                 console.error("Error fetching playlist songs:", error);
             }
         }
+
         fetchTracks();
+
 
       }, [playlist]);
 
-      console.log( document.cookie, '-' );
 
     const [inputName, setInputName] = useState('');
     const [inputDescription, setInputDescription] = useState('');
@@ -155,10 +159,10 @@ function Generator(props) {
                         <div className='scrollList'>
                             {flag === 0 ? (
                                 <>
-                                    {tracks !== '' ? (
+                                    {tracks ? (
                                         <>
                                         {tracks.map((song, index) => (
-                                            <GeneratedTrack key={index} song={song} removeItem={removeItem}/>
+                                            <GeneratedTrack key={index} song={song.song} removeTrack={removeTrack}/>
                                         ))}
                                         </>
                                     ):(
@@ -174,10 +178,10 @@ function Generator(props) {
                 </div>
                 <div className='buttons'>
                     <div className='buttonCreate'>
-                        <button className={playlist.length === 5 ? '' : 'unactive_button'} onClick={handleCreate}>Create</button>
+                        <button className={(inputName && tracks.length && inputDescription) ? '' : 'unactive_button'} onClick={handleCreate}>Create</button>
                     </div>
                     <div className='buttonCreate'>
-                        <button className={playlist.length === 5 ? '' : 'unactive_button'} onClick={handleBack}>Back</button>
+                        <button className={tracks.length ? '' : 'unactive_button'} onClick={handleBack}>Back</button>
                     </div>
                 </div>
             </div>

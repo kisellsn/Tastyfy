@@ -2,11 +2,11 @@ import React from 'react';
 import './styles.scss';
 import img from '../../assets/images/NOimage.png'
 
-const GeneratedTrack = ({song, removeItem}) => {
+const GeneratedTrack = ({song, removeTrack}) => {
     let title = song.name.length > 15 ? song.name.substring(0, 15) + "..." : song.name;
     let artist = song.album?.artists[0]?.name.length > 15 ? song.album?.artists[0]?.name.substring(0, 15) + "..." : song.album?.artists[0]?.name;
     const removeSong = () => {
-        console.log('-')
+        removeTrack(song.id)
     }
 
     return (

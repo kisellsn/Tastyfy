@@ -16,7 +16,7 @@ function Generator(props) {
     const navigate = useNavigate();
     const startRef = useRef(Date.now());
     const {playlist} = usePlaylistContext();
-    const {tracks, removeTrack, generateItems, clearPlaylist} = useNewtracksContext();
+    const {tracks, removeTrack, generateItems, clearPlaylist, playlist2} = useNewtracksContext();
 
 
     useEffect(() => {
@@ -51,8 +51,13 @@ function Generator(props) {
         const fetchTracks = async() =>{
             try {
                 setFlag(1);
+                let options;
                 const arrayOfObjects = playlist.map((item) => item.song);
-                const options = await generateTracks(arrayOfObjects);
+                if((playlist !== playlist2) && !tracks.length){
+                    options = await generateTracks(arrayOfObjects);
+                } else {
+                    options = tracks.map((item) => item.song);
+                }
                 if(playlist && options)generateItems(playlist, options)
                 setFlag(0);
             } catch (error) {
@@ -61,7 +66,7 @@ function Generator(props) {
             }
         }
 
-        fetchTracks();
+            fetchTracks();
 
 
       }, [playlist]);

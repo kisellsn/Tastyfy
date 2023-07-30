@@ -13,7 +13,7 @@ const getLocalePlaylistData = (name) => {
   }
 
 const initialState = {
-    playlist: getLocalePlaylistData('playlist'),
+    playlist2: getLocalePlaylistData('playlist'),
     tracks:getLocalePlaylistData('tracks')
 };
 

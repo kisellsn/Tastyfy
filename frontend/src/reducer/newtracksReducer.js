@@ -3,6 +3,7 @@ const playlistReducer = (state, action) => {
         let { playlist, tracks } = action.payload;
         let newTracks;
         function arePlaylistsEqual(playlist1, playlist2) {
+            if(!playlist1.length || !playlist2.length)
             if (playlist1.length !== playlist2.length) {
               return false;
             }
@@ -15,7 +16,7 @@ const playlistReducer = (state, action) => {
           
             return true;
         }
-        const areEqual = arePlaylistsEqual(state.playlist, playlist);
+        const areEqual = arePlaylistsEqual(state.playlist2, playlist);
         if (areEqual && tracks.length > 0){
             return{
                 ...state,
@@ -27,7 +28,7 @@ const playlistReducer = (state, action) => {
               }));
             return{
                 ...state,
-                playlist: playlist,
+                playlist2: playlist,
                 tracks: newTracks,
             }
         }
@@ -47,7 +48,7 @@ const playlistReducer = (state, action) => {
         return {
           ...state,
           tracks: [],
-          playlist: [],
+          playlist2: [],
         };
     }
 }  

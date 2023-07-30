@@ -18,6 +18,8 @@
         z-index: 2;
         .data_img{
             width: 40%;
+            height: 40%;
+            min-height: 2px;
             aspect-ratio: 1/1;
             background-image: linear-gradient(to bottom right, rgba(47, 25, 136, 0.63), rgba(174, 0, 167, 0.17));
             border-radius: 15px;
@@ -167,7 +169,9 @@
                     width: 7%;
                     img{
                         width: 100%;
+                        object-fit: cover;
                         border-radius: 5px;
+                        min-height: 2px;
                     }
                 }
                 .gPlaylist-card_content{

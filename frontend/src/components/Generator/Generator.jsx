@@ -16,7 +16,7 @@ function Generator(props) {
     const navigate = useNavigate();
     const startRef = useRef(Date.now());
     const {playlist} = usePlaylistContext();
-    const {tracks, removeTrack, generateItems} = useNewtracksContext();
+    const {tracks, removeTrack, generateItems, clearPlaylist} = useNewtracksContext();
 
 
     useEffect(() => {
@@ -79,9 +79,10 @@ function Generator(props) {
     const handleBack = () =>{
         navigate('/playlists')
     }
+
     const handleCreate = async() => {
         try {
-            const id = await createPlaylist(inputName, inputDescription, userInfo.id, tracks);
+            const id = await createPlaylist(inputName, inputDescription, userInfo.id, tracks.map((item) => item.song));
             if(inputFile){
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -90,7 +91,8 @@ function Generator(props) {
                 };
                 reader.readAsDataURL(inputFile);
             }
-            // navigate('/playlists')
+            clearPlaylist();
+            navigate('/playlists')
         } catch (error) {
             console.error("Error fetching playlist songs:", error);
         }

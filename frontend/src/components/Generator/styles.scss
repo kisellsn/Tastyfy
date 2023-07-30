@@ -269,5 +269,14 @@
   
   button {
     margin: 10px;
+    z-index: 2;
+    width: 20%;
+    aspect-ratio: 185/53;
+    border:none;
+    font-family: Lexend;
+    background-color: rgba(65, 18, 77, 0.79);
+    color: white;
+    font-size: 1vw;
+    cursor: pointer;
   }
   

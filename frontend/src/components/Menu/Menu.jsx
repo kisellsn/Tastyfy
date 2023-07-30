@@ -16,12 +16,13 @@ import { clearLocalStorage, getUserFromStorage, storeUser } from 'src/util/local
 
 
 function Menu(props) {
-
+  const [userInfo, setUserInfo] = useState(getUserFromStorage());
+  const navigate = useNavigate();
   const startRef = useRef(Date.now());
   useEffect(() => {
     if(getUserFromStorage()) return;
     getToken().then(token => {
-      if (!token.Authorization) navigate('/');
+      if (token !== 'new token was created') navigate('/');
     })
     registerSpotify().then(user => {
       if (!user) navigate('/');
@@ -30,8 +31,7 @@ function Menu(props) {
     });
   })
 
-  const [userInfo, setUserInfo] = useState(getUserFromStorage());
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     const checkAuthorization = () => {

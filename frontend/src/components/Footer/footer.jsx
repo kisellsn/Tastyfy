@@ -12,7 +12,7 @@ function Footer() {
     const currentPage = window.location.pathname;
     const handleLogOut = async () => {
         try {
-          await axios.get('/logout');
+          await axios.get('/api/logout');
           clearLocalStorage();
           navigate('/');
         } catch (error) {

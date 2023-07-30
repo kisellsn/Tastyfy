@@ -10,7 +10,7 @@ const Callback = () => {
     useEffect(() => {
         const handleCallback = async (code) => {
           try {
-            const response = await axios.post('/redirect', {code});
+            const response = await axios.post('/api/redirect', {code});
             const { link } = response.data;
             window.location.href = link;
           } catch (error) {

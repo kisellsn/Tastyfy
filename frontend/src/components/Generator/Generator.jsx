@@ -180,7 +180,7 @@ function Generator(props) {
                 </div>
                 <div className='buttons'>
                     <div className='buttonCreate'>
-                        <button className={(inputName && tracks.length && inputDescription) ? '' : 'unactive_button'} onClick={handleCreate}>Create</button>
+                        <button className={(inputName && tracks.length) ? '' : 'unactive_button'} onClick={handleCreate}>Create</button>
                     </div>
                     <div className='buttonCreate'>
                         <button className={tracks.length ? '' : 'unactive_button'} onClick={handleBack}>Back</button>

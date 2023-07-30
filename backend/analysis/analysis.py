@@ -129,12 +129,9 @@ def collect_means(features):
     names = ['id', 'acousticness', 'danceability',  'energy',
              'happiness', 'instrumentalness', 'liveness', 'loudness']
 
-    # ['id', 'acousticness', 'energy', 'liveness',
-    #      'danceability', 'happiness', 'instrumentalness', 'loudness']
-
     features = features[names]
-    features['loudness'] = (features['loudness'] + 60)/60
-    features[features.select_dtypes(include=['number']).columns] *= 100
+    features.loc[:, 'loudness'] = (features['loudness'] + 60) / 60
+    features.loc[:, features.select_dtypes(include=['number']).columns] *= 100
 
     means = get_means(names, features)
     best_examples = get_best_examples(names, features)

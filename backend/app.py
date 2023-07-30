@@ -38,7 +38,7 @@ def callback():
     return resp
 
 """
-@app.route("/redirect", methods=('GET', 'POST'))
+@app.route("/api/redirect", methods=('GET', 'POST'))
 def callback():
     data = request.json
     auth_token = data.get('code')
@@ -67,7 +67,7 @@ def callback():
     return make_response(redirect("http://localhost:3000/"))
 """
 
-@app.route("/token")
+@app.route("/api/token")
 def get_code():
     if 'auth_header' in session:
         if session['expires_at'].replace(tzinfo=datetime.today().tzinfo) - datetime.today() <= timedelta(hours=1):
@@ -255,12 +255,22 @@ def create_playlist():
         name = data.get('name')
         description = data.get('description')
         user_id = data.get('user_id')
-        tracks = data.get('tracks')
-        playlist_id = spotify.create_playlist(auth_header, user_id, name, description)
-        spotify.add_tracks_to_playlist(auth_header, playlist_id, tracks)
-        return make_response(playlist_id, 201)
+        playlist_id, is_exists = spotify.create_playlist(auth_header, user_id, name, description)
+        return make_response(jsonify({
+            "is_exists": is_exists,
+            "playlist_id": playlist_id
+        }), 201)
     return make_response("token not in session", 401)
-
+@app.route('/api/add_tracks', methods=['POST'])
+def add_tracks():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        data = request.json
+        tracks = data.get('tracks')
+        playlist_id = data.get('playlist_id')
+        spotify.add_tracks_to_playlist(auth_header, playlist_id, tracks)
+        return make_response("tracks added", 201)
+    return make_response("token not in session", 401)
 
 @app.route('/api/set_playlist_image', methods=('POST', 'PUT'))
 def set_playlist_image():
@@ -276,7 +286,7 @@ def set_playlist_image():
     return make_response("token not in session", 401)
 
 
-@app.route("/logout")
+@app.route("/api/logout")
 def logout():
     session.clear()
     url = 'https://www.spotify.com/logout'

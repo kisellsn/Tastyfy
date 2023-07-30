@@ -356,7 +356,8 @@ def generate_playlist_tracks(auth_header, tracks, limit=20):
     return resp.json()
 
 
-def create_playlist(auth_header, user_id, name, description=None):
+def create_playlist(auth_header, user_id, name, description=""):
+    is_exists=False
     user_playlists = get_user_playlists(auth_header)["items"]
     if all(play["name"] != name for play in user_playlists):
         url = "{}/{id}/{playlists}".format(GET_USER_ENDPOINT, id=user_id, playlists="playlists")
@@ -368,8 +369,9 @@ def create_playlist(auth_header, user_id, name, description=None):
         resp = requests.post(url, data=data, headers=auth_header)
     else:
         matching_playlist = next((play for play in user_playlists if play["name"] == name), None)
-        return matching_playlist["id"]
-    return resp.json()["id"]
+        is_exists = True
+        return matching_playlist["id"], is_exists
+    return resp.json()["id"], is_exists
 
 
 def set_image(auth_header, playlist_id, image):

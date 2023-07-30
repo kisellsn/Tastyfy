@@ -27,7 +27,7 @@ const NewtracksProvider = ({ children }) => {
       dispatch({ type: "REMOVE_ITEM", payload: id });
     };
   
-    const clearPlaylist = () => {
+    const clearTracks = () => {
       dispatch({ type: "CLEAR_PLAYLIST" });
     };
   
@@ -36,7 +36,7 @@ const NewtracksProvider = ({ children }) => {
     }, [state.tracks])
   
     return (
-      <NewtracksContext.Provider value={{ ...state, generateItems, removeTrack, clearPlaylist }}>
+      <NewtracksContext.Provider value={{ ...state, generateItems, removeTrack, clearTracks }}>
         {children}
       </NewtracksContext.Provider>
     );

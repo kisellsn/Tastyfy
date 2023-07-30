@@ -1,11 +1,12 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import VectorSmartObject1Image from 'src/assets/images/start1_Vector_Smart_Object_1.png';
 import Vector1Image from 'src/assets/images/start1_Vector_1.png';
 import './Login/Login.scss'
 
 
 const Callback = () => {
+    const flag = useRef(0)
     useEffect(() => {
         const handleCallback = async (code) => {
           try {
@@ -16,11 +17,11 @@ const Callback = () => {
             console.error('Callback failed', error);
           }
         };
-    
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
-        if (code) {
+        if (code && flag.current===0) {
           handleCallback(code);
+          flag.current++;
         }
       }, []);
 

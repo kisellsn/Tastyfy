@@ -121,9 +121,9 @@ export const generateTracks = async(tracks) => {
 }
 
 
-export const createPlaylist = async(name, description, user_id, tracks, image) => {
+export const createPlaylist = async(name, description, user_id) => {
     try {
-        const response = await axios.post('/api/create_playlist', {name, description, user_id, tracks});
+        const response = await axios.post('/api/create_playlist', {name, description, user_id});
         return response.data;
     } catch (error) {
         console.error('Error', error);
@@ -139,4 +139,12 @@ export const addImage = async(image, playlist_id) => {
     }
 }
 
+export const addToPlaylist = async(playlist_id, tracks) => {
+    try {
+        const response = await axios.post('/api/add_tracks', {playlist_id, tracks});
+        return response.data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}
 

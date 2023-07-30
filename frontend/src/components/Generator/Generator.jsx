@@ -7,7 +7,7 @@ import Header from '../Header/Header';
 import { clearLocalStorage, getUserFromStorage, storeUser } from 'src/util/local';
 import { usePlaylistContext } from 'src/context/playlistContext';
 import GeneratedTrack from './GeneratedTrack';
-import { addImage, createPlaylist, generateTracks } from 'src/util/functions';
+import { addImage, addToPlaylist, createPlaylist, generateTracks } from 'src/util/functions';
 import { useNewtracksContext } from 'src/context/newtracksContext';
 
 
@@ -75,6 +75,7 @@ function Generator(props) {
     const [inputName, setInputName] = useState('');
     const [inputDescription, setInputDescription] = useState('');
     const [inputFile, setInputFile] = useState('');
+    const [playlistId, setPlaylistId] = useState('')
    
 
     const handleFileUpload = (e) => {
@@ -85,9 +86,45 @@ function Generator(props) {
         navigate('/playlists')
     }
 
+    const showModal = () => {
+        let modal = document.getElementById('custom-modal');
+        modal.style.display = 'block';
+      }
+      
+    const hideModal = () => {
+        let modal = document.getElementById('custom-modal');
+        modal.style.display = 'none';
+      }
+    const addingItems = async() => {
+        try {
+            const response = addToPlaylist(playlistId, tracks.map((item) => item.song))
+            if(response && inputFile){
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64String = reader.result.split(',')[1];
+                    addImage(base64String, playlistId);
+                };
+                reader.readAsDataURL(inputFile);
+            }
+            clearPlaylist();
+            clearTracks();
+            navigate('/playlists')
+        } catch(error) {
+            console.error("Error fetching playlist songs:", error);
+        }
+    }
+
     const handleCreate = async() => {
         try {
-            const id = await createPlaylist(inputName, inputDescription, userInfo.id, tracks.map((item) => item.song));
+            const data = await createPlaylist(inputName, inputDescription, userInfo.id);
+            const id = data.playlist_id;
+            setPlaylistId(id)
+            const exist = data.is_exists;
+            if (exist){
+                showModal();
+                return;
+            }
+            addToPlaylist(id, tracks.map((item) => item.song))
             if(inputFile){
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -110,6 +147,14 @@ function Generator(props) {
             <div id='circle1'></div>
             <div id='circle2'></div>
             <div id='circle3'></div>
+            <div id="custom-modal" className="modal">
+                <div className="modal-content">
+                    <span className="close-btn" onClick={hideModal}>&times;</span>
+                    <p id="modal-text">You've already got a playlist with such a name! Do you want the generated songs added to it?</p>
+                    <button onClick={addingItems}>Add to Playlist</button>
+                    <button onClick={hideModal}>No</button>
+                </div>
+            </div>
             <div className='body'>
                 <div className='generatorContainer'>
                     <div className='playlistData'>

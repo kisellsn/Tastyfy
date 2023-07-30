@@ -2,11 +2,9 @@ const playlistReducer = (state, action) => {
     if (action.type === "ADD_TO_PLAYLIST") {
         let { id, song } = action.payload;
         let playlistSong;
-        console.log(song)
         let existingPlaylistItemIndex;
         if (state.playlist === null) existingPlaylistItemIndex = -1
         else existingPlaylistItemIndex = state.playlist.findIndex(item => item.id === id);
-        console.log(existingPlaylistItemIndex)
         if (existingPlaylistItemIndex !== -1 || state.playlist.length >= 5) {
             const updatedPlaylist = [...state.playlist];
             return {

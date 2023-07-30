@@ -121,7 +121,7 @@ export const generateTracks = async(tracks) => {
 }
 
 
-export const createPlaylist = async(name, description, user_id, tracks) => {
+export const createPlaylist = async(name, description, user_id, tracks, image) => {
     try {
         const response = await axios.post('/api/create_playlist', {name, description, user_id, tracks});
         return response.data;

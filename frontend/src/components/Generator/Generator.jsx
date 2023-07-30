@@ -58,13 +58,15 @@ function Generator(props) {
             }
         }
         fetchTracks();
+
       }, [playlist]);
 
-
+      console.log( document.cookie, '-' );
 
     const [inputName, setInputName] = useState('');
     const [inputDescription, setInputDescription] = useState('');
     const [inputFile, setInputFile] = useState('');
+   
 
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
@@ -76,12 +78,16 @@ function Generator(props) {
     const handleCreate = async() => {
         try {
             const id = await createPlaylist(inputName, inputDescription, userInfo.id, tracks);
-            // if(inputFile)addImage(URL.createObjectURL(inputFile), id)
-            navigate('/playlists')
-
-
+            if(inputFile){
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const byteArray = new Uint8Array(reader.result);
+                    addImage(byteArray, id);
+                };
+                reader.readAsArrayBuffer(inputFile);
+            }
+            // navigate('/playlists')
         } catch (error) {
-            // Handle any errors that might occur during the Promise resolution
             console.error("Error fetching playlist songs:", error);
         }
     }

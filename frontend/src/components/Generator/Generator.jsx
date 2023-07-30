@@ -81,10 +81,10 @@ function Generator(props) {
             if(inputFile){
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                    const byteArray = new Uint8Array(reader.result);
-                    addImage(byteArray, id);
+                    const base64String = reader.result.split(',')[1];
+                    addImage(base64String, id);
                 };
-                reader.readAsArrayBuffer(inputFile);
+                reader.readAsDataURL(inputFile);
             }
             // navigate('/playlists')
         } catch (error) {

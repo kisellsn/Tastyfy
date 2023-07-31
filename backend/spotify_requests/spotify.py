@@ -270,13 +270,11 @@ def get_playlist_items(auth_header, playlist_id, limit=50):
     return resp.json()
 
 
-def get_user_genres(auth_header):
-    top_artists = get_top_items(auth_header, 'artists', term="short_term")
-    if len(top_artists['items']) < 1: return []
+def get_user_genres(auth_header, top_artists):
+    if len(top_artists['artists']) < 1: return []
     genres = []
-    for artist in top_artists['items']:
+    for artist in top_artists['artists']:
         if artist['genres']: genres.append(artist['genres'])
-    # print(genres)
     return genres
 
 
@@ -284,46 +282,24 @@ def get_user_genres(auth_header):
 RECOMMENDATIONS_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'recommendations')
 
 
-def get_recommendations(auth_header, limit, t_count, a_count=0, g_count=0, market=None):
-    seed_artists = 'seed_artists='
-    seed_genres = 'seed_genres='
+def get_recommendations(auth_header, limit):
+    artists_ids = ''
+    t_count = 3
     top_artists = get_top_items(auth_header, 'artists')
     if len(top_artists['items']) < 2:
         t_count = 5
     else:
-        artists_ids = ','.join([artist['id'] for artist in top_artists['items'][0:a_count]])
-        seed_artists = "seed_artists=" + artists_ids
-        genress = []
-        for artist in top_artists['items']:
-            for genre in artist['genres']:
-                genress.append(genre)
-        counter = Counter(genress)
-        top_two_genre_names = ','.join([genre[0] for genre in counter.most_common(g_count)])
-        seed_genres = "seed_genres=" + top_two_genre_names
+        artists_ids = ','.join(artist['id'] for artist in top_artists['items'][:2])
 
     top_tracks = get_top_items(auth_header, 'tracks')
-    if len(top_tracks['items']) < 5:
-        if market == None:
-            playlist = get_featured_playlists(auth_header, limit=1)
-        else:
-            playlist = get_featured_playlists(auth_header, limit=1, country=market)
-        playlist_tracks = get_playlists_tracks(auth_header, playlist["playlists"], limit=5)
-        tracks = [track['track'] for track in playlist_tracks[0]['items']]
-        tracks_ids = ','.join([track['id'] for track in tracks])
-
-
+    if len(top_tracks['items']) < 3:
+        playlist_tracks = get_featured_playlists(auth_header, limit=1)[:t_count]
+        tracks_ids = ','.join([track['id'] for track in playlist_tracks])
     else:
-        tracks_ids = ','.join([track['id'] for track in top_tracks['items'][0:t_count]])
-    seed_tracks = "seed_tracks=" + tracks_ids
+        tracks_ids = ','.join([track['id'] for track in top_tracks['items'][:t_count]])
 
-    limit = "limit=" + str(limit)
-    if market == None:
-        url = '{}?{}&{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, limit, seed_artists, seed_genres,
-                                      seed_tracks)
-    else:
-        market = "market=" + market
-        url = '{}?{}&{}&{}&{}&{}'.format(RECOMMENDATIONS_ENDPOINT, limit, market, seed_artists, seed_genres,
-                                         seed_tracks)
+    url = '{}?limit={}&seed_artists={}&seed_genres=&seed_tracks={}'.format(RECOMMENDATIONS_ENDPOINT, str(limit),
+                                                                             artists_ids, tracks_ids)
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
@@ -343,12 +319,10 @@ def save_track(auth_header, tracks):
 
 def generate_playlist_tracks(auth_header, tracks, limit=20):
     tracks_ids = ','.join([track['id'] for track in tracks[0:5]])
-    seed_tracks = "seed_tracks=" + tracks_ids
+    seed_tracks = tracks_ids
 
-    seed_artists = "seed_artists="
-    seed_genres = "seed_genres="
-    url = '{}?{}&{}&{}&limit={}'.format(RECOMMENDATIONS_ENDPOINT, seed_artists, seed_genres,
-                                        seed_tracks, limit)
+    url = '{}?seed_genres=&seed_artists=&seed_tracks={}&limit={}'.format(RECOMMENDATIONS_ENDPOINT,
+                                                                          seed_tracks, limit)
 
     resp = requests.get(url, headers=auth_header)
     return resp.json()
@@ -381,8 +355,7 @@ def set_image(auth_header, playlist_id, image):
 
 def add_tracks_to_playlist(auth_header, playlist_id, tracks):
     uris = ','.join([track['uri'] for track in tracks])
-    url = "{}/{playlists}/{id}/{tracks}?{uris}".format(SPOTIFY_API_URL, id=playlist_id, playlists="playlists",
-                                                       tracks="tracks", uris="uris=" + uris)
+    url = "{}/playlists/{id}/tracks?uris={uris}".format(SPOTIFY_API_URL, id=playlist_id, uris=uris)
 
     data = json.dumps({
         "position": 0
@@ -394,7 +367,7 @@ def add_tracks_to_playlist(auth_header, playlist_id, tracks):
 
 # ---------------- ARTISTS ------------------------
 
-GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
+GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')
 
 
 def get_artist_by_id(auth_header, artist_id):
@@ -429,7 +402,7 @@ def get_related_artists(artist_id):
 
 
 # ---------------- ALBUMS ------------------------
-GET_ALBUM_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'albums')  # /<id>
+GET_ALBUM_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'albums')
 
 
 def get_album(album_id):
@@ -452,7 +425,7 @@ def get_albums_tracks(album_id):
 
 # ---------------- TRACKS ------------------------
 
-GET_TRACK_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'tracks')  # /<id>
+GET_TRACK_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'tracks')
 
 
 def get_track_by_id(auth_header, track_id):

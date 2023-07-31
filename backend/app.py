@@ -1,18 +1,23 @@
 import base64
+import io
 import json
 import webbrowser
 from datetime import timedelta, datetime, timezone
 
+from PIL import Image
 from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
 
 from flask_cors import CORS
+
 app = Flask(__name__)
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
 CORS(app)
+
+
 # ----------------------- AUTH -------------------------
 
 @app.route("/api/auth")
@@ -20,24 +25,8 @@ def auth():
     return jsonify({
         "link": spotify.AUTH_URL
     })
-    # return redirect(spotify.AUTH_URL)
 
-"""
-@app.route("/callback/", methods=('GET', 'POST'))
-def callback():
-    if 'code' in request.args:
-        auth_token = request.args['code']
-        auth_header, refresh_header, expires_at = spotify.authorize(auth_token)
-        session['auth_header'] = auth_header
-        session['refresh_token'] = refresh_header
-        session['expires_at'] = expires_at
-        session.permanent = True
-    #resp = make_response("http://localhost:3000/menu", 200)
-    resp = make_response(redirect("frontend:"))
-    resp.set_cookie("session", "" , expires=session['expires_at'])
-    return resp
 
-"""
 @app.route("/api/redirect", methods=('GET', 'POST'))
 def callback():
     data = request.json
@@ -51,21 +40,7 @@ def callback():
         "link": "http://localhost:3000/menu"
     })
     return resp
-"""
-@app.route("/callback/")
-def callback():
-    if 'code' in request.args:
-        auth_token = request.args['code']
-        auth_header, refresh_header, expires_at = spotify.authorize(auth_token)
-        session['auth_header'] = auth_header
-        session['refresh_token'] = refresh_header
-        session['expires_at'] = expires_at
-        session.permanent = True
-        resp = make_response(redirect("http://localhost:3000/menu"))
-        resp.set_cookie("session", "" , expires=session['expires_at'])
-        return resp
-    return make_response(redirect("http://localhost:3000/"))
-"""
+
 
 @app.route("/api/token")
 def get_code():
@@ -77,6 +52,7 @@ def get_code():
             return make_response('new token was created', 201)
     session.clear()
     return make_response('the token has expired', 404)
+
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -154,8 +130,9 @@ def top_artists():
 def top_genres():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        genres = spotify.get_user_genres(auth_header)
-        if len(genres) < 1: return make_response("not enough data", 204)
+        genres = get_genres(auth_header)
+        if genres is None: return make_response("not enough data", 204)
+
         fig = analysis.visualize_genres_barchart(genres)
         res = make_response(fig, 200)
     else:
@@ -167,8 +144,8 @@ def top_genres():
 def get_genres_overview():
     if 'auth_header' in session:
         auth_header = session['auth_header']
-        genres = spotify.get_user_genres(auth_header)
-        if len(genres) < 1: return make_response("not enough data", 204)
+        genres = get_genres(auth_header)
+        if genres is None: return make_response("not enough data", 204)
         text = analysis.generate_genres_text(genres)
         res = make_response(text, 200)
     else:
@@ -183,7 +160,8 @@ def recommendations():
         if request.method == 'POST':
             data = request.json
             market = data.get('code')
-            genres = spotify.get_user_genres(auth_header)
+            genres = get_genres(auth_header)
+            if genres is None: return make_response("not enough data", 204)
             first_genre = analysis.convert_genres(genres).loc[0, 'Genre'].split()
             genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), None)
             search = spotify.search(auth_header, name=f"{market.split('_')[0]} trending {genre_name} ",
@@ -199,7 +177,7 @@ def recommendations():
             res = make_response(recommendations["tracks"], 200)
 
         else:
-            recommendations = spotify.get_recommendations(auth_header, limit=9, t_count=2, a_count=1, g_count=2)
+            recommendations = spotify.get_recommendations(auth_header, limit=9)
             res = make_response(recommendations["tracks"], 200)
     else:
         res = make_response("token not in session", 401)
@@ -240,7 +218,7 @@ def get_generated_tracks():
         auth_header = session['auth_header']
         data = request.json
         tracks = data.get('tracks')
-        generated_tracks = spotify.generate_playlist_tracks(auth_header, tracks, limit=19)
+        generated_tracks = spotify.generate_playlist_tracks(auth_header, tracks, limit=20)
 
         return make_response(generated_tracks["tracks"], 200)
     return make_response("token not in session", 401)
@@ -260,6 +238,8 @@ def create_playlist():
             "playlist_id": playlist_id
         }), 201)
     return make_response("token not in session", 401)
+
+
 @app.route('/api/add_tracks', methods=['POST'])
 def add_tracks():
     if 'auth_header' in session:
@@ -271,17 +251,23 @@ def add_tracks():
         return make_response("tracks added", 201)
     return make_response("token not in session", 401)
 
+
 @app.route('/api/set_playlist_image', methods=('POST', 'PUT'))
 def set_playlist_image():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         data = request.json
         image = data.get('image')
-        if (len(image) * 3) / 4 - image.count('=', -2) < 256000:
-            playlist_id = data.get('playlist_id')
-            spotify.set_image(auth_header, playlist_id, image)
-            return make_response("image is installed", 202)
-        else: make_response("image size is too big", 400)
+        playlist_id = data.get('playlist_id')
+        if (len(image) * 3) / 4 - image.count('=', -2) > 256000:
+            buffer = io.BytesIO()
+            imgdata = base64.b64decode(image)
+            img = Image.open(io.BytesIO(imgdata))
+            img.save(buffer, format="JPEG", optimize=True)
+            image = base64.b64encode(buffer.getvalue())
+
+        spotify.set_image(auth_header, playlist_id, image)
+        return make_response("image is installed", 202)
     return make_response("token not in session", 401)
 
 
@@ -291,6 +277,16 @@ def logout():
     url = 'https://www.spotify.com/logout'
     webbrowser.open(url, new=2)
     return make_response("successful logout", 200)
+
+
+# ----------------------- some func -------------------------
+def get_genres(auth_header):
+    recently_played = spotify.get_recently_played(auth_header)
+    if len(recently_played['items']) < 1: return make_response("not enough data", 204)
+    top_artists_ids = analysis.get_history_top_artists(recently_played)
+    top_artists = spotify.get_several_artists(auth_header, top_artists_ids)
+    genres = spotify.get_user_genres(auth_header, top_artists)
+    return genres
 
 
 if __name__ == "__main__":

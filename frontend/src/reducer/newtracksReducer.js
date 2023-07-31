@@ -2,14 +2,14 @@ const playlistReducer = (state, action) => {
     if (action.type === "DENERATE_ITEM") {
 
         let { playlist, tracks } = action.payload;
-        console.log(playlist)
         let newTracks;
         function arePlaylistsEqual(playlist1, playlist2) {
-            if(!playlist1.length || !playlist2.length)
+            if(!playlist1.length || !playlist2.length) return false;
             if (playlist1.length !== playlist2.length) {
               return false;
             }
             console.log()
+
             for (let i = 0; i < playlist1.length; i++) {
               if (playlist1[i].id !== playlist2[i].id) {
                 return false;

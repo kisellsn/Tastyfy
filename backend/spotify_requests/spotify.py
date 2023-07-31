@@ -349,7 +349,7 @@ def create_playlist(auth_header, user_id, name, description=""):
 def set_image(auth_header, playlist_id, image):
     url = "{}/playlists/{id}/images".format(SPOTIFY_API_URL, id=playlist_id)
     auth_header["Content-Type"] = "image/jpeg"
-    resp = requests.put(url, data=image, headers=auth_header)
+    resp = requests.put(url, data=image, headers=auth_header, verify=False)
     return resp
 
 

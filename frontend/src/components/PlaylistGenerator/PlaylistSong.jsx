@@ -3,8 +3,8 @@ import './styles.scss';
 import img from '../../assets/images/NOimage.png'
 
 const PlaylistSong = ({song, removeItem}) => {
-    let title = song.name.length > 15 ? song.name.substring(0, 15) + "..." : song.name;
-    let artist = song.album?.artists[0]?.name.length > 15 ? song.album?.artists[0]?.name.substring(0, 15) + "..." : song.album?.artists[0]?.name;
+    let title = song.name.length > 20 ? song.name.substring(0, 20) + "..." : song.name;
+    let artist = song.album?.artists[0]?.name.length > 20 ? song.album?.artists[0]?.name.substring(0, 20) + "..." : song.album?.artists[0]?.name;
     const removeSong = () => {
         removeItem(song.id)
     }

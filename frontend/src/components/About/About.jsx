@@ -53,10 +53,10 @@ function About(props) {
               <img 
                 src={SpiderImage} 
                 loading="lazy" 
-                alt={'Tykhonenko Mykyta'}   
+                alt={'Mykyta Tykhonenko'}   
               />
               <div className='team-card-info'>
-                <h3>Tykhonenko Mykyta</h3>
+                <h3>Mykyta Tykhonenko</h3>
                 <div className='team-card-rectangle'></div>
                 <h3>UI/UX Designer</h3>
               </div>

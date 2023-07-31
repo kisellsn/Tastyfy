@@ -9,7 +9,7 @@ const Header = ({ url, linkUser, back="rgb(26, 0, 36)" }) => {
     const navigate = useNavigate();
 
     const handleMenuClick = () => {
-        navigate('/menu'); 
+        navigate('/'); 
     };
 
     const handleGeneratorClick = () => {

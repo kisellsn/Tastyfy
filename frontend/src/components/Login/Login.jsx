@@ -17,23 +17,6 @@ function Login(props) {
     }
   };
 
-  React.useEffect(() => {
-    const handleCallback = async () => {
-      try {
-        const response2 = await axios.get('/callback');
-        const { link2 } = response2.data;
-        window.location.href = link2;
-      } catch (error) {
-        console.error('Callback failed', error);
-      }
-    };
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    if (code) {
-      handleCallback();
-    }
-  }, []);
 
   return (
     <div id='main' className={props.className}>

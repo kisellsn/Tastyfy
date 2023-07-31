@@ -234,7 +234,7 @@ function Generator(props) {
                         <button className={(inputName && tracks.length) ? '' : 'unactive_button'} onClick={(inputName && tracks.length) ? handleCreate : null}>Create</button>
                     </div>
                     <div className='buttonCreate'>
-                        <button className={tracks.length ? '' : 'unactive_button'} onClick={tracks.length ? handleBack : null}>Back</button>
+                        <button onClick={handleBack}>Back</button>
                     </div>
                 </div>
             </div>

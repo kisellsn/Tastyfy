@@ -221,7 +221,7 @@ function Menu(props) {
           <div id='listing'>
             <div className='countries' >
               <Select options={options} value={value} onChange={(changeHandler)} 
-              placeholder="Select country"
+              placeholder="Select country" width='100%'
               styles={{
                 control: (provided) => ({
                   ...provided,
@@ -231,6 +231,7 @@ function Menu(props) {
                   boxShadow: 'none',
                   borderRadius: '50%',
                   fontFamily: 'Lexend',
+                  width: '100%',
                   fontSize: '1.5vw',
                   '&:hover': {
                     color: 'white',
@@ -240,6 +241,7 @@ function Menu(props) {
                 singleValue: (provided) => ({
                   ...provided,
                   color: 'white',
+                  width: '100%',
                 }),
                 indicatorSeparator: () => null,
                 dropdownIndicator: (provided) => ({
@@ -254,6 +256,7 @@ function Menu(props) {
                   ...provided,
                   backgroundColor: 'rgba(58, 29, 78, 1)',
                   color: 'white', 
+                  width: '100%',
                   '&:hover': {
                     color: 'grey',
                     cursor: 'pointer',
@@ -262,10 +265,12 @@ function Menu(props) {
                 placeholder: (provided)=> ({
                   ...provided,
                   color: 'white', 
+                  width: '100%',
                 }),
                 '&:hover': {
                     cursor: 'pointer',
                   },
+                  width: '60%'
               }}
             />
               </div>

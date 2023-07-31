@@ -128,7 +128,6 @@ GET_USER_ENDPOINT = '{}/{}'.format(SPOTIFY_API_URL, 'users')
 def get_profile_by_id(user_id):
     url = "{}/{id}".format(GET_USER_ENDPOINT, id=user_id)
     resp = requests.get(url)
-    # print(resp.json())
     return resp.json()
 
 
@@ -272,13 +271,12 @@ def get_playlist_items(auth_header, playlist_id, limit=50):
 
 
 def get_user_genres(auth_header):
-    top_artists = get_top_items(auth_header, 'artists', term="long_term")
+    top_artists = get_top_items(auth_header, 'artists', term="short_term")
     if len(top_artists['items']) < 1: return []
-    # genres = [track['genres'] for track in top_tracks['items']]
     genres = []
     for artist in top_artists['items']:
         if artist['genres']: genres.append(artist['genres'])
-    print(genres)
+    # print(genres)
     return genres
 
 

@@ -134,7 +134,6 @@ def top_artists():
                 if len(top_items["items"]) < 1: return make_response("not enough data", 204)
                 top_ids = analysis.get_history_top_artists(top_items, is_top=True)
                 top = spotify.get_several_artists(auth_header, top_ids)
-                print(top)
                 res = make_response(jsonify(top["artists"]), 200)
             elif term == 'current':
                 recently_played = spotify.get_recently_played(auth_header)

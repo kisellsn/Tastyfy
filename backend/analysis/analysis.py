@@ -18,7 +18,7 @@ def visualize_top_artists(json_data, is_top=False):
     return pio.to_json(__plot_pie_chart(artists_count), pretty=True)
 
 
-def get_history_top_artists(json_data, is_top=False):
+def get_history_top_artists(json_data, is_top=False, limit=6):
     if is_top:
         streaming_history = __normalize_top(json_data)
     else:
@@ -26,7 +26,7 @@ def get_history_top_artists(json_data, is_top=False):
 
     artist_counts = streaming_history.groupby(['artist_id']).agg(Count=('artist_id', 'count')).reset_index()
     artist_counts.sort_values(by=['Count'], ascending=False, inplace=True)
-    return artist_counts.head(6)['artist_id'].tolist()
+    return artist_counts.head(limit)['artist_id'].tolist()
 
 
 def visualize_genres_barchart(genres_complex_list):

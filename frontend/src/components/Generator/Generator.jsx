@@ -53,7 +53,7 @@ function Generator(props) {
                 setFlag(1);
                 let options;
                 const arrayOfObjects = playlist.map((item) => item.song);
-                if((playlist !== playlist2) && !tracks.length){
+                if((playlist !== playlist2) || tracks.length ===0){
                     options = await generateTracks(arrayOfObjects);
                 } else {
                     options = tracks.map((item) => item.song);

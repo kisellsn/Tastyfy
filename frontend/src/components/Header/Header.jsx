@@ -8,8 +8,11 @@ const Header = ({ url, linkUser, back="rgb(26, 0, 36)" }) => {
     
     const navigate = useNavigate();
 
-    const handleMenuClick = () => {
+    const handleLoginClick = () => {
         navigate('/'); 
+    };
+    const handleMenuClick = () => {
+        navigate('/menu'); 
     };
 
     const handleGeneratorClick = () => {
@@ -19,7 +22,7 @@ const Header = ({ url, linkUser, back="rgb(26, 0, 36)" }) => {
 
     return (
         <div className='header' style={{backgroundColor:`${back}`}}>
-        <div className='headTastyfy' onClick={handleMenuClick}>Tastyfy</div>
+        <div className='headTastyfy' onClick={handleLoginClick}>Tastyfy</div>
         <div className='menu'>
             <div className='menuItem' onClick={handleMenuClick}>Analytics</div>
             <div className='menuItem PG' onClick={handleGeneratorClick}>Playlist Generator</div>

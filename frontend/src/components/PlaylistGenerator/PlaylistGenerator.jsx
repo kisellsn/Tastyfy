@@ -73,7 +73,12 @@ function PlaylistGenerator(props) {
                 <div className='playlistContainer'>
                     <div className='searching'>
                         {/* <h1>SEARCH</h1> */}
-                        <form onSubmit={(e) => e.preventDefault()}>
+                        <form onSubmit={(e) => 
+                        {
+                        e.preventDefault();
+                        if (inputValue) {
+                            handleSearch();
+                        }}}>
                             <svg 
                                 height="55%" 
                                 viewBox="0 0 40 40" 
@@ -91,6 +96,7 @@ function PlaylistGenerator(props) {
                             name="text" 
                             autoComplete="off"
                             value={inputValue}
+                            onSubmit={inputValue ? handleClearInput : null}
                             onChange={(e) => setInputValue(e.target.value)}
                             />
                             <svg 

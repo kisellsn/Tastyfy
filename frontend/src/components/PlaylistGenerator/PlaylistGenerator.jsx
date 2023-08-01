@@ -7,6 +7,7 @@ import { playlistSongs } from 'src/util/functions';
 import ListSong from './ListSong';
 import { usePlaylistContext } from 'src/context/playlistContext';
 import PlaylistSong from './PlaylistSong';
+import {BsInfoCircle} from 'react-icons/bs'
 
 function PlaylistGenerator(props) {
     const [userInfo, setUserInfo] = useState('');
@@ -54,6 +55,16 @@ function PlaylistGenerator(props) {
         navigate('/generator');
     }
 
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleInfo = () => {
+      setShowPopup(true);
+    };
+  
+    const handleClose = () => {
+      setShowPopup(false);
+    };
+
 
     return (
         <div id='generator' className={props.className}>
@@ -62,7 +73,16 @@ function PlaylistGenerator(props) {
             <div id='circle2'></div>
             <div id='circle3'></div>
             <div className='body'>
-                <h3>Your playlist will be generated...</h3>
+                <div>
+                    <h3>Your playlist will be generated...<BsInfoCircle className='iconInfo' onMouseEnter={handleInfo} onMouseLeave={handleClose}/></h3>
+                </div>
+                {showPopup && (
+                    <div className='customPopup'>
+                        <div className='popupContent'>
+                            <p>Choose from 1 to 5 songs and we generate for you playlist, that you add to your Spotify.</p>
+                        </div>
+                    </div>
+                )}
                 <div className='playlistContainer'>
                     <div className='searching'>
                         {/* <h1>SEARCH</h1> */}

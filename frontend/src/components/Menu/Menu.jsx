@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useState } from 'react';
+import { React, useEffect, useMemo, useRef, useState } from 'react';
 import './Menu.scss';
 import Song1 from './Song1';
 import Song2 from './Song2';
@@ -18,6 +18,7 @@ import { getUserFromStorage, storeUser } from 'src/util/local';
 function Menu(props) {
   const [userInfo, setUserInfo] = useState(getUserFromStorage());
   const navigate = useNavigate();
+  const topSongRef = useRef([]);
   useEffect(() => {
     if(getUserFromStorage()) return;
     getToken().then(token => {
@@ -85,8 +86,11 @@ function Menu(props) {
   useEffect(() => {
     const fetchTopSongs = async () => {
       try {
-        const tops = await getTops(topTerm);
-        setTopSong(tops);
+          const tops = await getTops(topTerm);
+          topSongRef.current = tops
+          setTopSong(tops);
+
+
       } catch (error) {
         console.error('Error fetching top songs:', error);
         // Handle the error
@@ -96,12 +100,13 @@ function Menu(props) {
     fetchTopSongs();
   }, [topTerm]);
 
+  const recSongsRef = useRef(0);
   useEffect(() => {
     const fetchRecSongs = async () => {
-      try {
-        const recommendations = await getRecs();
-        setRec(recommendations);
-        setValue('Global')
+      try {    
+          const recommendations = await getRecs();
+          setRec(recommendations);
+          setValue('Global')
       } catch (error) {
         console.error('Error fetching rec songs:', error);
         // Handle the error

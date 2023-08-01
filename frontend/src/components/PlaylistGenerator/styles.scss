@@ -64,6 +64,9 @@
             .searching{
                 color:white;
                 margin-bottom:2%;
+
+                flex-direction: row;
+                justify-content: space-between;
                 display: flex;
                 form {
                     display: flex;
@@ -276,6 +279,24 @@
     }
     .flex-one{
         flex-basis:29%;
+    }
+
+    .iconInfo{
+        cursor: pointer;
+        z-index: 20;
+        width: 20px;
+    }
+
+    .customPopup{
+        display: flex;
+        width: 98%;
+        justify-content: center;
+        margin: 1%;
+        .popupContent{
+            border: 2px white solid;
+            text-align: center;
+            width: 40%;
+        }
     }
 
 }

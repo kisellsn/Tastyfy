@@ -8,7 +8,6 @@ const playlistReducer = (state, action) => {
             if (playlist1.length !== playlist2.length) {
               return false;
             }
-            console.log()
 
             for (let i = 0; i < playlist1.length; i++) {
               if (playlist1[i].id !== playlist2[i].id) {

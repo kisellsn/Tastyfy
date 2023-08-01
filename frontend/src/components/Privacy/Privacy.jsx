@@ -1,6 +1,7 @@
 import React from 'react';
 import Vector1Image from 'src/assets/images/about_Vector_1.png';
 import { useNavigate } from 'react-router-dom';
+import "../About/About.scss"
 
 function Privacy(props) {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Privacy(props) {
     <div id='mainA' className={props.className}>
       <div className='containerA'>
         <div id='leftRectangleA'>
-          <div id='tastyfyA'>{`Tastyfy`}</div>
+          <div id='tastyfyA' onClick={handleGoBack}>{`Tastyfy`}</div>
           <div id='backRectangleA' onClick={handleGoBack}>
             <img id='vector1A' src={Vector1Image} loading="lazy" alt={'Vector'} />
             <div id='backA'>Back</div>

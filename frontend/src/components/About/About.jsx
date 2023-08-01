@@ -170,7 +170,7 @@ function About(props) {
 
               <div className={`${mate !== 3 ? 'hidden' : ''}`}>  
                 <h4>Metin Shabanov - Data Analyst</h4>
-                <p>Metin is the brains behind the data analysis at Tastyfy. With his analytical skills and music expertise, he dives into the vast world of music data to uncover hidden connections and patterns. By analyzing your music preferences, Metin continuously enhances the algorithms that power Tastyfy, ensuring that the music recommendations you receive are tailored specifically to your unique taste.</p>
+                <p>Metin is the brains behind the data analysis at Tastyfy. With his analytical skills and music expertise, he dives into the vast world of music data to uncover hidden connections and patterns. By analyzing your music preferences, Metin continuously enhances the algorithms that power Tastyfy, ensuring that the music charts you receive are tailored specifically to your unique taste.</p>
               </div>
 
             </div>

@@ -468,4 +468,5 @@ music_genres = (
     "ska",
     "grunge",
     "rap",
-    "indie")
+    "indie",
+    "permanent wave")

@@ -51,7 +51,7 @@ def get_code():
             session['expires_at'] = expires_at
             return make_response('new token was created', 201)
     session.clear()
-    return make_response('the token has expired', 404)
+    return make_response('the token has expired', 401)
 
 
 # -------------------------- API REQUESTS ----------------------------

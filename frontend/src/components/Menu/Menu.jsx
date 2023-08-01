@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useRef, useState } from 'react';
+import { React, useEffect, useMemo, useState } from 'react';
 import './Menu.scss';
 import Song1 from './Song1';
 import Song2 from './Song2';
@@ -11,23 +11,25 @@ import PlotTop from '../Plots/PlotTop';
 import PlotWeb from '../Plots/PlotWeb';
 import FeatureViewer from '../Plots/FeatureViewer';
 import Header from '../Header/Header';
-import { clearLocalStorage, getUserFromStorage, storeUser } from 'src/util/local';
+import { getUserFromStorage, storeUser } from 'src/util/local';
 
 
 
 function Menu(props) {
   const [userInfo, setUserInfo] = useState(getUserFromStorage());
   const navigate = useNavigate();
-  const startRef = useRef(Date.now());
   useEffect(() => {
     if(getUserFromStorage()) return;
     getToken().then(token => {
-      if (token !== 'new token was created') navigate('/');
+      if (!token) navigate('/');
     })
     registerSpotify().then(user => {
       if (!user) navigate('/');
-      storeUser(user);
-      setUserInfo(user);
+      else {
+        storeUser(user);
+        setUserInfo(user);
+      }
+
     });
   })
 
@@ -36,13 +38,8 @@ function Menu(props) {
   useEffect(() => {
     const checkAuthorization = () => {
       const user = getUserFromStorage();
-      if (Date.now() - startRef > 3600000) {
-        clearLocalStorage();
-        navigate('/');
-      } else {
-        storeUser(user);
-        setUserInfo(user);
-      }
+      setUserInfo(user);
+
     };
 
     checkAuthorization(); 

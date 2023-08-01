@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.scss'
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
-import { clearLocalStorage, getUserFromStorage, storeUser } from 'src/util/local';
+import {getUserFromStorage } from 'src/util/local';
 import { playlistSongs } from 'src/util/functions';
 import ListSong from './ListSong';
 import { usePlaylistContext } from 'src/context/playlistContext';
@@ -11,17 +11,10 @@ import PlaylistSong from './PlaylistSong';
 function PlaylistGenerator(props) {
     const [userInfo, setUserInfo] = useState('');
     const navigate = useNavigate();
-    const startRef = useRef(Date.now());
     useEffect(() => {
         const checkAuthorization = () => {
-          const user = getUserFromStorage();
-          if (Date.now() - startRef > 3600000) {
-            clearLocalStorage();
-            navigate('/');
-          } else {
-            storeUser(user);
+            const user = getUserFromStorage();
             setUserInfo(user);
-          }
         };
     
         checkAuthorization(); 
@@ -95,6 +88,7 @@ function PlaylistGenerator(props) {
                             type="text" 
                             name="text" 
                             autoComplete="off"
+                            placeholder='Enter the name of the song'
                             value={inputValue}
                             onSubmit={inputValue ? handleClearInput : null}
                             onChange={(e) => setInputValue(e.target.value)}
@@ -123,7 +117,7 @@ function PlaylistGenerator(props) {
                                         ))}
                                         </>
                                     ):(
-                                        <p>Enter the name of the song.</p>
+                                        <p></p>
                                     )}
                                 </>
                                 ):(
@@ -141,7 +135,7 @@ function PlaylistGenerator(props) {
                                     ))}
                                     </>
                                 ):(
-                                    <p>Add songs to playlist. (Maximum 5)</p>
+                                    <p></p>
                                 )}
                             </div>
                         </div>

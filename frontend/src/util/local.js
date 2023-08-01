@@ -17,6 +17,8 @@ export const storeUser = (user) => {
 
 export const getUserFromStorage = () => {
   const user = localStorage.getItem(USER_KEY);
+  console.log(user === undefined)
+  if(user === undefined) return false;
   return (user && JSON.parse(user)) ? JSON.parse(user) : null;
 };
 

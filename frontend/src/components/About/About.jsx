@@ -165,7 +165,7 @@ function About(props) {
 
               <div className={`${mate !== 2 ? 'hidden' : ''}`}>  
                 <h4>Mykyta Tykhonenko - UI/UX Designer</h4>
-                <p>Mykyta's expertise lies in crafting captivating user experiences. As the UI/UX designer for Tastyfy, he combines aesthetics with functionality, designing a visually appealing interface that complements the overall user journey. Tykhonenko's goal is to make your time on Tastyfy enjoyable, visually stimulating, and easy to navigate.</p>
+                <p>Mykyta's expertise lies in crafting captivating user experiences. As the UI/UX designer for Tastyfy, he combines aesthetics with functionality, designing a visually appealing interface that complements the overall user journey. Mykyta's goal is to make your time on Tastyfy enjoyable, visually stimulating, and easy to navigate.</p>
               </div>
 
               <div className={`${mate !== 3 ? 'hidden' : ''}`}>  

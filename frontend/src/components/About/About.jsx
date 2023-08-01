@@ -110,10 +110,10 @@ function About(props) {
               <img 
                 src={PenguinImage} 
                 loading="lazy" 
-                alt={'Shabanov Metin'}
+                alt={'Metin Shabanov'}
               />
               <div className='team-card-info'>
-                <h3>Shabanov Metin</h3>
+                <h3>Metin Shabanov</h3>
                 <div className='team-card-rectangle'></div>
                 <h3>Data Analyst</h3>
               </div>
@@ -152,30 +152,27 @@ function About(props) {
           <div id='descriptionA'>
             <h2>About</h2>
             <div id='textAbout'>
-            {mate === 0 && (
-              <div>
+
+              <div className={`${mate !== 0 ? 'hidden' : ''}`}>
                 <h4>Sonya Kondratska - Back-end Developer</h4>
                 <p>Sonya is the mastermind behind the technical infrastructure that powers Tastyfy. With her expertise in back-end development, she ensures that our platform operates smoothly, securely, and efficiently. She is committed to delivering a seamless user experience, enabling you to explore your music preferences effortlessly.</p>
               </div>
-            )}
-            {mate === 1 && (
-              <div>
-              <h4>Andrii Mieshkov - Front-end Developer</h4>
-              <p>Andrii is responsible for the visual and interactive aspects of Tastyfy. Using his skills in front-end development, he creates an intuitive and engaging user interface that makes navigating through the platform a delightful experience. Andrii works tirelessly to bring your music preferences to life and ensure that you have a seamless interaction with Tastyfy.</p>
+
+              <div className={`${mate !== 1 ? 'hidden' : ''}`}>
+                <h4>Andrii Mieshkov - Front-end Developer</h4>
+                <p>Andrii is responsible for the visual and interactive aspects of Tastyfy. Using his skills in front-end development, he creates an intuitive and engaging user interface that makes navigating through the platform a delightful experience. Andrii works tirelessly to bring your music preferences to life and ensure that you have a seamless interaction with Tastyfy.</p>
               </div>
-            )}
-            {mate === 2 && (
-              <div>  
-              <h4>Tykhonenko Mykyta - UI/UX Designer</h4>
-              <p>Tykhonenko's expertise lies in crafting captivating user experiences. As the UI/UX designer for Tastyfy, he combines aesthetics with functionality, designing a visually appealing interface that complements the overall user journey. Tykhonenko's goal is to make your time on Tastyfy enjoyable, visually stimulating, and easy to navigate.</p>
+
+              <div className={`${mate !== 2 ? 'hidden' : ''}`}>  
+                <h4>Mykyta Tykhonenko - UI/UX Designer</h4>
+                <p>Mykyta's expertise lies in crafting captivating user experiences. As the UI/UX designer for Tastyfy, he combines aesthetics with functionality, designing a visually appealing interface that complements the overall user journey. Tykhonenko's goal is to make your time on Tastyfy enjoyable, visually stimulating, and easy to navigate.</p>
               </div>
-            )}
-            {mate === 3 && (
-              <div>  
-              <h4>Shabanov Metin - Data Analyst</h4>
-              <p>Metin is the brains behind the data analysis at Tastyfy. With his analytical skills and music expertise, he dives into the vast world of music data to uncover hidden connections and patterns. By analyzing your music preferences, Metin continuously enhances the algorithms that power Tastyfy, ensuring that the music recommendations you receive are tailored specifically to your unique taste.</p>
+
+              <div className={`${mate !== 3 ? 'hidden' : ''}`}>  
+                <h4>Metin Shabanov - Data Analyst</h4>
+                <p>Metin is the brains behind the data analysis at Tastyfy. With his analytical skills and music expertise, he dives into the vast world of music data to uncover hidden connections and patterns. By analyzing your music preferences, Metin continuously enhances the algorithms that power Tastyfy, ensuring that the music recommendations you receive are tailored specifically to your unique taste.</p>
               </div>
-            )}
+
             </div>
           </div>
         </div>

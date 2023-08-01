@@ -116,6 +116,9 @@
     position: relative;
     filter: brightness(0.8);
   }
+  .hidden{
+    display: none;
+  }
 
   .team-card-info{
     display: flex;
@@ -172,8 +175,40 @@
     position: relative;
     margin-top: 15px;
 }
+#descriptionA-1{
+    display: none;
+}
+.hiddenArrow{
+    display: none;
+}
 
 @media (max-width: 675px) {
+    #mainA {
+        min-height: 600px;
+    }
+
+    .containerA{
+        position: relative;
+        flex-direction:column;       
+        min-height: 600px;
+
+    }
+    #leftRectangleA {
+        background-color:transparent;
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 1rem;
+    }
+    #tastyfyA {
+        font-size: 9vw;
+        position: relative;
+    }
+    #backRectangleA{
+        display: none;
+    }
     #leftRectangleA {
         width: 10rem;
         margin-left:0;
@@ -183,11 +218,73 @@
     .about-body {
         // width: 70%;
         margin-right:0px;
-        width:calc(100% - 10rem);
+        width:80%;
+        margin: 0 10% 0 10%;
     }
 
     #textAbout {
         font-size: 2vw;
+    }
+
+    #descriptionA-1{
+        display: inline;
+        position: relative;
+        text-align: center;
+    
+        h2{
+            color: rgba(255, 255, 255, 1);
+            font-style: normal;
+            font-family: Lexend;
+            font-weight: 300;
+            font-size: 5vw;
+        }
+    }
+    #descriptionA h2,#descriptionA h4{
+        display: none;
+    }
+    .hiddenArrow{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        width: 20%;
+        svg{
+            margin-top: -150%;
+            cursor: pointer;
+        }
+
+    }
+    #descriptionA{
+        position: relative;
+        padding: 5%;
+        padding-top: 1rem;
+        text-align: center;
+        min-height: 1rem;
+        font-size: 5vw;
+    }
+    #textAbout {
+        text-align: center;
+        font-size: 3.5vw;
+        margin: 0 5% 0 5%;
+        margin-top: 0;
+    }
+
+    .team-card {
+        width: 60%;
+        margin: 0;
+        img{
+            width: 80%;
+            border-radius: 20px;
+            aspect-ratio: 162/276;
+        }
+      }
+    .team-card-info{
+        width: 85%;
+        margin-top:0.7rem;
+    }
+    .team-card-info h3 {
+        margin-block-start: 0.5rem;
+        margin-block-end: 0.5rem;
+        font-size: 4vw;
     }
 }
   

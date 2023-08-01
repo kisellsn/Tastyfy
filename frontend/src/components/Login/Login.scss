@@ -14,7 +14,7 @@
     overflow: hidden;
 }
 
-  #VectorSmartObject1 {
+  .VectorSmartObject1 {
     width: 170%;
     top: -40%;
     left: -50%;
@@ -23,6 +23,9 @@
     transform: scale(1);
     transform-origin: bottom left;
     animation: changeSize 20s linear infinite;
+    img {
+        width: 100%;
+    }
   }
 
 .container{
@@ -120,8 +123,6 @@
     letter-spacing: 0px;
     text-decoration: none;
     text-transform: none;
-    // width: 118.18px;
-    // height: 55.89px;
     position: relative;
 }
 
@@ -224,6 +225,10 @@
 
 
   @media (max-width: 675px) {
+    #main{
+        min-height: 600px;
+        background: linear-gradient(159deg, rgb(48, 7, 62, 1) 25%, rgb(1, 111, 32) 90%);
+    }
     #Tastyfy-title{
         font-size: 10vw;
         padding-left: 1rem;
@@ -233,11 +238,66 @@
 
     .login-body{
         flex-direction: column;
-        gap: 3rem;
+        gap: 7rem;
+        padding: 0%;
     }
 
     #Tastyfy-info {
         text-align:center;
     }
+    #Tastyfy-info-title{
+        font-size: 5.5vw;
+    }
+    #Tastyfy-info-info{
+        font-size: 5vw;
+    }
+    #login-button{
+        width: 45%;
+        height: auto;
+        aspect-ratio: 178/57;
 
+    }
+    #button-click{
+        width: 65%;
+        padding: 0 15% 0 20%;
+        aspect-ratio: 178/57;
+        justify-content: space-between;
+    }
+    #LogIn{
+        font-size: 6vw;
+    }
+    #SpotifyImg {
+        height: 70%;
+    }
+    .VectorSmartObject1 {
+        width: 534%;
+        aspect-ratio: 1621/1000;
+        top:-120%;
+        left: -180%;
+        position: absolute;
+        animation: none;
+        opacity: 0.35;
+        
+        img{
+            transform: rotate(99deg) scale(-1, 1);
+            animation: changeSizeMobile 15s infinite;
+        }
+      }
+
+      @keyframes changeSizeMobile  {
+        0% {
+            transform: rotate(99deg) scale(-1, 1);
+        }
+        40% {
+            transform: rotate(99deg) scale(-0.93, 0.93);
+        }
+        60% {
+            transform: rotate(99deg) scale(-1.23, 1.23);
+        }
+        100% {
+            transform: rotate(99deg) scale(-1, 1) scale(1);
+        }
+        
+      }
   }
+

@@ -20,12 +20,14 @@ function Login(props) {
 
   return (
     <div id='main' className={props.className}>
+    <div className='VectorSmartObject1'>
       <img
-        id='VectorSmartObject1'
-        src={VectorSmartObject1Image}
-        loading="eager"
-        alt={'Vector Smart Object 1'}
-      />
+          src={VectorSmartObject1Image}
+          loading="eager"
+          alt={'Vector Smart Object 1'}
+        />
+    </div>
+
       <div className='container'>
 
         <div id='Tastyfy-title'>{`Tastyfy`}</div>

@@ -18,6 +18,30 @@ def visualize_top_artists(json_data, is_top=False):
     return pio.to_json(__plot_pie_chart(artists_count), pretty=True)
 
 
+def visualize_genres_barchart(genres_complex_list):
+    genres = convert_genres(genres_complex_list)
+
+    color_continuous_scale = ['#500663', '#4c0765', '#470867', '#420a69', '#3c0b6c',
+                              '#360d6e', '#2e0f70', '#251172', '#191274', '#011476']
+
+    fig = __plot_bar_chart(genres, color_continuous_scale)
+
+    return pio.to_json(fig, pretty=True)
+
+
+def visualize_features(features_dict):
+    features = pd.DataFrame.from_dict(features_dict)
+    feature_names, feature_means, best_examples = __collect_means(features)
+    features_dict = dict(zip(feature_names, feature_means))
+    feature_names.append(feature_names[0])
+    feature_means.append(feature_means[0])
+
+    fig = __plot_windrose_chart(feature_names, feature_means)
+
+    image = pio.to_image(fig, format='png', width=1080, height=980, validate=True, engine='kaleido')
+    return image, best_examples, features_dict
+
+
 def get_history_top_artists(json_data, is_top=False, limit=6):
     if is_top:
         streaming_history = __normalize_top(json_data)
@@ -29,92 +53,6 @@ def get_history_top_artists(json_data, is_top=False, limit=6):
     return artist_counts.head(limit)['artist_id'].tolist()
 
 
-def visualize_genres_barchart(genres_complex_list):
-    genres = convert_genres(genres_complex_list)
-
-    color_continuous_scale = ['#500663', '#4c0765', '#470867', '#420a69', '#3c0b6c',
-                              '#360d6e', '#2e0f70', '#251172', '#191274', '#011476']
-
-    fig = px.bar(
-        genres.head(10),
-        x='% of total',
-        y='Genre',
-        orientation='h',
-        color='Genre',
-        color_discrete_sequence=color_continuous_scale,
-        text='Genre',
-        labels={'% of total': 'Percent of total listened'},
-        title='',
-        hover_name='Genre',
-        hover_data={
-            'Genre': False,
-            '% of total': False,
-            'Count': True
-        }
-    )
-
-    fig.update_traces(
-        textposition='inside',
-        insidetextanchor='middle',
-        marker_line_color='rgba(0, 0, 0, 0)',
-        hovertemplate=' <br> <b>%{hovertext} </b> <br> Times listened: %{customdata[0]} <br> <extra></extra>'
-    )
-
-    fig.update_layout(
-        plot_bgcolor='rgba(0, 0, 0, 0)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-        coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
-        showlegend=False,
-        xaxis=dict(tickfont=dict(color='white'), side='top', title_standoff=15, gridcolor='#845091', fixedrange=True),
-        yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
-        font=dict(color='white'),
-        margin=dict(t=0, b=0, r=0, l=0),
-        hoverlabel=dict(font_size=20, font_family='Helvetica'),
-    )
-
-    return pio.to_json(fig, pretty=True)
-
-
-def visualize_features(features_dict):
-    features = pd.DataFrame.from_dict(features_dict)
-    feature_names, feature_means, best_examples = collect_means(features)
-    features_dict = dict(zip(feature_names, feature_means))
-    feature_names.append(feature_names[0])
-    feature_means.append(feature_means[0])
-
-    fig = go.Figure()
-
-    fig.add_trace(
-        go.Scatterpolar(
-            r=feature_means,
-            theta=feature_names,
-            mode='lines+markers',
-            fill='toself',
-            fillcolor='rgba(114, 5, 31, 0.7)',
-            line=dict(color='#72051F', width=3),
-            marker=dict(color='white', size=15, opacity=0.5)
-        )
-    )
-
-    fig.update_layout(
-        plot_bgcolor='rgba(0, 0, 0, 0)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-        showlegend=False,
-        polar=dict(
-            radialaxis=dict(range=[0, 100], gridcolor='white', gridwidth=3, showticklabels=False,
-                            nticks=7, tickfont=dict(family='Helvetica', size=20)),
-            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=30)),
-            bgcolor='#160620',
-            gridshape='linear'
-        ),
-        font=dict(color='white')
-    )
-    fig.update_polars(angularaxis_direction='clockwise')
-
-    image = pio.to_image(fig, format='png', width=1080, height=980, validate=True, engine='kaleido')
-    return image, best_examples, features_dict
-
-
 def get_smarter_recommendations(playlist_tracks):
     tracks = pd.DataFrame(playlist_tracks)
     tracks['artist_name'] = tracks['artists'].apply(lambda artists: [artist['name'] for artist in artists])
@@ -122,40 +60,6 @@ def get_smarter_recommendations(playlist_tracks):
     tracks.drop_duplicates(subset=['artist_name'], inplace=True)
 
     return tracks['id'].values.tolist()[:9]
-
-
-def collect_means(features):
-    features.rename(columns={'valence': 'happiness'}, inplace=True)
-    names = ['id', 'acousticness', 'danceability',  'energy',
-             'happiness', 'instrumentalness', 'liveness', 'loudness']
-
-    features = features[names]
-    features.loc[:, 'loudness'] = (features['loudness'] + 60) / 60
-    features.loc[:, features.select_dtypes(include=['number']).columns] *= 100
-
-    means = get_means(names, features)
-    best_examples = get_best_examples(names, features)
-
-    return names[1:], means, best_examples
-
-
-def get_means(names, features):
-    means = []
-    for i in range(1, len(names)):
-        means.append(features[names[i]].mean())
-
-    means = [round(elem, 1) for elem in means]
-
-    return means
-
-
-def get_best_examples(names, features):
-    best_examples = {}
-    for i in range(1, len(names)):
-        best_examples[names[i].capitalize()] = features.loc[features[names[i]].idxmax()]['id']
-        names[i] = names[i].capitalize()
-
-    return best_examples
 
 
 def generate_genres_text(genres_complex_list):
@@ -167,40 +71,19 @@ def generate_genres_text(genres_complex_list):
            f'{best_genre[1]} times lately.'
 
 
-def unpack(genres_complex_list):
-    genres_uncounted = []
-    for genre in genres_complex_list:
-        genres_uncounted.extend(genre)
+def convert_genres(genres_complex_list):
+    genres_uncounted = __unpack(genres_complex_list)
 
-    return genres_uncounted
+    genres_dict = {item: genres_uncounted.count(item) for item in genres_uncounted}
+    genres = pd.DataFrame.from_dict(genres_dict, orient='index')
+    genres.reset_index(inplace=True)
+    genres.columns = ['Genre', 'Count']
 
+    genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100, 1)
 
-def get_artist_ids(list_of_playlists):
-    ids = []
-
-    for playlist in list_of_playlists:
-        df = pd.json_normalize(playlist['items'])
-        df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
-        df = df.explode('artist_id')
-        ids.extend(df['artist_id'].values.tolist())
-
-    return df['artist_id'].values.tolist()
-
-
-def __normalize_history(json_data, for_diagram=False):
-    df = pd.json_normalize(json_data['items'])
-    if for_diagram:
-        df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
-        df = df.explode('artist')
-        df = df[['played_at', 'artist', 'track.name', 'track.album.name']]
-        df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']
-    else:
-        df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
-        df = df.explode('artist_id')
-        df = df[['played_at', 'artist_id', 'track.name', 'track.album.name']]
-        df.columns = ['Played At', 'artist_id', 'Track Name', 'Album Name']
-
-    return df
+    genres.sort_values(by='Count', inplace=True, ascending=False)
+    genres.reset_index(drop=True, inplace=True)
+    return genres
 
 
 def __normalize_top(json_data, for_diagram=False):
@@ -215,6 +98,22 @@ def __normalize_top(json_data, for_diagram=False):
         df = df.explode('artist_id')
         df = df[['artist_id', 'name', 'album.name']]
         df.columns = ['artist_id', 'Track Name', 'Album Name']
+
+    return df
+
+
+def __normalize_history(json_data, for_diagram=False):
+    df = pd.json_normalize(json_data['items'])
+    if for_diagram:
+        df['artist'] = df['track.artists'].apply(lambda artists: [artist['name'] for artist in artists])
+        df = df.explode('artist')
+        df = df[['played_at', 'artist', 'track.name', 'track.album.name']]
+        df.columns = ['Played At', 'Artist', 'Track Name', 'Album Name']
+    else:
+        df['artist_id'] = df['track.artists'].apply(lambda artists: [artist['id'] for artist in artists])
+        df = df.explode('artist_id')
+        df = df[['played_at', 'artist_id', 'track.name', 'track.album.name']]
+        df.columns = ['Played At', 'artist_id', 'Track Name', 'Album Name']
 
     return df
 
@@ -283,16 +182,116 @@ def __draw_circles():
     return big_circle, small_circle
 
 
-def convert_genres(genres_complex_list):
-    genres_uncounted = unpack(genres_complex_list)
+def __plot_bar_chart(genres, color_continuous_scale):
+    fig = px.bar(
+        genres.head(10),
+        x='% of total',
+        y='Genre',
+        orientation='h',
+        color='Genre',
+        color_discrete_sequence=color_continuous_scale,
+        text='Genre',
+        labels={'% of total': 'Percent of total listened'},
+        title='',
+        hover_name='Genre',
+        hover_data={
+            'Genre': False,
+            '% of total': False,
+            'Count': True
+        }
+    )
 
-    genres_dict = {item: genres_uncounted.count(item) for item in genres_uncounted}
-    genres = pd.DataFrame.from_dict(genres_dict, orient='index')
-    genres.reset_index(inplace=True)
-    genres.columns = ['Genre', 'Count']
+    fig.update_traces(
+        textposition='inside',
+        insidetextanchor='middle',
+        marker_line_color='rgba(0, 0, 0, 0)',
+        hovertemplate=' <br> <b>%{hovertext} </b> <br> Times listened: %{customdata[0]} <br> <extra></extra>'
+    )
 
-    genres['% of total'] = round(genres['Count'] / genres['Count'].sum() * 100, 1)
+    fig.update_layout(
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        coloraxis=dict(showscale=False, colorscale=color_continuous_scale),
+        showlegend=False,
+        xaxis=dict(tickfont=dict(color='white'), side='top', title_standoff=15, gridcolor='#845091', fixedrange=True),
+        yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
+        font=dict(color='white'),
+        margin=dict(t=0, b=0, r=0, l=0),
+        hoverlabel=dict(font_size=20, font_family='Helvetica'),
+    )
 
-    genres.sort_values(by='Count', inplace=True, ascending=False)
-    genres.reset_index(drop=True, inplace=True)
-    return genres
+    return fig
+
+
+def __collect_means(features):
+    features.rename(columns={'valence': 'happiness'}, inplace=True)
+    names = ['id', 'acousticness', 'danceability',  'energy',
+             'happiness', 'instrumentalness', 'liveness', 'loudness']
+
+    features = features[names]
+    features.loc[:, 'loudness'] = (features['loudness'] + 60) / 60
+    features.loc[:, features.select_dtypes(include=['number']).columns] *= 100
+
+    means = __get_means(names, features)
+    best_examples = __get_best_examples(names, features)
+
+    return names[1:], means, best_examples
+
+
+def __get_means(names, features):
+    means = []
+    for i in range(1, len(names)):
+        means.append(features[names[i]].mean())
+
+    means = [round(elem, 1) for elem in means]
+    return means
+
+
+def __get_best_examples(names, features):
+    best_examples = {}
+    for i in range(1, len(names)):
+        best_examples[names[i].capitalize()] = features.loc[features[names[i]].idxmax()]['id']
+        names[i] = names[i].capitalize()
+
+    return best_examples
+
+
+def __plot_windrose_chart(feature_names, feature_means):
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Scatterpolar(
+            r=feature_means,
+            theta=feature_names,
+            mode='lines+markers',
+            fill='toself',
+            fillcolor='rgba(114, 5, 31, 0.7)',
+            line=dict(color='#72051F', width=3),
+            marker=dict(color='white', size=15, opacity=0.5)
+        )
+    )
+
+    fig.update_layout(
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        showlegend=False,
+        polar=dict(
+            radialaxis=dict(range=[0, 100], gridcolor='white', gridwidth=3, showticklabels=False,
+                            nticks=7, tickfont=dict(family='Helvetica', size=20)),
+            angularaxis=dict(gridcolor='white', gridwidth=2, rotation=90, tickfont=dict(family='Helvetica', size=30)),
+            bgcolor='#160620',
+            gridshape='linear'
+        ),
+        font=dict(color='white')
+    )
+    fig.update_polars(angularaxis_direction='clockwise')
+
+    return fig
+
+
+def __unpack(genres_complex_list):
+    genres_uncounted = []
+    for genre in genres_complex_list:
+        genres_uncounted.extend(genre)
+
+    return genres_uncounted

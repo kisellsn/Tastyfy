@@ -291,4 +291,4 @@ def get_genres(auth_header):
 
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=spotify.SERVER_PORT, debug=True)
+    app.run()

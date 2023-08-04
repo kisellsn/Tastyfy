@@ -7,6 +7,8 @@ import { playlistSongs } from 'src/util/functions';
 import ListSong from './ListSong';
 import { usePlaylistContext } from 'src/context/playlistContext';
 import PlaylistSong from './PlaylistSong';
+import cat1 from '../../assets/images/cat1.png'
+import cat2 from '../../assets/images/cat2.png'
 
 function PlaylistGenerator(props) {
     const [userInfo, setUserInfo] = useState('');
@@ -52,7 +54,7 @@ function PlaylistGenerator(props) {
     const handleGeneration = () => {
         navigate('/generator');
     }
-
+    console.log(playlist)
 
 
     return (
@@ -108,7 +110,7 @@ function PlaylistGenerator(props) {
                         </form>
                         
                         <div className='iconInfo'>
-                            <span className="tooltiptext">Tooltip text</span>
+                            <span className="tooltiptext">Search for songs, choose the ones you like, and Tastyfy will generate the playlist based on selected songs!</span>
                             <svg width="100%" height="100%" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M21.5002 3.58301C11.6263 3.58301 3.5835 11.6258 3.5835 21.4997C3.5835 31.3735 11.6263 39.4163 21.5002 39.4163C31.374 39.4163 39.4168 31.3735 39.4168 21.4997C39.4168 11.6258 31.374 3.58301 21.5002 3.58301ZM21.5002 7.16634C29.4375 7.16634 35.8335 13.5624 35.8335 21.4997C35.8335 29.437 29.4375 35.833 21.5002 35.833C13.5629 35.833 7.16683 29.437 7.16683 21.4997C7.16683 13.5624 13.5629 7.16634 21.5002 7.16634Z" fill="white"/>
                                 <path d="M21.5002 16.125C21.025 16.125 20.5693 16.3138 20.2333 16.6498C19.8973 16.9858 19.7085 17.4415 19.7085 17.9167V30.4583C19.7085 30.9335 19.8973 31.3892 20.2333 31.7252C20.5693 32.0612 21.025 32.25 21.5002 32.25C21.9753 32.25 22.4311 32.0612 22.7671 31.7252C23.1031 31.3892 23.2918 30.9335 23.2918 30.4583V17.9167C23.2918 17.4415 23.1031 16.9858 22.7671 16.6498C22.4311 16.3138 21.9753 16.125 21.5002 16.125Z" fill="white"/>
@@ -128,25 +130,33 @@ function PlaylistGenerator(props) {
                                         ))}
                                         </>
                                     ):(
-                                        <p></p>
+                                        <div className='pussyCat1'>
+                                            <img src={cat1} alt="Pussy cat"/>
+                                            <p>Search results will be shown here...</p>
+                                        </div>
                                     )}
                                 </>
                                 ):(
-                                    <p>Loading data...</p>
+                                    <div className='pussyCat1'>
+                                        <p>Loading data...</p>
+                                    </div>
                                 )
                             }
                             </div>
                         </div>
                         <div className='songList flex-one'>
                             <div className='scrollList'>
-                                {playlist !== [] ? (
+                                {playlist[0] !== undefined ? (
                                     <>
                                     {playlist.map((song, index) => (
                                         <PlaylistSong key={index} song={song.song} removeItem={removeItem}/>
                                     ))}
                                     </>
                                 ):(
-                                    <p></p>
+                                    <div className='pussyCat2'>
+                                        <img src={cat2} alt="Pussy cat"/>
+                                        <p>I’m waiting for your songs...</p>
+                                    </div>
                                 )}
                             </div>
                         </div>

@@ -230,7 +230,9 @@ function Generator(props) {
                                     )}
                                 </>
                                 ):(
-                                    <p>Loading data...</p>
+                                    <div className='pussyCat1'>
+                                        <p>Loading data...</p>
+                                    </div>
                                 )
                             }
                         </div>

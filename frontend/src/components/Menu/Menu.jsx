@@ -100,7 +100,7 @@ function Menu(props) {
     fetchTopSongs();
   }, [topTerm]);
 
-  const recSongsRef = useRef(0);
+  
   useEffect(() => {
     const fetchRecSongs = async () => {
       try {    

@@ -149,10 +149,17 @@ function Generator(props) {
             <div id='circle3'></div>
             <div id="custom-modal" className="modal">
                 <div className="modal-content">
-                    <span className="close-btn" onClick={hideModal}>&times;</span>
+                    <span className="close-btn" onClick={hideModal}>
+                        <svg width="100%" height="100%" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L17.5 17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M1 17.5L17.5 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </span>
                     <p id="modal-text">You've already got a playlist with such a name! Do you want the generated songs added to it?</p>
-                    <button onClick={addingItems}>Add to Playlist</button>
-                    <button onClick={hideModal}>No</button>
+                    <div className='modal-buttons'>
+                        <button onClick={addingItems}>Add to Playlist</button>
+                        <button onClick={hideModal}>No</button>
+                    </div>
                 </div>
             </div>
             <div className='body'>

@@ -425,12 +425,111 @@ map{
   width: 22%;
   height: 5%;
 }
+.circleMenu{
+  display: none;
+}
 
 .css-b62m3t-container{
   width:90%;
   text-align: center;
 }
+.hiddenArrowMenu{
+  display: none;
+}
 
 @media (max-width: 675px) {
+  .circleMenu{
+    display: block;
+    position:absolute;
+    // background-color: rgba(8, 99, 99, 1);
+    filter: blur(7rem);
+    width: 139%;
+    aspect-ratio: 517/563;
+    top:-15%;
+    left:-50%;
+    border-radius: 100%;
+    z-index:-1;
 
+  }
+  .hiddenArrowMenu{
+    display: block;
+    width: 15%;
+    display: flex;
+    align-items: center;
+  }
+
+
+  #analytics{
+    align-items: center;
+    min-height: 600px;
+    #analyze {
+      width: 82%;
+      background-color: rgba(97, 30, 150, 0.24);
+      border-radius: 40px;
+      aspect-ratio: 320/381;
+      flex-direction: row;
+      margin-top: 10%;
+      padding-top: 10%;
+      padding-bottom: 10%;
+      margin-bottom: 20%;
+      #titleA{
+        position:absolute;
+        top:-25%;
+        font-size: 5vw;
+        // left: 25%;
+        width:100%;
+        font-family: Lexend Deca;
+
+      }
+      #info{
+        height:auto;
+        width: 100%;
+        flex-direction: column;
+        height: 100%;
+      }
+      .musicContainer{
+        height: 100%;
+        width:70%;
+        margin:0;
+        #info{
+          position: relative;
+          flex-direction: column-reverse;
+          justify-content: space-between;
+          align-items: center;
+
+          .textBlock{
+            background-color: transparent;
+          }
+          #infoLeft{
+            width:100%;
+            #textInfo{
+              padding:0;
+              width:100%;
+              text-align: center;
+              font-size: 4vw;
+              right:0;
+              font-family: Lexend Deca;
+            }
+
+          }
+          #infoRight{
+            width:100%;
+
+            #graffic{
+              padding:0;
+              z-index: 3;
+              position: relative;
+              right:0;
+              top:0;
+            }
+          }
+        }
+        
+      }
+    }
+
+  } 
+  .hidden{
+    display: none;
+  }
 }

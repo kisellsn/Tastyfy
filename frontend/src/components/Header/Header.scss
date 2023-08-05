@@ -1,9 +1,6 @@
 .header {
-    // background-color: rgb(26, 0, 36);
-    // mix-blend-mode: hard-light;
     width: 92%;
     height: 10rem;
-    max-height: 100px;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -33,7 +30,7 @@
       align-items: center;
       position: relative;
       justify-content: space-between;
-      margin-left: -5rem;
+      margin-left: -6rem;
       // margin: 0 2rem 0 2rem;
       gap: 20%;
       z-index:2;
@@ -73,4 +70,51 @@
         margin: 2.5px;
       }
     }
+  }
+
+  @media (max-width: 675px) {
+    .header {
+      background-color: white;
+      height: 8rem;
+      margin-bottom:2rem;
+      .headTastyfy {
+        font-size: 8vw;
+      }
+      .menu {
+        position:absolute;
+        margin-left:0;
+        width:66%;
+        aspect-ratio: 260/30;
+        padding:1%;
+        left:15%;
+        border-radius: 60px;
+        align-items: center;
+        margin-bottom:-8rem;
+        background-color: rgba(217, 217, 217, 0.2);
+        gap:0;
+        
+
+        .menuItem {
+          font-size:4.5vw;
+          width: 50%;
+          text-align: center;
+          
+        }
+        .menuItem.PG{
+          background-color: rgba(217, 217, 217, 1);
+          color:rgba(44, 39, 39, 1);
+          height:100%;
+          border-radius: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      #avatar {
+        width: 10%;
+        height: auto;
+        aspect-ratio: 1/1;
+      }
+    }
+
   }

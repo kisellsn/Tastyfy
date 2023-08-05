@@ -20,12 +20,25 @@ const Header = ({ url, linkUser, back="rgb(26, 0, 36)" }) => {
     };
 
 
+    let newBack;
+    let screenWidth = window.innerWidth;
+    let genWord = "Playlist Generator";
+    if(screenWidth < 675){
+        newBack = 'transparent';
+        genWord = "Generator"
+    } else{
+        newBack = back;
+    }
+    let currentURL = window.location.pathname;
+
+
+
     return (
-        <div className='header' style={{backgroundColor:`${back}`}}>
+        <div className='header' style={{backgroundColor:`${newBack}`}}>
         <div className='headTastyfy' onClick={handleLoginClick}>Tastyfy</div>
         <div className='menu'>
-            <div className='menuItem' onClick={handleMenuClick}>Analytics</div>
-            <div className='menuItem PG' onClick={handleGeneratorClick}>Playlist Generator</div>
+            <div className={`menuItem ${(currentURL === "/menu")  ? 'PG' : ''}`} onClick={handleMenuClick}>Analytics</div>
+            <div className={`menuItem ${(currentURL === "/playlists")  ? 'PG' : ''}`} onClick={handleGeneratorClick}>{genWord}</div>
         </div>
         <img 
             id='avatar' 

@@ -151,11 +151,67 @@ function Menu(props) {
     const url = userInfo.external_urls.spotify;
     window.location.href = url;
   };
+
+  const [containerCurrent, setContainerCurrent] = useState(0);
+  const [circleColor, setCircleColor] = useState('rgba(8, 99, 99, 1)');
+
+
+
+  const handlePlusMate =() => {
+    let newMate = containerCurrent+1
+    if(newMate>3)newMate=newMate-4
+    setContainerCurrent(newMate)
+    if(containerCurrent === 0)setCircleColor('rgba(8, 99, 99, 1)');
+    if(containerCurrent === 1)setCircleColor('rgba(108, 3, 97, 1)');
+    if(containerCurrent === 2)setCircleColor('rgba(8, 99, 99, 1)');
+    if(containerCurrent === 3)setCircleColor('rgba(8, 99, 99, 1)');
+  }
+  const handleMinusMate =() => {
+    let newMate = containerCurrent-1
+    if(newMate<0)newMate=newMate+4
+    setContainerCurrent(newMate)
+    if(containerCurrent === 0)setCircleColor('rgba(8, 99, 99, 1)');
+    if(containerCurrent === 1)setCircleColor('rgba(108, 3, 97, 1)');
+    if(containerCurrent === 2)setCircleColor('rgba(8, 99, 99, 1)');
+    if(containerCurrent === 3)setCircleColor('rgba(8, 99, 99, 1)');
+  }
   return (
     <div id='analytics' className={props.className}>
       <Header url={url}  linkUser={linkUser} back={"rgb(26, 0, 36)"}/>
+      <div className='circleMenu' style={{backgroundColor:`${circleColor}`}}></div>
+      <div></div>
       <div id='analyze'>
-        <div className='musicContainer'>
+        <div className='hiddenArrowMenu'>
+          <svg onClick={handleMinusMate} width="100%" viewBox="0 0 88 91" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clipPath="url(#clip0_15_86)" filter="url(#filter0_d_15_86)">
+            <path d="M51.7 66.47L52.9933 64.5509L40.4917 46L52.9933 27.4491L51.7 25.53L37.905 46L51.7 66.47Z" fill="white"/>
+            </g>
+            <g filter="url(#filter1_f_15_86)">
+            <circle cx="44" cy="46" r="9" transform="rotate(-180 44 46)" fill="#FFF8F8" fillOpacity="0.7"/>
+            </g>
+            <defs>
+            <filter id="filter0_d_15_86" x="26" y="23" width="39" height="54" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="4"/>
+            <feGaussianBlur stdDeviation="2"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15_86"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_15_86" result="shape"/>
+            </filter>
+            <filter id="filter1_f_15_86" x="0" y="2" width="88" height="88" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="17.5" result="effect1_foregroundBlur_15_86"/>
+            </filter>
+            <clipPath id="clip0_15_86">
+            <rect width="31" height="46" fill="white" transform="matrix(-1 0 0 -1 61 69)"/>
+            </clipPath>
+            </defs>
+          </svg>
+        </div>
+        <div className={`musicContainer ${containerCurrent !== 0 ? 'hidden' : ''}`}>
           <div id='titleA'><h4>Top Genres Spotlight</h4></div>
           <div id='info'>
             <div id='infoLeft'>
@@ -173,7 +229,7 @@ function Menu(props) {
             </div>
           </div>
         </div>
-        <div className='topContainer'>
+        <div className={`topContainer ${containerCurrent !== 1 ? 'hidden' : ''}`}>
           <div id='titleA' className='smallHeight'><h4>Favorite Artists Breakdown</h4></div>
           <div className='topMenu'>
             <h4 className={(topTerm === 'current' || topTerm === 'start') ? 'active' : ''} data-value='current' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Now</h4>
@@ -199,7 +255,7 @@ function Menu(props) {
             </div>
           </div>
         </div>
-        <div className='featureContainer'>
+        <div className={`featureContainer ${containerCurrent !== 2 ? 'hidden' : ''}`}>
           <div id='titleA'><h4>Exploring Peak Features</h4></div>
           <div id='info'>
             <div id='flex-half'>
@@ -218,7 +274,7 @@ function Menu(props) {
             </div>
           </div>
         </div>
-        <div className='recommendationContainer'>
+        <div className={`recommendationContainer ${containerCurrent !== 3 ? 'hidden' : ''}`}>
           <div id='titleA'><h4>Recommendations Worldwide</h4></div>
           <div id='listing'>
             <div className='countries' >
@@ -288,9 +344,39 @@ function Menu(props) {
             )}
             </div>
           </div>
-          </div>
+        </div>
+        <div className='hiddenArrowMenu'>
+          <svg onClick={handlePlusMate} width="100%" viewBox="0 0 88 91" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clipPath="url(#clip0_15_85)" filter="url(#filter0_d_15_85)">
+            <path d="M36.3 24.53L35.0067 26.4491L47.5083 45L35.0067 63.5509L36.3 65.47L50.095 45L36.3 24.53Z" fill="white"/>
+            </g>
+            <g filter="url(#filter1_f_15_85)">
+            <circle cx="44" cy="45" r="9" fill="#FFF8F8" fillOpacity="0.7"/>
+            </g>
+            <defs>
+            <filter id="filter0_d_15_85" x="23" y="22" width="39" height="54" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="4"/>
+            <feGaussianBlur stdDeviation="2"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15_85"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_15_85" result="shape"/>
+            </filter>
+            <filter id="filter1_f_15_85" x="0" y="1" width="88" height="88" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="17.5" result="effect1_foregroundBlur_15_85"/>
+            </filter>
+            <clipPath id="clip0_15_85">
+            <rect width="31" height="46" fill="white" transform="translate(27 22)"/>
+            </clipPath>
+            </defs>
+          </svg>
         </div>
       </div>
+    </div>
   );
 }
 

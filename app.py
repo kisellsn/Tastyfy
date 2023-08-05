@@ -6,8 +6,8 @@ from PIL import Image
 from flask import Flask, request, session, jsonify, make_response
 from flask.helpers import send_from_directory
 
-from spotify_requests import spotify
-from analysis import analysis
+from backend.spotify_requests import spotify
+from backend.analysis import analysis
 
 #from flask_cors import CORS
 

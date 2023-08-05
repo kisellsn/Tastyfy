@@ -1,22 +1,21 @@
 import base64
 import io
-import json
 import webbrowser
-from datetime import timedelta, datetime, timezone
-
+from datetime import timedelta, datetime
 from PIL import Image
 from flask import Flask, request, session, jsonify, make_response
 from flask.helpers import send_from_directory
-from backend.spotify_requests import spotify
-from backend.analysis import analysis
 
-from flask_cors import CORS
+from spotify_requests import spotify
+from analysis import analysis
+
+#from flask_cors import CORS
 
 app = Flask(__name__, static_folder="frontend/build", static_url_path='')
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
-CORS(app)
+#CORS(app)
 
 
 # ----------------------- AUTH -------------------------
@@ -69,8 +68,6 @@ def get_profile():
         auth_header = session['auth_header']
         profile_data = spotify.get_current_profile(auth_header)
         res = make_response(profile_data, 200)
-        # res.set_cookie('auth_header', auth_header)
-
     else:
         res = make_response("token not in session", 401)
     return res

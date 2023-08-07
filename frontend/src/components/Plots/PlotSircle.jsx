@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import { sircleDiagram } from 'src/util/functions';
+import '../Menu/Menu.scss'
 
 function PlotSircle({term}) {
   const [plotData, setPlotData] = useState(null); 
@@ -21,7 +22,7 @@ function PlotSircle({term}) {
   }, [term]);
 
   return (
-    <div style={{ width: '150%', 'aspectRatio': '1/1', position: 'relative'}}>
+    <div className='image' style={{'aspectRatio': '1/1', position: 'relative'}}>
       {plotData ? (
         <Plot
           data={plotData.data}
@@ -31,7 +32,7 @@ function PlotSircle({term}) {
         />
       ) : (
 
-        <p style={{fontSize:'40px', textAlign:'center', marginLeft:'200px', position:'absolute'}}> <br/><br/>Loading plot data...</p>
+        <p className="loadingCircle"> <br/><br/>Loading plot data...</p>
       )}
     </div>
   );

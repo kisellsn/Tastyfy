@@ -609,15 +609,15 @@ map{
       }
       .featureContainer{
         width: 70%;
-        .featuresMobile{
-          visibility: visible;
-          position: relative;
+        #titleA{
+          top: -20%;
         }
         #info{
           flex-direction: column-reverse;
         }
         #flex-half{
           width: 100%;
+
           .featureInfo{
             position: relative;
             background-color: transparent;
@@ -676,9 +676,17 @@ map{
     }
 
   } 
+  .featuresMobile{
+    visibility: visible;
+    position: relative;
+  }
   .hidden{
     // display: none;
     visibility: hidden;
     position: absolute;
+    .featuresMobile{
+      visibility: hidden;
+      position: relative;
+    }
   }
 }

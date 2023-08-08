@@ -1,3 +1,10 @@
+html, body{
+    height:95%;
+}
+#root{
+
+    height:100%;
+}
 #main{
     background: linear-gradient(124.1deg, rgba(27, 10, 48, 1) 23.751012570606566%, rgba(6, 46, 35, 1) 77.91781456990824%);
     mix-blend-mode: hard-light;
@@ -227,6 +234,7 @@
   @media (max-width: 675px) {
     #main{
         min-height: 600px;
+        height: 100%;
         background: linear-gradient(159deg, rgb(48, 7, 62, 1) 25%, rgb(1, 111, 32) 90%);
     }
     #Tastyfy-title{

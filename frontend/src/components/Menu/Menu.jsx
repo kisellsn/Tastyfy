@@ -153,8 +153,8 @@ function Menu(props) {
     window.location.href = url;
   };
 
-  const [containerCurrent, setContainerCurrent] = useState(2);
-  const [circleColor, setCircleColor] = useState('rgba(22, 97, 47, 1)');
+  const [containerCurrent, setContainerCurrent] = useState(0);
+  const [circleColor, setCircleColor] = useState('rgba(8, 99, 99, 1)');
 
 
 

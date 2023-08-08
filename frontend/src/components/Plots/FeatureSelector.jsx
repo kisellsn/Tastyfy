@@ -16,21 +16,21 @@ const CustomSelect = ({ featureArray, setCurrentFeatureIndex }) => {
     <CustomSelectWrapper>
       <SelectBox
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        isOpen={isDropdownOpen}
+        $isOpen={isDropdownOpen}
       >
         <SelectedValue>{featureArray[selectedFeatureIndex]}</SelectedValue>
         <ArrowIcon
           src={down}
           alt="Arrow Icon"
-          ariaHidden="true"
+          aria-hidden="true"
         />
-        <OptionsList isOpen={isDropdownOpen}>
+        <OptionsList $isOpen={isDropdownOpen}>
           {featureArray.map((feature, index) => (
             <OptionItem
               key={index}
               onClick={() => handleSelectChange(index)}
-              isFirst={index === 0}
-              isLast={index === featureArray.length - 1}
+              $isFirst={index === 0}
+              $isLast={index === featureArray.length - 1}
             >
               {feature}
             </OptionItem>
@@ -73,11 +73,11 @@ const ArrowIcon = styled.img`
   opacity: 0.5;
   color: white;
   transition: transform 0.2s ease;
-  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 `;
 
 const OptionsList = styled.ul`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   position: absolute;
   top: -20%;
   left: 23%;
@@ -96,10 +96,10 @@ const OptionItem = styled.li`
   padding: 5% 2%;
   background-color: rgba(88, 92, 104, 1);
   cursor: pointer;
-  ${({ isFirst, isLast }) => {
-    if (isFirst) {
+  ${({ $isFirst, $isLast }) => {
+    if ($isFirst) {
       return 'border-radius: 10px 10px 0 0;';
-    } else if (isLast) {
+    } else if ($isLast) {
       return 'border-radius: 0 0 10px 10px;';
     } else {
       return '';

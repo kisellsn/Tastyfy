@@ -54,7 +54,6 @@ function PlaylistGenerator(props) {
     const handleGeneration = () => {
         navigate('/generator');
     }
-    console.log(playlist)
 
 
     return (

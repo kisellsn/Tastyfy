@@ -548,7 +548,7 @@ map{
       margin-bottom: 20%;
       #titleA{
         position:absolute;
-        top:-25%;
+        top:-12vh;
         font-size: 5vw;
         // left: 25%;
         width:100%;
@@ -605,7 +605,7 @@ map{
       .topContainer{
         width: 70%;
         #titleA{
-          top:-20%;
+          // top:-20%;
           width:140%;
         }
 
@@ -668,9 +668,7 @@ map{
       }
       .featureContainer{
         width: 70%;
-        #titleA{
-          top: -20%;
-        }
+
         #info{
           flex-direction: column-reverse;
         }
@@ -736,9 +734,7 @@ map{
         width: 96%;
         aspect-ratio: 36/40;
         padding: 0 2%;
-        #titleA{
-          top:-22%;
-        }
+
         .hiddenFeature{
           display: block;
           width: 60%;

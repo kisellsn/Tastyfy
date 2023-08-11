@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import down from "../../assets/images/downSelect.svg"
 
-const FeatureSelector = ({ funcArray, setFuncArray }) => {
+const RecSelector = ({ funcArray, setFuncArray }) => {
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleSelectChange = (index) => {
+  const handleSelectChange = (feature, index) => {
     setSelectedFeatureIndex(index);
-    setFuncArray(index); // Assuming you want to set the current feature index somewhere
+    setFuncArray(feature); // Assuming you want to set the current feature index somewhere
     setIsDropdownOpen(false);
   };
+  console.log()
 
   return (
     <CustomSelectWrapper>
@@ -18,25 +19,26 @@ const FeatureSelector = ({ funcArray, setFuncArray }) => {
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         $isOpen={isDropdownOpen}
       >
-        <SelectedValue>{funcArray[selectedFeatureIndex]}</SelectedValue>
-        <ArrowIcon
-          src={down}
-          alt="Arrow Icon"
-          aria-hidden="true"
-        />
+        <SelectedValue>{funcArray[selectedFeatureIndex].label}</SelectedValue>
         <OptionsList $isOpen={isDropdownOpen}>
           {funcArray.map((feature, index) => (
             <OptionItem
               key={index}
-              onClick={() => handleSelectChange(index)}
+              onClick={() => handleSelectChange(feature, index)}
               $isFirst={index === 0}
               $isLast={index === funcArray.length - 1}
             >
-              {feature}
+              {feature.label}
             </OptionItem>
           ))}
         </OptionsList>
       </SelectBox>
+      <ArrowIcon
+          src={down}
+          alt="Arrow Icon"
+          aria-hidden="true"
+          style={{zIndex:'-1'}}
+        />
     </CustomSelectWrapper>
   );
 };
@@ -45,13 +47,14 @@ const CustomSelectWrapper = styled.div`
   z-index: 40;
   position: relative;
   display:flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction:column;
 `;
 
 const SelectBox = styled.div`
   width:50%;
   height:auto;
-  aspect-ratio:100/18;
+  aspect-ratio:122/22;
   display: flex;
   align-items: center;
   padding: 1% 2%;
@@ -59,8 +62,11 @@ const SelectBox = styled.div`
   border-radius: 10px;
   background-color: rgba(217, 217, 217, 0.2);
   cursor: pointer;
-  font-size: 3vw;
+  font-size: 2.7vw;
   text-align: center;
+  color: white;
+  margin-bottom: 2%;
+  box-shadow: 0px 10px 9px rgba(0, 0, 0, 0.25);
 
 `;
 
@@ -82,6 +88,8 @@ const OptionsList = styled.ul`
   top: -20%;
   left: 23%;
   width: 54%;
+  max-height: 200px; // Set your desired max height for the list
+  overflow-y: auto; 
 
   margin-top: 4px;
   padding: 0;
@@ -94,7 +102,7 @@ const OptionsList = styled.ul`
 
 const OptionItem = styled.li`
   padding: 5% 2%;
-  background-color: rgba(88, 92, 104, 1);
+  background-color: rgba(88, 67, 127, 1);
   cursor: pointer;
   ${({ $isFirst, $isLast }) => {
     if ($isFirst) {
@@ -107,4 +115,4 @@ const OptionItem = styled.li`
   }}
 `;
 
-export default FeatureSelector;
+export default RecSelector;

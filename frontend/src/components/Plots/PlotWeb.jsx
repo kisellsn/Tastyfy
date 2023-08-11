@@ -39,7 +39,7 @@ function PlotWeb({features, setCurrentFeatureIndex}) {
   return (
     <div style={{display:'flex', flexDirection:'column'}}>
       <div className='featuresMobile'>
-        <FeatureSelector featureArray={featureArray} setCurrentFeatureIndex={setCurrentFeatureIndex}/>
+        <FeatureSelector funcArray={featureArray} setFuncArray={setCurrentFeatureIndex}/>
       </div>
       <div className="Web" style={{ width: '100%', position: 'relative'}}>
         {plotData ? (

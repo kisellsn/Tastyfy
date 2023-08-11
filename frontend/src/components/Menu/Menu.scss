@@ -53,6 +53,64 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    // .custom-selector {
+    //   // Control style
+    //   .control{
+    //     background-color: rgba(58, 29, 78, 1);
+    //     color: white;
+    //     border: none;
+    //     box-shadow: none;
+    //     border-radius: 50%;
+    //     font-family: Lexend;
+    //     width: 100%;
+    //     font-size: 1.5vw;
+    //     &:hover {
+    //       color: white;
+    //       cursor: pointer;
+    //     }
+    //   };
+    
+    //   // SingleValue style
+    //   .singleValue{
+    //     color: white;
+    //     width: 100%;
+    //   };
+    
+    //   // DropdownIndicator style
+    //   .dropdownIndicator{
+    //     color: white;
+    //     &:hover {
+    //       color: white;
+    //       cursor: pointer;
+    //     }
+    //   };
+    
+    //   // Option style
+    //   .option{
+    //     background-color: rgba(58, 29, 78, 1);
+    //     color: white;
+    //     width: 100%;
+    //     &:hover {
+    //       color: grey;
+    //       cursor: pointer;
+    //     }
+    //   };
+    
+    //   // Placeholder style
+    //   .placeholder{
+    //     color: white;
+    //     width: 100%;
+    //   };
+    
+    //   &:hover {
+    //     cursor: pointer;
+    //   }
+    //   // width: 60%;
+    // }
+    .hiddenFeature{
+      display: none;
+    }
+    
   }
 
 #titleA {
@@ -671,6 +729,92 @@ map{
               visibility: hidden;
               position: absolute;
             }
+          }
+        }
+      }
+      .recommendationContainer {
+        width: 96%;
+        aspect-ratio: 36/40;
+        padding: 0 2%;
+        #titleA{
+          top:-22%;
+        }
+        .hiddenFeature{
+          display: block;
+          width: 60%;
+        }
+        .countries{
+          display: none;
+        }
+        #recomendation{
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          color: rgb(255, 255, 255);
+          text-align: center;
+          position: relative;
+          margin-bottom: 10%;
+          width: 100%;
+          max-height: 100%;
+        }
+        .rec_content {
+          flex-direction: column;
+          position: relative;
+          gap: 4%;
+          width: 90%;
+          padding: 0 5%;
+          height: 100%;
+          overflow-y: scroll;
+          justify-content: flex-start;
+          z-index: 20;
+          flex-wrap: nowrap;
+          &::-webkit-scrollbar {
+            width: 3px;
+        }
+            &::-webkit-scrollbar-thumb {
+              background-color: white;
+              border-radius: 5px;
+            }
+          
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: white;
+            }
+          
+
+            &::-webkit-scrollbar-thumb:active {
+                background-color: white;
+            }
+          .rec-card {
+            align-items: center;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 0%;
+            width: 90%;
+            padding: 2% 5%;
+            aspect-ratio: 272/42;
+            justify-content: space-between;
+            background-color: rgba(16, 15, 15, 0.53);
+            position: relative;
+            .rec-card_img{
+              width: 10%;
+              height: auto;
+              min-height: 2px;
+              aspect-ratio: 1/1;
+            }
+            .rec-card_text1 {
+              font-size: 2.5vw;
+            }
+            .rec-card_text2 {
+              font-size: 2vw;
+            }
+            .rec-card_plus {
+              width: 7%;
+              height: auto;
+              min-height: 2px;
+              aspect-ratio: 1/1;
+          }
           }
         }
       }

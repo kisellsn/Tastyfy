@@ -1,5 +1,6 @@
 import { React, useEffect, useMemo, useRef, useState } from 'react';
 import './Menu.scss';
+import styled from "styled-components";
 import Song1 from './Song1';
 import Song2 from './Song2';
 import countryList from 'react-select-country-list';
@@ -12,6 +13,7 @@ import PlotWeb from '../Plots/PlotWeb';
 import FeatureViewer from '../Plots/FeatureViewer';
 import Header from '../Header/Header';
 import { getUserFromStorage, storeUser } from 'src/util/local';
+import RecSelector from '../Plots/RecSlector';
 
 
 
@@ -155,6 +157,7 @@ function Menu(props) {
 
   const [containerCurrent, setContainerCurrent] = useState(0);
   const [circleColor, setCircleColor] = useState('rgba(8, 99, 99, 1)');
+  const containersArray = [0,1,2,3];
 
 
 
@@ -165,7 +168,7 @@ function Menu(props) {
     if(newMate === 0)setCircleColor('rgba(8, 99, 99, 1)');
     if(newMate === 1)setCircleColor('rgba(108, 3, 97, 1)');
     if(newMate === 2)setCircleColor('rgba(22, 97, 47, 1)');
-    if(newMate === 3)setCircleColor('rgba(8, 99, 99, 1)');
+    if(newMate === 3)setCircleColor('rgba(49, 0, 130, 1)');
   }
   const handleMinusMate =() => {
     let newMate = containerCurrent-1
@@ -173,8 +176,8 @@ function Menu(props) {
     setContainerCurrent(newMate)
     if(newMate === 0)setCircleColor('rgba(8, 99, 99, 1)');
     if(newMate === 1)setCircleColor('rgba(108, 3, 97, 1)');
-    if(newMate === 2)setCircleColor('rgba(8, 99, 99, 1)');
-    if(newMate === 3)setCircleColor('rgba(8, 99, 99, 1)');
+    if(newMate === 2)setCircleColor('rgba(22, 97, 47, 1)');
+    if(newMate === 3)setCircleColor('rgba(49, 0, 130, 1)');
   }
   return (
     <div id='analytics' className={props.className}>
@@ -182,7 +185,7 @@ function Menu(props) {
       <div className='circleMenu' style={{backgroundColor:`${circleColor}`}}></div>
       <div></div>
       <div id='analyze'>
-        <div className='hiddenArrowMenu'>
+        <div className={`hiddenArrowMenu ${containerCurrent === 3 ? 'hidden' : ''}`}>
           <svg onClick={handleMinusMate} width="100%" viewBox="0 0 88 91" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_15_86)" filter="url(#filter0_d_15_86)">
             <path d="M51.7 66.47L52.9933 64.5509L40.4917 46L52.9933 27.4491L51.7 25.53L37.905 46L51.7 66.47Z" fill="white"/>
@@ -258,7 +261,6 @@ function Menu(props) {
         </div>
         <div className={`featureContainer ${containerCurrent !== 2 ? 'hidden' : ''}`}>
           <div id='titleA'><h4>Exploring Peak Features</h4></div>
-
           <div id='info'>
             <div id='flex-half'>
               <div className='featureInfo'>
@@ -281,7 +283,7 @@ function Menu(props) {
           <div id='listing'>
             <div className='countries' >
               <Select options={options} value={value} onChange={(changeHandler)} 
-              placeholder="Select country" width='100%'
+              placeholder="Select country" width='100%' 
               styles={{
                 control: (provided) => ({
                   ...provided,
@@ -332,8 +334,12 @@ function Menu(props) {
                   },
                   width: '60%'
               }}
-            />
-              </div>
+              />
+
+            </div>
+            <div className='hiddenFeature'>
+              <RecSelector  funcArray={options} setFuncArray={changeHandler}/>
+            </div>
           </div>
           <div id='recomendation'>
             <div className='rec_content'>
@@ -347,7 +353,7 @@ function Menu(props) {
             </div>
           </div>
         </div>
-        <div className='hiddenArrowMenu'>
+        <div className={`hiddenArrowMenu ${containerCurrent === 3 ? 'hidden' : ''}`}>
           <svg onClick={handlePlusMate} width="100%" viewBox="0 0 88 91" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_15_85)" filter="url(#filter0_d_15_85)">
             <path d="M36.3 24.53L35.0067 26.4491L47.5083 45L35.0067 63.5509L36.3 65.47L50.095 45L36.3 24.53Z" fill="white"/>
@@ -377,9 +383,56 @@ function Menu(props) {
             </defs>
           </svg>
         </div>
+        <CircleWrapper>
+            {containersArray.map((feature, index) => (
+            <Circle
+                key={index}
+                $isActive={index === containerCurrent}
+                onClick={() => setContainerCurrent(index)}
+            />
+            ))}
+        </CircleWrapper>
       </div>
+
     </div>
   );
 }
+
+const CircleWrapper = styled.div`
+  visibility: hidden;
+  position: absolute;
+  @media (max-width: 700px) {
+    visibility: visible;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    bottom:2%;
+    left: 35%;
+  }
+`;
+
+const Circle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  margin-right: 1rem;
+  cursor: pointer;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 1px transparent solid;
+    border-color: ${(props) => (props.$isActive ? 'white' : 'transparent')};
+  }
+`;
 
 export default Menu;

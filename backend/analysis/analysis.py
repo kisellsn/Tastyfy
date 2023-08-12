@@ -152,10 +152,10 @@ def __plot_pie_chart(artists_count):
             'plot_bgcolor': 'rgba(0,0,0,0)',
             'paper_bgcolor': 'rgba(0,0,0,0)'
         },
-        shapes=[big_circle, small_circle],
+        # shapes=[big_circle, small_circle],
         showlegend=False,
         hoverlabel=dict(bgcolor='black', font_size=20, font_family='Helvetica'),
-        margin=dict(t=40, b=40, r=40, l=40)
+        margin=dict(t=0, b=0, r=0, l=0)
     )
 
     fig.update_yaxes(

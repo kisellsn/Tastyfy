@@ -202,7 +202,7 @@
         transform: translate(-50%, -50%);
         width: 110%;
         height: 110%;
-        border: 1.5vw solid black;
+        border: 1vw solid black;
         border-radius: 50%;
         background-color: transparent;
         pointer-events: none;
@@ -651,7 +651,7 @@ map{
               &::before{
                 width: 108%;
                 height: 108%;
-                border: 2.5vw solid black;
+                border: 1.5vw solid black;
               }
             }
           }

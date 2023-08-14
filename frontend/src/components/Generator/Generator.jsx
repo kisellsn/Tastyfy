@@ -144,6 +144,7 @@ function Generator(props) {
     return (
         <div id='generator' className={props.className}>
             <Header url={url}  linkUser={linkUser}  back={"rgba(9, 1, 14, 1)"}/>
+            <div className='circleMenu' style={{backgroundColor:`rgba(8, 99, 99, 1)`}}></div>
             <div id='circle1'></div>
             <div id='circle2'></div>
             <div id='circle3'></div>
@@ -215,7 +216,9 @@ function Generator(props) {
                                 </form>
                         </div>
                     </div>
+
                     <div className='generatedTracks'>
+                        <p className='hiddenMobile'>Your songs</p>
                         <div className='scrollList'>
                             {flag === 0 ? (
                                 <>

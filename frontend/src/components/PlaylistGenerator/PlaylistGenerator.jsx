@@ -59,6 +59,7 @@ function PlaylistGenerator(props) {
     return (
         <div id='generator' className={props.className}>
             <Header url={url}  linkUser={linkUser}  back={"rgba(9, 1, 14, 1)"}/>
+            <div className='circleMenu' style={{backgroundColor:`rgba(4, 122, 16, 1)`}}></div>
             <div id='circle1'></div>
             <div id='circle2'></div>
             <div id='circle3'></div>
@@ -144,9 +145,13 @@ function PlaylistGenerator(props) {
                             </div>
                         </div>
                         <div className='songList flex-one'>
+                            {playlist[0] !== undefined && (
+                                <p className='hiddenMobile'>Added songs</p>
+                            )}
                             <div className='scrollList'>
                                 {playlist[0] !== undefined ? (
                                     <>
+                                    
                                     {playlist.map((song, index) => (
                                         <PlaylistSong key={index} song={song.song} removeItem={removeItem}/>
                                     ))}

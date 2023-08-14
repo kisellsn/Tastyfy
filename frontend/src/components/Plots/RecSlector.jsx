@@ -17,7 +17,7 @@ const RecSelector = ({ funcArray, setFuncArray }) => {
     <CustomSelectWrapper>
       <SelectBox
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        $isOpen={isDropdownOpen}
+        $isOpen={isDropdownOpen} 
       >
         <SelectedValue>{funcArray[selectedFeatureIndex].label}</SelectedValue>
         <OptionsList $isOpen={isDropdownOpen}>

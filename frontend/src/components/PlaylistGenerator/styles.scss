@@ -354,3 +354,121 @@
     }
 
 }
+.hiddenMobile{
+    display: none;
+
+}
+
+@media (max-width: 700px) {
+    .hiddenMobile{
+        display: block;
+        
+    }
+    #circle1, #circle2,#circle3{
+        display:none;
+    }
+    #generator{
+        min-height: 600px;
+        .pussyCat1 img {
+            width: 70%;
+        }
+        .body{
+            .playlistContainer{
+                background-color: rgba(217, 217, 217, 0.3);
+                margin: 0 5% 5% 5%;
+                border-radius: 30px;
+                padding: 5% 0%;
+                .searching{
+                    margin: 0 5% 10% 5%;
+
+                    form{
+                        flex-basis: 100%;
+                        aspect-ratio: 320/28;
+                        background-color: rgba(0, 0, 0, 0.22);
+                        input{
+                            font-size: 3vw;
+                        }
+                    }
+                }
+                .searchSong{
+                    flex-direction: column;
+                    max-height: none;
+                    .songList.flex-two,.songList.flex-one{
+                        aspect-ratio: auto;
+                        flex-basis: 100%;
+                        width: 100%;
+                        background-color: transparent;
+                        padding: 1% 0 0 0;
+                        // max-height: 50vh;
+                        .scrollList{
+                            width: calc(96% - 3px);
+                            padding: 0;
+                            padding-left: calc(2% + 3px);
+                            gap: 5%;
+                            margin: 0;
+                            justify-content: flex-start;
+                            max-height: 45vh;
+                            .list-card, .playlist-card{
+                                min-height: 5vh;
+                                aspect-ratio: auto;
+                                border-radius: 15px;
+                                margin: 0 2% 5% 2%;
+                                width: 88%;
+                                .list-card_img, .playlist-card_img{
+                                    width: 7%;
+                                    margin-right: 2%;
+                                }
+                                .list-card_content h4, .playlist-card_content h4 {
+                                        font-size: 2vw;
+                                }
+                                .list-card_plus, .playlist-card_remove{
+                                    min-height: 1px;
+                                    width: 7%;
+
+                                }
+                            }
+                            .playlist-card{
+                                margin-bottom: 5%;
+                                min-height: 5vh;
+                            }
+                        }
+                        .scrollList::-webkit-scrollbar {
+                            width: 3px; 
+                            margin-right: 5%; 
+                        }
+                    }
+                    .songList.flex-one{
+                        background-color: rgba(28, 22, 25, 0.37);
+                        border-radius: 0;
+                        .scrollList{
+                            max-height: 25vh;
+                        }
+                        .scrollList::-webkit-scrollbar{
+                            width: 0;
+                            margin-right: 0%; 
+                        }
+                    }
+
+
+                }
+                .done{
+                    margin: 0;
+                    min-height: 5vh;
+                    background-color: rgba(28, 22, 25, 0.37);
+                    margin-bottom: -6%;
+                    border-radius: 0 0 30px 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    button{
+                        width: 30%;
+                        aspect-ratio: 108/34;
+                        font-size: 3vw;
+                    }
+                }
+            }
+        }
+
+    }
+
+}

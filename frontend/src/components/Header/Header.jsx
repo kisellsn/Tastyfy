@@ -38,7 +38,7 @@ const Header = ({ url, linkUser, back="rgb(26, 0, 36)" }) => {
         <div className='headTastyfy' onClick={handleLoginClick}>Tastyfy</div>
         <div className='menu'>
             <div className={`menuItem ${(currentURL === "/menu")  ? 'PG' : ''}`} onClick={handleMenuClick}>Analytics</div>
-            <div className={`menuItem ${(currentURL === "/playlists")  ? 'PG' : ''}`} onClick={handleGeneratorClick}>{genWord}</div>
+            <div className={`menuItem ${(currentURL === "/playlists" || currentURL === "/generator")  ? 'PG' : ''}`} onClick={handleGeneratorClick}>{genWord}</div>
         </div>
         <img 
             id='avatar' 

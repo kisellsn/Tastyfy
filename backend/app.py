@@ -6,12 +6,12 @@ from PIL import Image
 from flask import Flask, request, session, jsonify, make_response
 from flask.helpers import send_from_directory
 
-from backend.spotify_requests import spotify
-from backend.analysis import analysis
+from spotify_requests import spotify
+from analysis import analysis
 
 #from flask_cors import CORS
 
-app = Flask(__name__, static_folder="frontend/build", static_url_path='')
+app = Flask(__name__, static_folder="../frontend/build", static_url_path='/')
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
@@ -59,7 +59,7 @@ def get_code():
 
 @app.route("/")
 def index():
-    return send_from_directory(app.static_folder, "index.html")
+    return send_from_directory("index.html")
 
 
 @app.route('/api/user')

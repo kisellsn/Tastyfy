@@ -44,7 +44,7 @@ CLIENT_SIDE_URL = "http://localhost"
 CLIENT_PORT = 3000
 SERVER_PORT = 8000
 #REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, CLIENT_PORT)
-REDIRECT_URI="https://tastyfy.me/callback"
+REDIRECT_URI="https://tastyfy.me/callback/"
 SCOPE = "user-read-private user-read-email ugc-image-upload user-library-read " \
         "playlist-modify-public playlist-modify-private user-read-recently-played " \
         "user-top-read user-library-modify"

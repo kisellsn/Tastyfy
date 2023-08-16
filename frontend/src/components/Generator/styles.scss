@@ -255,7 +255,7 @@
     width: 52%;
     aspect-ratio: 998/168;
     transform: translate(-50%, -50%);
-    background: linear-gradient(100deg, rgb(19, 132, 117) 20%, rgb(43, 13, 108) 75%);;
+    // background: linear-gradient(100deg, rgb(19, 132, 117) 20%, rgb(43, 13, 108) 75%);
     color: white;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -263,6 +263,9 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
+    .center{
+        text-align: center;
+    }
   }
   
   .close-btn {
@@ -287,6 +290,7 @@
     cursor: pointer;
   }
 
+
   .modal-buttons{
     width: 100%;
     display: flex;
@@ -305,6 +309,9 @@
         font-family: Urbanist;
         font-weight: 800;
     }
+    .mainButton{
+        background-color: rgba(146, 18, 141, 0.58);
+      }
   }
 
   #modal-text{
@@ -335,15 +342,25 @@
                 }
             }
         }
+        .boxPlaylist{
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: row;
+            width: 100%;
+        }
         .generatedTracks{
-            width:90%;
-            padding: 5%;
-            background-color: transparent;
+            width:96%;
+            padding: 5% 2%;
+            background-color: rgba(217, 217, 217, 0.52);
             text-align: left;
+            border-radius: 25px;
+            max-height: 20vh;
+
             .scrollList{
                 max-height: 25vh;
+                gap: 10%;
                 .gPlaylist-card{
-                    background-color: rgba(0, 0, 0, 0.62);
+                    background-color: rgba(0, 0, 0, 1);
                     border-radius: 15px;
                     min-height: 5vh;
                     width: 93%;
@@ -371,7 +388,7 @@
                         width: 85%;
                         margin-right:2%;
                         h4{
-                            font-size: 2vw;
+                            font-size: 2.7vw;
                             width: 50%;
                         }
                     }
@@ -384,10 +401,41 @@
 
             }
             .scrollList::-webkit-scrollbar {
-                width: 0; 
-                margin-right: 0; 
+                width: 3px; 
             }
         }
+    }
+    .buttons {
+        gap:0%;
+        justify-content: space-around;
+        width: 60%;
+        margin: 0 20% 5% 20%;
+        .buttonCreate {
+            width: 40%;
+            margin: 0;
+            position: relative;
+            button{
+                margin: 0;
+                font-size: 3vw;
+            }
+        }
+    }
+    .modal-content{
+        width: 80%;
+        padding: 2%;
+        .close-btn{
+            top: 6%;
+            right: 4%;
+            width: 3%;
+        }
+        .modal-buttons{
+            button{
+                width: 25%;
+                font-size: 2.7vw;
+                aspect-ratio: 65/24;
+            }
+        }
+
     }
 }
   

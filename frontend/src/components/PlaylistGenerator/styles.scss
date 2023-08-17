@@ -468,10 +468,13 @@
                 }
             }
         }
+        .mobileGenTitle{
+            position: relative;
+        }
         .iconInfo{
             position: absolute;
             right: 2vh;
-            top:2vh;
+            top:0;
             width: 5%;
             .tooltiptext{
                 min-width: 25vh;
@@ -479,11 +482,12 @@
                 margin-top: -5vh;
                 bottom: 120%;
                 left: 0%;
-                margin-left: -20vh;
+                margin-left: -22vh;
                 background-color: rgba(120, 120, 120, 0.7);
                 &::after{
                     border-color: rgba(120, 120, 120, 0.7) transparent transparent transparent;
                     border-width: 1vw;
+                    margin-left: 1.5vh;
                 }
             }
         }

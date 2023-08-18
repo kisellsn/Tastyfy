@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import Plot from 'react-plotly.js';
 import { featureDiagram } from 'src/util/functions';
 import FeatureSelector from './FeatureSelector';
+import { getTopsLocal, newLocal } from 'src/util/local';
 
 function PlotWeb({features, setCurrentFeatureIndex}) {
   const [plotData, setPlotData] = useState(null);
@@ -25,7 +26,11 @@ function PlotWeb({features, setCurrentFeatureIndex}) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await featureDiagram();
+        let data = getTopsLocal('featureDiagram')
+        if (!data){
+          data = await featureDiagram();
+          newLocal('featureDiagram', data)
+        }
         const image = data.image;
         setPlotData(image);
       } catch (error) {

@@ -2,15 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import { sircleDiagram } from 'src/util/functions';
 import '../Menu/Menu.scss'
+import { getTopsLocal, newLocal } from 'src/util/local';
 
-function PlotSircle({term}) {
+function PlotSircle({term, termRef}) {
   const [plotData, setPlotData] = useState(null); 
 
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await sircleDiagram(term);
+        let data = getTopsLocal('sircleDiagram');
+        let topTermRef = getTopsLocal('topTerm');
+        if (!data || topTermRef !== term){
+          data = await sircleDiagram(term);
+          newLocal('sircleDiagram', data)
+          newLocal('topTerm', term)
+        }
         data.config = {'displayModeBar': false, 'zoomIn': false, 'dragMode': false, 'responsive': true}
         setPlotData(data);
       } catch (error) {

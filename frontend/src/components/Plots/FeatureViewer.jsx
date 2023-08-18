@@ -152,13 +152,6 @@ const FeatureWrapper = styled.div`
                   frame-border: 0;
                   background-color: transparent;
                 }
-                .teframe2{
-                  width: 100%;
-                  aspect-ratio: 10/2;
-                  border-radius: 12px;
-                  border-color: transparent;
-                  frame-border: 0;
-                }
             }
         }
 

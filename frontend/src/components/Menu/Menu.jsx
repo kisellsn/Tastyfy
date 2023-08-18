@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo, useRef, useState } from 'react';
+import { React, useEffect, useMemo, useState } from 'react';
 import './Menu.scss';
 import styled from "styled-components";
 import Song1 from './Song1';
@@ -12,7 +12,7 @@ import PlotTop from '../Plots/PlotTop';
 import PlotWeb from '../Plots/PlotWeb';
 import FeatureViewer from '../Plots/FeatureViewer';
 import Header from '../Header/Header';
-import { getUserFromStorage, storeUser } from 'src/util/local';
+import { clearLocalStorage, getTopsLocal, getUserFromStorage, newLocal, storeUser } from 'src/util/local';
 import RecSelector from '../Plots/RecSlector';
 
 
@@ -20,19 +20,17 @@ import RecSelector from '../Plots/RecSlector';
 function Menu(props) {
   const [userInfo, setUserInfo] = useState(getUserFromStorage());
   const navigate = useNavigate();
-  const topSongRef = useRef([]);
   useEffect(() => {
     if(getUserFromStorage()) return;
     getToken().then(token => {
-      if (!token) navigate('/');
+      if (token !== 'new token was created') {
+        clearLocalStorage()
+        navigate('/');
+      }
     })
     registerSpotify().then(user => {
-      if (!user) navigate('/');
-      else {
         storeUser(user);
         setUserInfo(user);
-      }
-
     });
   })
 
@@ -57,7 +55,8 @@ function Menu(props) {
   const [features, setFeatures] = useState({})
   const [featuresPersent, setFeaturesPersent] = useState({})
   const [topTerm, setTopTerm] = useState('current')
-  const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0)
+
 
   let countries = [ 'Algeria', 'Angola', 'Benin', 'Botswana', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Chad', 'Comoros', `Côte d'Ivoire`, 'Democratic Republic of the Congo', 'Djibouti', 'Egypt', 'Ethiopia', 'Equatorial Guinea', 'Eswatini', 'Gabon', 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Kenya', 'Lesotho', 'Liberia', 'Libya', 'Madagascar', 'Malawi', 'Mali', 'Mauritania', 'Mauritius', 'Morocco', 'Mozambique', 'Namibia', 'Niger', 'Nigeria', 'Republic of the Congo', 'Rwanda', 'São Tomé and Príncipe', 'Senegal', 'Seychelles', 'Sierra Leone', 'South Africa', 'Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe', 'Asia', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei Darussalam', 'Cambodia', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kuwait', 'Kyrgyzstan', 'Lao People\'s Democratic Republic', 'Lebanon', 'Macao', 'Malaysia', 'Maldives', 'Mongolia', 'Nepal', 'Oman', 'Pakistan', 'Palestine', 'Philippines', 'Qatar', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Taiwan', 'Tajikistan', 'Thailand', 'Timor-Leste', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Europe', 'Åland', 'Albania', 'Andorra', 'Anguilla', 'Ascension', 'Austria', 'Azores', 'Balearic Islands', 'Belarus', 'Belgium', 'Bermuda', 'Bosnia', 'British Virgin Islands', 'Bulgaria', 'Canary Islands', 'Cayman Islands', 'Ceuta', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Falkland Islands', 'Faroe Islands', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'Germany', 'Gibraltar', 'Greece', 'Greenland', 'Guadeloupe', 'Guernsey', 'Hungary', 'Iceland', 'Ireland', 'Isle of Man', 'Italy', 'Jersey', 'Kazakhstan', 'Kosovo', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madeira', 'Malta', 'Martinique', 'Mayotte', 'Melilla', 'Moldova', 'Monaco', 'Montenegro', 'Montserrat', 'Netherlands', 'New Caledonia', 'North Macedonia', 'Norway', 'Pitcairn Islands', 'Poland', 'Portugal', 'Romania', 'Réunion', 'Saint Barthélemy', 'Saint Helena', 'Saint Martin', 'Saint Pierre and Miquelon', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Svalbard', 'Sweden', 'Switzerland', 'Tristan da Cunha', 'Turkey', 'Turks and Caicos Islands', 'Ukraine', 'United Kingdom', 'Wallis and Futuna', 'North America', 'American Samoa', 'Antigua and Barbuda', 'Bahamas', 'Barbados', 'Belize', 'Canada', 'Costa Rica', 'Curaçao', 'Dominica', 'Dominican Republic', 'El Salvador', 'Grenada', 'Guam', 'Guatemala', 'Haiti', 'Honduras', 'Jamaica', 'Mexico', 'Nicaragua', 'Northern Mariana Islands', 'Panama', 'Puerto Rico', 'St. Kitts and Nevis', 'St. Lucia', 'St. Vincent and the Grenadines', 'Trinidad and Tobago', 'United States', 'United States Minor Outlying Islands (Navassa Island, Baker Island, Howland Island, Jarvis Island, Johnston Atoll, Kingman Reef, Midway Atoll, Wake Atoll)', 'United States Virgin Islands', 'South America', 'Argentina', 'Aruba', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Guyana', 'Paraguay', 'Peru', 'Sint Maarten', 'Suriname', 'Uruguay', 'Venezuela', 'Oceania', 'Australia', 'Bonaire', 'Christmas Island', 'Cocos (Keeling) Islands', 'Cook Islands', 'Fiji', 'Kiribati', 'Marshall Islands', 'Micronesia', 'Nauru', 'New Zealand', 'Niue', 'Norfolk Island', 'Palau', 'Papua New Guinea', 'Saba', 'Samoa', 'Sint Eustatius', 'Solomon Islands', 'Tokelau', 'Tonga', 'Tuvalu', 'Vanuatu' ];
   const options = useMemo(() => {
@@ -89,10 +88,14 @@ function Menu(props) {
   useEffect(() => {
     const fetchTopSongs = async () => {
       try {
-          const tops = await getTops(topTerm);
-          topSongRef.current = tops
+          let tops = getTopsLocal('tops');
+          let topTermRef = getTopsLocal('topTerm');
+          if (!tops || topTermRef !== topTerm){
+            tops = await getTops(topTerm);
+            newLocal('tops', tops)
+            newLocal('topTerm', topTerm)
+          }
           setTopSong(tops);
-
 
       } catch (error) {
         console.error('Error fetching top songs:', error);
@@ -107,7 +110,11 @@ function Menu(props) {
   useEffect(() => {
     const fetchRecSongs = async () => {
       try {    
-          const recommendations = await getRecs();
+          let recommendations = getTopsLocal('recommendations');
+          if (!recommendations){
+            recommendations = await getRecs();
+            newLocal('recommendations', recommendations)
+          }
           setRec(recommendations);
           setValue('Global')
       } catch (error) {
@@ -122,7 +129,11 @@ function Menu(props) {
   useEffect(() => {
     const fetchText = async () => {
       try {
-        const text = await getText();
+        let text = getTopsLocal('text');
+        if (!text){
+          text = await getText();
+          newLocal('text', text)
+        }
         setTextMusic(text);
       } catch (error) {
         console.error('Error fetching text:', error);
@@ -136,7 +147,11 @@ function Menu(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await featureDiagram();
+        let data = getTopsLocal('featureDiagram')
+        if (!data){
+          data = await featureDiagram();
+          newLocal('featureDiagram', data)
+        }
         setFeatures(data.best);
         setFeaturesPersent(data.features_dict);
       } catch (error) {

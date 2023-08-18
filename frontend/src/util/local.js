@@ -1,16 +1,6 @@
 const TOKEN_KEY = 'spotifyToken';
 const USER_KEY = 'spotifyUser';
 
-
-// export const storeToken = (token) => {
-//   localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
-// };
-
-// export const getTokenFromStorage = () => {
-//   const token = localStorage.getItem(TOKEN_KEY);
-//   return token ? JSON.parse(token) : null;
-// };
-
 export const storeUser = (user) => {
   localStorage.setItem(USER_KEY, JSON.stringify(user));
 };
@@ -24,6 +14,16 @@ export const getUserFromStorage = () => {
 export const clearLocalStorage = () => {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+  localStorage.removeItem('tops');
+  localStorage.removeItem('recommendations');
+  localStorage.removeItem('text');
+  localStorage.removeItem('topTerm');
+  localStorage.removeItem('topDiagram');
+  localStorage.removeItem('sircleDiagram');
+  localStorage.removeItem('featureDiagram');
+  localStorage.removeItem('playlist');
+  localStorage.removeItem('tracks');
+
   // localStorage.removeItem('playlist');
   // localStorage.removeItem('tracks');
 };
@@ -43,6 +43,17 @@ export const getCookie = (cname='session') => {
   }
   return "";
 };
+
+export const getTopsLocal = (key) =>{
+  const tops = localStorage.getItem(key);
+  if(tops === undefined) return false;
+  return (tops && JSON.parse(tops)) ? JSON.parse(tops) : null;
+}
+
+export const newLocal = (key, data) =>{
+  if(data === undefined)localStorage.setItem(key, []);
+  else localStorage.setItem(key, JSON.stringify(data));
+}
 
 
   // useEffect(() => {

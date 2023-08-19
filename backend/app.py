@@ -3,7 +3,7 @@ import io
 import webbrowser
 from datetime import timedelta, datetime
 from PIL import Image
-from flask import Flask, request, session, jsonify, make_response
+from flask import Flask, request, session, jsonify, make_response, redirect
 from flask.helpers import send_from_directory
 
 from spotify_requests import spotify

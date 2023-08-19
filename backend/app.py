@@ -3,7 +3,7 @@ import io
 import webbrowser
 from datetime import timedelta, datetime
 from PIL import Image
-from flask import Flask, request, session, jsonify, make_response, redirect
+from flask import Flask, request, session, jsonify, make_response, redirect, send_file
 from flask.helpers import send_from_directory
 
 from spotify_requests import spotify
@@ -17,6 +17,12 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
 #CORS(app)
 
+
+
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def catch_all(path):
+    return send_file("../frontend/build/index.html")
 
 # ----------------------- AUTH -------------------------
 
@@ -35,7 +41,7 @@ def callback():
     session['refresh_token'] = refresh_token
     session['expires_at'] = expires_at
     session.permanent = True
-    return make_response(redirect("https://tastyfy.me"))
+    return redirect("https://tastyfy.me/menu")
 
 
 @app.route("/api/token")

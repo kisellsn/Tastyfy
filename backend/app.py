@@ -41,7 +41,7 @@ def callback():
     session['refresh_token'] = refresh_token
     session['expires_at'] = expires_at
     session.permanent = True
-    return redirect("https://tastyfy.me/menu")
+    return redirect("/menu")
 
 
 @app.route("/api/token")

@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import { sircleDiagram } from 'src/util/functions';
+import '../Menu/Menu.scss'
+import { getTopsLocal, newLocal } from 'src/util/local';
 
-function PlotSircle({term}) {
+function PlotSircle({term, termRef}) {
   const [plotData, setPlotData] = useState(null); 
 
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await sircleDiagram(term);
+        let data = getTopsLocal('sircleDiagram');
+        let topTermRef = getTopsLocal('topTerm');
+        if (!data || topTermRef !== term){
+          data = await sircleDiagram(term);
+          newLocal('sircleDiagram', data)
+          newLocal('topTerm', term)
+        }
         data.config = {'displayModeBar': false, 'zoomIn': false, 'dragMode': false, 'responsive': true}
         setPlotData(data);
       } catch (error) {
@@ -21,7 +29,7 @@ function PlotSircle({term}) {
   }, [term]);
 
   return (
-    <div style={{ width: '150%', 'aspectRatio': '1/1', position: 'relative'}}>
+    <div className='image' style={{'aspectRatio': '1/1', position: 'relative'}}>
       {plotData ? (
         <Plot
           data={plotData.data}
@@ -31,7 +39,7 @@ function PlotSircle({term}) {
         />
       ) : (
 
-        <p style={{fontSize:'40px', textAlign:'center', marginLeft:'200px', position:'absolute'}}> <br/><br/>Loading plot data...</p>
+        <p className="loadingCircle"> <br/><br/>Loading plot data...</p>
       )}
     </div>
   );

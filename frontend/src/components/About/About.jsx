@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 function About(props) {
   const navigate = useNavigate();
-  const [mate, setMate] = useState(0)
+  const [mate, setMate] = useState(0);
 
   const handleGoBack = () => {
     navigate('/menu');

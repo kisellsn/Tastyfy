@@ -250,27 +250,33 @@
   
   .modal-content {
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 50%;
+    width: 52%;
+    aspect-ratio: 998/168;
     transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    // background: linear-gradient(100deg, rgb(19, 132, 117) 20%, rgb(43, 13, 108) 75%);
+    color: white;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    .center{
+        text-align: center;
+    }
   }
   
   .close-btn {
     position: absolute;
-    top: 0px;
-    right: 2%;
-    font-size: 30px;
-    width: 2%;
+    top: 10%;
+    right: 3%;
+    width: 1.7%;
     aspect-ratio: 1/1;
-
     cursor: pointer;
   }
-  
+
   button {
     margin: 10px;
     z-index: 2;
@@ -283,4 +289,155 @@
     font-size: 1vw;
     cursor: pointer;
   }
+
+
+  .modal-buttons{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+    margin-bottom: 1%;
+    button {
+        margin: 0;
+        width: 15%;
+        aspect-ratio: 14/4;
+        border-radius: 25px;
+        background-color: rgba(217, 217, 217, 0.15);
+        font-size: 0.8vw;
+        font-family: Urbanist;
+        font-weight: 800;
+    }
+    .mainButton{
+        background-color: rgba(146, 18, 141, 0.58);
+      }
+  }
+
+  #modal-text{
+    margin-top: 5%;
+  }
+
+@media (max-width: 700px) {
+    .generatorContainer{
+        flex-direction: column;
+        align-items: center;
+        .playlistData{
+            width: 50%;
+            .data_img{
+                width: 100%;
+                margin-bottom: 5%;
+            }
+            .data_name form, .data_description form{
+                text-align: center;
+                justify-content: center;
+                background-color: transparent;
+                margin-bottom: 5%;
+                input, textarea{
+                    text-align: center;
+                    font-size: 3.5vw;
+                    &::placeholder{
+                        color:white;
+                    }
+                }
+            }
+        }
+        .boxPlaylist{
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: row;
+            width: 100%;
+        }
+        .generatedTracks{
+            width:96%;
+            padding: 5% 2%;
+            background-color: rgba(217, 217, 217, 0.2);
+            // background-color: transparent;
+            text-align: left;
+            border-radius: 25px;
+            max-height: 20vh;
+
+            .scrollList{
+                max-height: 25vh;
+                gap: 10%;
+                .gPlaylist-card{
+                    background-color: rgba(0, 0, 0, 1);
+                    border-radius: 15px;
+                    min-height: 5vh;
+                    width: 93%;
+                    padding: 0% 3% 0 3%;
+                    .gPlaylist-card_content{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: space-between;
+                        text-align: center;
+                        width: 80%;
+                        margin-right:5%;
+                        h4{
+                            font-size: 1vw;
+                            width:30%;
+                        }
+                    }
+                    .gPlaylist-card_img{
+                        width: 7%;
+                        margin-right: 2%;
+                    }
+                    .gPlaylist-card_content{ 
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 85%;
+                        margin-right:2%;
+                        h4{
+                            font-size: 2.7vw;
+                            width: 50%;
+                        }
+                    }
+                    .gPlaylist-card_remove{
+                        min-height: 1px;
+                        width: 7%;
+                    }
+
+                }
+
+            }
+            .scrollList::-webkit-scrollbar {
+                width: 3px; 
+            }
+        }
+    }
+    .buttons {
+        gap:0%;
+        justify-content: space-around;
+        width: 60%;
+        margin: 0 20% 5% 20%;
+        .buttonCreate {
+            width: 40%;
+            margin: 0;
+            position: relative;
+            button{
+                margin: 0;
+                font-size: 3vw;
+            }
+        }
+    }
+    .modal-content{
+        width: 80%;
+        padding: 2%;
+        .close-btn{
+            top: 6%;
+            right: 4%;
+            width: 3%;
+        }
+        .modal-buttons{
+            button{
+                width: 25%;
+                font-size: 2.7vw;
+                aspect-ratio: 65/24;
+            }
+        }
+
+    }
+}
+  
   

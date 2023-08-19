@@ -15,7 +15,8 @@ def visualize_top_artists(json_data, is_top=False):
     artists_count.sort_values(by=['Tracks listened'], ascending=False, inplace=True)
 
     artists_count = __make_others_section(artists_count)
-    return pio.to_json(__plot_pie_chart(artists_count), pretty=True)
+    fig = __plot_pie_chart(artists_count)
+    return pio.to_json(fig, pretty=True)
 
 
 def visualize_genres_barchart(genres_complex_list):
@@ -25,7 +26,6 @@ def visualize_genres_barchart(genres_complex_list):
                               '#360d6e', '#2e0f70', '#251172', '#191274', '#011476']
 
     fig = __plot_bar_chart(genres, color_continuous_scale)
-
     return pio.to_json(fig, pretty=True)
 
 
@@ -142,7 +142,7 @@ def __plot_pie_chart(artists_count):
 
     fig = px.pie(artists_count, values='Tracks listened', names='Artist',
                  color_discrete_sequence=color_continuous_scale, hole=0.65)
-    fig.update_traces(textfont=dict(size=25), hovertemplate=' <br>   %{label}   <br> ',
+    fig.update_traces(textfont_size=15, textposition='inside', hovertemplate=' <br>   %{label}   <br> ',
                       texttemplate='%{percent:.1%}', sort=False)
 
     big_circle, small_circle = __draw_circles()
@@ -152,13 +152,17 @@ def __plot_pie_chart(artists_count):
             'plot_bgcolor': 'rgba(0,0,0,0)',
             'paper_bgcolor': 'rgba(0,0,0,0)'
         },
-        shapes=[big_circle, small_circle], showlegend=False,
+        # shapes=[big_circle, small_circle],
+
+        shapes=[small_circle],
+        showlegend=False,
         hoverlabel=dict(bgcolor='black', font_size=20, font_family='Helvetica'),
+        margin=dict(t=0, b=0, r=0, l=0)
     )
 
     fig.update_yaxes(
         scaleanchor='x',
-        scaleratio=1,
+        scaleratio=1
     )
 
     return fig
@@ -217,7 +221,7 @@ def __plot_bar_chart(genres, color_continuous_scale):
         yaxis=dict(visible=False, showticklabels=False, fixedrange=True),
         font=dict(color='white'),
         margin=dict(t=0, b=0, r=0, l=0),
-        hoverlabel=dict(font_size=20, font_family='Helvetica'),
+        hoverlabel=dict(font_family='Helvetica')
     )
 
     return fig

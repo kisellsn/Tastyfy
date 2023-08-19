@@ -86,13 +86,13 @@ function Generator(props) {
         navigate('/playlists')
     }
 
-    const showModal = () => {
-        let modal = document.getElementById('custom-modal');
+    const showModal = (modalId) => {
+        let modal = document.getElementById(modalId);
         modal.style.display = 'block';
       }
       
-    const hideModal = () => {
-        let modal = document.getElementById('custom-modal');
+    const hideModal = (modalId) => {
+        let modal = document.getElementById(modalId);
         modal.style.display = 'none';
       }
     const addingItems = async() => {
@@ -106,9 +106,8 @@ function Generator(props) {
                 };
                 reader.readAsDataURL(inputFile);
             }
-            clearPlaylist();
-            clearTracks();
-            navigate('/playlists')
+            hideModal('custom-modal')
+            showModal('custom-modal2')
         } catch(error) {
             console.error("Error fetching playlist songs:", error);
         }
@@ -121,7 +120,7 @@ function Generator(props) {
             setPlaylistId(id)
             const exist = data.is_exists;
             if (exist){
-                showModal();
+                showModal('custom-modal');
                 return;
             }
             addToPlaylist(id, tracks.map((item) => item.song))
@@ -133,26 +132,77 @@ function Generator(props) {
                 };
                 reader.readAsDataURL(inputFile);
             }
-            clearPlaylist();
-            clearTracks();
-            navigate('/playlists')
+            showModal('custom-modal2')
         } catch (error) {
             console.error("Error fetching playlist songs:", error);
         }
     }
 
+    const closeGenerator = () =>{
+        clearPlaylist();
+        clearTracks();
+        navigate('/playlists')
+    }
+
+    const regeneratePlaylist = () =>{
+        clearTracks();
+        hideModal('custom-modal2')
+        const fetchTracks = async() =>{
+            try {
+                setFlag(1);
+                let options;
+                const arrayOfObjects = playlist.map((item) => item.song);
+                if((playlist !== playlist2) || tracks.length ===0){
+                    options = await generateTracks(arrayOfObjects);
+                } else {
+                    options = tracks.map((item) => item.song);
+                }
+                if(playlist && options)generateItems(playlist, options)
+                setFlag(0);
+            } catch (error) {
+                // Handle any errors that might occur during the Promise resolution
+                console.error("Error fetching playlist songs:", error);
+            }
+        }
+
+        fetchTracks();
+    }
+
     return (
         <div id='generator' className={props.className}>
             <Header url={url}  linkUser={linkUser}  back={"rgba(9, 1, 14, 1)"}/>
+            <div className='circleMenu' style={{backgroundColor:`rgba(8, 99, 99, 1)`}}></div>
             <div id='circle1'></div>
             <div id='circle2'></div>
             <div id='circle3'></div>
             <div id="custom-modal" className="modal">
-                <div className="modal-content">
-                    <span className="close-btn" onClick={hideModal}>&times;</span>
+                <div className="modal-content" style={{background: ' linear-gradient(100deg, rgb(19, 132, 117) 20%, rgb(43, 13, 108) 75%)'}}>
+                    <span className="close-btn" onClick={() => hideModal('custom-modal')}>
+                        <svg width="100%" height="100%" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L17.5 17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M1 17.5L17.5 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </span>
                     <p id="modal-text">You've already got a playlist with such a name! Do you want the generated songs added to it?</p>
-                    <button onClick={addingItems}>Add to Playlist</button>
-                    <button onClick={hideModal}>No</button>
+                    <div className='modal-buttons'>
+                        <button onClick={addingItems}>Add to Playlist</button>
+                        <button onClick={() => hideModal('custom-modal')}>No</button>
+                    </div>
+                </div>
+            </div>
+            <div id="custom-modal2" className="modal">
+                <div className="modal-content" style={{background: ' linear-gradient(-135deg, rgba(35, 168, 14, 0.64) 0%, rgba(121, 32, 176, 1) 100%)'}}>
+                    <span className="close-btn" onClick={() => hideModal('custom-modal2')}>
+                        <svg width="100%" height="100%" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L17.5 17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M1 17.5L17.5 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </span>
+                    <p id="modal-text" className='center'>Playlist created!<br/>Return to the analytics page or create another playlist?</p>
+                    <div className='modal-buttons'>
+                        <button onClick={closeGenerator}>Back</button>
+                        <button className='mainButton' onClick={regeneratePlaylist}>Create</button>
+                    </div>
                 </div>
             </div>
             <div className='body'>
@@ -208,25 +258,31 @@ function Generator(props) {
                                 </form>
                         </div>
                     </div>
+                    <div className='boxPlaylist'>
+                        <p className='hiddenMobile' >Your songs</p>
+                    </div>
                     <div className='generatedTracks'>
+
                         <div className='scrollList'>
-                            {flag === 0 ? (
-                                <>
-                                    {tracks ? (
-                                        <>
-                                        {tracks.map((song, index) => (
-                                            <GeneratedTrack key={index} song={song.song} removeTrack={removeTrack}/>
-                                        ))}
-                                        </>
+                                {flag === 0 ? (
+                                    <>
+                                        {tracks ? (
+                                            <>
+                                            {tracks.map((song, index) => (
+                                                <GeneratedTrack key={index} song={song.song} removeTrack={removeTrack}/>
+                                            ))}
+                                            </>
+                                        ):(
+                                            <p>We don`t have you songs.</p>
+                                        )}
+                                    </>
                                     ):(
-                                        <p>We don`t have you songs.</p>
-                                    )}
-                                </>
-                                ):(
-                                    <p>Loading data...</p>
-                                )
-                            }
-                        </div>
+                                        <div className='pussyCat1'>
+                                            <p>Loading data...</p>
+                                        </div>
+                                    )
+                                }
+                         </div>
                     </div>
                 </div>
                 <div className='buttons'>

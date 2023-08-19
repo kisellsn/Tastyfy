@@ -6,6 +6,7 @@ import arrowRight from 'src/assets/images/arrow-right.png';
 import arrowLeft from 'src/assets/images/arrow-left.png';
 import noimage from 'src/assets/images/NOimage.png';
 import { swipeLeft, swipeRight } from 'src/util/swiper';
+
 // import Swiper from 'swiper'; // Import Swiper JS
 
 
@@ -39,7 +40,6 @@ const FeatureViewer = ({ features, featuresPersent, currentFeatureIndex, setCurr
     setCurrentText(featuresPersent[featureArray[currentFeatureIndex]]);
 
   }, [currentFeatureIndex, features, featureArray, featuresPersent]);
-
 
   return (
     <FeatureWrapper>
@@ -152,13 +152,6 @@ const FeatureWrapper = styled.div`
                   frame-border: 0;
                   background-color: transparent;
                 }
-                .teframe2{
-                  width: 100%;
-                  aspect-ratio: 10/2;
-                  border-radius: 12px;
-                  border-color: transparent;
-                  frame-border: 0;
-                }
             }
         }
 
@@ -186,6 +179,10 @@ const CircleWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  @media (max-width: 700px) {
+    visibility: hidden;
+    position: absolute;
+  }
 `;
 
 const Circle = styled.div`

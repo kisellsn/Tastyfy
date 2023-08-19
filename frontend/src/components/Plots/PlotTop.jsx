@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import { topDiagram } from 'src/util/functions';
+import { getTopsLocal, newLocal } from 'src/util/local';
 
 function PlotTop() {
   const [plotData, setPlotData] = useState(null);
@@ -8,7 +9,11 @@ function PlotTop() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await topDiagram();
+        let data = getTopsLocal('topDiagram')
+        if(!data){
+          data = await topDiagram();
+          newLocal('topDiagram', data);
+        }
         data.config = {'displayModeBar': false, 'zoomIn': false, 'dragMode': false, 'responsive': true}
         setPlotData(data);
       } catch (error) {

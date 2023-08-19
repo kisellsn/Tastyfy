@@ -26,7 +26,7 @@ function App() {
               <Route path="/generator" element={<Generator />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<Privacy />} />
-              <Route path="/callback" element={<Callback />} />
+              <Route path="/callback/" element={<Callback />} />
             </Routes>
             <Footer />
           </ThemeProvider>

@@ -22,7 +22,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def catch_all(path):
-    return send_file("../frontend/build/index.html")
+    return send_from_directory(app.static_folder, "index.html")
 
 # ----------------------- AUTH -------------------------
 

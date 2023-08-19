@@ -59,7 +59,7 @@ def get_code():
 
 @app.route("/")
 def index():
-    return send_from_directory("index.html")
+    return send_from_directory(app.static_folder,"index.html")
 
 
 @app.route('/api/user')

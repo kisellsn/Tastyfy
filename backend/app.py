@@ -3,7 +3,7 @@ import io
 import webbrowser
 from datetime import timedelta, datetime
 from PIL import Image
-from flask import Flask, request, session, jsonify, make_response, redirect
+from flask import Flask, request, session, jsonify, make_response
 from flask.helpers import send_from_directory
 
 from spotify_requests import spotify
@@ -22,7 +22,9 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
 @app.route("/api/auth")
 def auth():
-    return webbrowser.open(spotify.AUTH_URL)
+    return jsonify({
+        "link": spotify.AUTH_URL
+    })
 
 
 @app.route("/callback/")

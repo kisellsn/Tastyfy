@@ -47,7 +47,7 @@ export const registerSpotify = async () => {
     
 export const getToken = async () => {
     try {
-        const response = await axios.get('/token');
+        const response = await axios.get('/api/token');
         return response.data;
     } catch (error) {
         console.error('Error', error);

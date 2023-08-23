@@ -12,7 +12,7 @@ from analysis import analysis
 #from gevent.pywsgi import WSGIServer
 #from flask_cors import CORS
 
-app = Flask(__name__, static_folder="../frontend/build", static_url_path='/')
+app = Flask(__name__, static_folder="../frontend/build")
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
@@ -59,10 +59,7 @@ def get_code():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
-    return make_response('index.html')
-#@app.route("/")
-#def index():
-    #return send_from_directory(app.static_folder,"index.html")
+    return send_from_directory(app.static_folder,"index.html")
 
 
 @app.route('/api/user')

@@ -9,9 +9,10 @@ from flask.helpers import send_from_directory
 from spotify_requests import spotify
 from analysis import analysis
 
+#from gevent.pywsgi import WSGIServer
 #from flask_cors import CORS
 
-app = Flask(__name__, static_folder="../frontend/build", static_url_path='')
+app = Flask(__name__, static_folder="../frontend/build", static_url_path='/')
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
@@ -290,4 +291,6 @@ def get_genres(auth_header):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="http://tastyfy.me/")
+    #WSGIServer(('0.0.0.0', 8000), app).serve_forever()
+

@@ -20,10 +20,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
 
 
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def catch_all(path):
-    return send_from_directory(app.static_folder, "index.html")
+
 
 # ----------------------- AUTH -------------------------
 
@@ -59,10 +56,13 @@ def get_code():
 
 # -------------------------- API REQUESTS ----------------------------
 
-
-@app.route("/")
-def index():
-    return send_from_directory(app.static_folder,"index.html")
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return make_response('index.html')
+#@app.route("/")
+#def index():
+    #return send_from_directory(app.static_folder,"index.html")
 
 
 @app.route('/api/user')

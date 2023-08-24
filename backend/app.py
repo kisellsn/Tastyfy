@@ -3,24 +3,24 @@ import io
 import webbrowser
 from datetime import timedelta, datetime
 from PIL import Image
-from flask import Flask, request, session, jsonify, make_response, redirect, send_file
-from flask.helpers import send_from_directory
+from flask import Flask, request, session, jsonify, make_response, redirect
 
 from spotify_requests import spotify
 from analysis import analysis
-
-#from gevent.pywsgi import WSGIServer
-#from flask_cors import CORS
 
 app = Flask(__name__, static_folder="../frontend/build", static_url_path='')
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
-#CORS(app)
 
 
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
-
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 # ----------------------- AUTH -------------------------
 
@@ -55,21 +55,6 @@ def get_code():
 
 
 # -------------------------- API REQUESTS ----------------------------
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    return app.send_static_file('index.html')
-    #return send_from_directory(app.static_folder, "index.html")
-
-@app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file('index.html')
-
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
-
 
 @app.route('/api/user')
 def get_profile():
@@ -297,6 +282,5 @@ def get_genres(auth_header):
 
 
 if __name__ == "__main__":
-    app.run(host="http://tastyfy.me/")
-    #WSGIServer(('0.0.0.0', 8000), app).serve_forever()
+    app.run()
 

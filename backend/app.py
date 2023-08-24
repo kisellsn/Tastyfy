@@ -58,9 +58,11 @@ def get_code():
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
+def catch_all(path):
+    return send_from_directory(app.static_folder, "index.html")
 @app.route('/')
-def index(path):
-    return send_from_directory(app.static_folder,"index.html")
+def index():
+    return send_from_directory(app.static_folder, "index.html")
 
 
 @app.route('/api/user')

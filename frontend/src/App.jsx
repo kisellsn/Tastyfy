@@ -10,7 +10,6 @@ import Menu from './components/Menu/Menu';
 import Privacy from './components/Privacy/Privacy';
 import PlaylistGenerator from './components/PlaylistGenerator/PlaylistGenerator';
 import Generator from './components/Generator/Generator';
-import Callback from './components/Callback';
 
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
               <Route path="/generator" element={<Generator />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<Privacy />} />
-              <Route path="/callback" element={<Callback />} />
             </Routes>
             <Footer />
           </ThemeProvider>

@@ -26,21 +26,15 @@ def auth():
         "link": spotify.AUTH_URL
     })
 
-
-@app.route("/api/redirect", methods=('GET', 'POST'))
+@app.route("/callback/")
 def callback():
-    data = request.json
-    auth_token = data.get('code')
+    auth_token = request.args['code']
     auth_header, refresh_token, expires_at = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
     session['refresh_token'] = refresh_token
     session['expires_at'] = expires_at
     session.permanent = True
-    resp = jsonify({
-        "link": "http://localhost:3000/menu"
-    })
-    return resp
-
+    return redirect("http://localhost:3000/menu")
 
 @app.route("/api/token")
 def get_code():
@@ -55,11 +49,6 @@ def get_code():
 
 
 # -------------------------- API REQUESTS ----------------------------
-
-
-@app.route("/")
-def index():
-    return render_template('index.html')
 
 
 @app.route('/api/user')

@@ -57,6 +57,7 @@ def get_smarter_recommendations(playlist_tracks):
     tracks = pd.DataFrame(playlist_tracks)
     tracks['artist_name'] = tracks['artists'].apply(lambda artists: [artist['name'] for artist in artists])
     tracks = tracks.explode('artists')
+    print(type(tracks))
     tracks.drop_duplicates(subset=['artist_name'], inplace=True)
 
     return tracks['id'].values.tolist()[:9]

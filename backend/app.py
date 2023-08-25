@@ -163,7 +163,7 @@ def rec():
             playlists_items = spotify.get_playlists_tracks(auth_header, resp, 50)
             for track in playlists_items:
                 tracks.extend(item["track"] for item in track["items"])
-            print(tracks)
+            print(type(tracks))
             tracks_ids = analysis.get_smarter_recommendations(tracks)
             recommendations = spotify.get_several_tracks(auth_header, tracks_ids)
             res = make_response(recommendations["tracks"], 200)

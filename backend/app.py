@@ -143,7 +143,7 @@ def get_genres_overview():
 
 
 @app.route('/api/user/recommendations', methods=('GET', 'POST'))
-def recommendations():
+def rec():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         if request.method == 'POST':

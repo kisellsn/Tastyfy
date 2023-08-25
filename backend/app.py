@@ -152,7 +152,7 @@ def rec():
             genres = get_genres(auth_header)
             if genres is None: return make_response("not enough data", 204)
             first_genre = analysis.convert_genres(genres).loc[0, 'Genre'].split()
-            genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), None)
+            genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), first_genre)
             search = spotify.search(auth_header, name=f"{market.split('_')[0]} trending {genre_name} ",
                                     search_type="playlist", limit=1)
             resp = search["playlists"]

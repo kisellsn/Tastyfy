@@ -146,7 +146,7 @@ def get_genres_overview():
 
 
 @app.route('/api/user/recommendations', methods=('GET', 'POST'))
-def recommendations():
+def rec():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         if request.method == 'POST':
@@ -163,7 +163,7 @@ def recommendations():
             playlists_items = spotify.get_playlists_tracks(auth_header, resp, 50)
             for track in playlists_items:
                 tracks.extend(item["track"] for item in track["items"])
-
+            print(tracks)
             tracks_ids = analysis.get_smarter_recommendations(tracks)
             recommendations = spotify.get_several_tracks(auth_header, tracks_ids)
             res = make_response(recommendations["tracks"], 200)

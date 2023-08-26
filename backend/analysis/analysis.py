@@ -145,7 +145,7 @@ def __plot_pie_chart(artists_count):
 
     fig = px.pie(artists_count, values='Tracks listened', names='Artist',
                  color_discrete_sequence=color_continuous_scale, hole=0.65)
-    fig.update_traces(textfont_size=14, textposition='inside', hovertemplate=' <br>   %{label}   <br> ',
+    fig.update_traces(textfont_size=15, textposition='inside', hovertemplate=' <br>   %{label}   <br> ',
                       texttemplate='%{percent:.1%}', sort=False)
 
     big_circle, small_circle = __draw_circles()

@@ -155,14 +155,18 @@ def rec():
             genres = get_genres(auth_header)
             if genres is None: return make_response("not enough data", 204)
             first_genre = analysis.convert_genres(genres).loc[0, 'Genre'].split()
-            genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), first_genre)
+            genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), ' '.join(first_genre))
+
             search = spotify.search(auth_header, name=f"{market.split('_')[0]} trending {genre_name} ",
-                                    search_type="playlist", limit=1)
+                                    search_type="playlist", limit=1, market=market.split('_')[1])
+
             resp = search["playlists"]
+
             tracks = []
             playlists_items = spotify.get_playlists_tracks(auth_header, resp, 50)
             for track in playlists_items:
                 tracks.extend(item["track"] for item in track["items"])
+
             tracks_ids = analysis.get_smarter_recommendations(tracks)
             recommendations = spotify.get_several_tracks(auth_header, tracks_ids)
             res = make_response(recommendations["tracks"], 200)

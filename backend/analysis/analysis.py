@@ -57,8 +57,9 @@ def get_smarter_recommendations(playlist_tracks):
     tracks = pd.DataFrame(playlist_tracks)
     tracks['artist_name'] = tracks['artists'].apply(lambda artists: [artist['name'] for artist in artists])
     tracks = tracks.explode('artists')
-    print(type(tracks))
-    tracks.drop_duplicates(subset=['artist_name'], inplace=True)
+    tracks['artist_name_str'] = tracks['artist_name'].apply(lambda x: ','.join(map(str, x)))
+    tracks.drop_duplicates(subset=['artist_name_str'], inplace=True)
+    tracks.drop('artist_name_str', axis=1, inplace=True)
 
     return tracks['id'].values.tolist()[:9]
 
@@ -84,6 +85,7 @@ def convert_genres(genres_complex_list):
 
     genres.sort_values(by='Count', inplace=True, ascending=False)
     genres.reset_index(drop=True, inplace=True)
+
     return genres
 
 
@@ -124,9 +126,9 @@ def __make_others_section(artists_count):
     column_sum = last_rows['Tracks listened'].sum()
     tracks_sum = artists_count['Tracks listened'].head(12).sum()
 
-    if column_sum / tracks_sum <= 0.15 and artists_count[artists_count.columns[0]].count() > 9:
+    if column_sum / tracks_sum <= 0.15 and artists_count[artists_count.columns[0]].count() > 8:
         if artists_count['Tracks listened'].max()/tracks_sum < 0.3:
-            artists_count = artists_count.head(8)
+            artists_count = artists_count.head(7)
         else:
             artists_count = artists_count.head(6)
 
@@ -134,7 +136,7 @@ def __make_others_section(artists_count):
         artists_count = pd.concat([artists_count, new_row])
         return artists_count
     else:
-        return artists_count.head(10)
+        return artists_count.head(9)
 
 
 def __plot_pie_chart(artists_count):
@@ -157,7 +159,7 @@ def __plot_pie_chart(artists_count):
 
         shapes=[small_circle],
         showlegend=False,
-        hoverlabel=dict(bgcolor='black', font_size=20, font_family='Helvetica'),
+        hoverlabel=dict(bgcolor='black', font_size=15, font_family='Helvetica'),
         margin=dict(t=0, b=0, r=0, l=0)
     )
 

@@ -99,7 +99,6 @@ function Menu(props) {
 
       } catch (error) {
         console.error('Error fetching top songs:', error);
-        // Handle the error
       }
     };
   
@@ -161,7 +160,6 @@ function Menu(props) {
 
     fetchData();
   }, []);
-  
   let url = ''
   if (userInfo?.images) url=userInfo.images[0].url
 
@@ -194,8 +192,12 @@ function Menu(props) {
     if(newMate === 2)setCircleColor('rgba(22, 97, 47, 1)');
     if(newMate === 3)setCircleColor('rgba(49, 0, 130, 1)');
   }
+  const darkScreen = () => {
+
+  }
   return (
     <div id='analytics' className={props.className}>
+
       <Header url={url}  linkUser={linkUser} back={"rgb(26, 0, 36)"}/>
       <div className='circleMenu' style={{backgroundColor:`${circleColor}`}}></div>
       <div></div>
@@ -235,14 +237,20 @@ function Menu(props) {
           <div id='info'>
             <div id='infoLeft'>
               <div id='textInfo' className='textBlock'>
-                {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                 */}
                  {textMusic}
               </div>
             </div>
             <div id='infoRight'>
+              <div className='iconInfo icon1' onClick={darkScreen}>
+                    <span className="tooltiptext">Press on the bar to show genre's listening count!</span>
+                    <svg width="100%" height="100%" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.5002 3.58301C11.6263 3.58301 3.5835 11.6258 3.5835 21.4997C3.5835 31.3735 11.6263 39.4163 21.5002 39.4163C31.374 39.4163 39.4168 31.3735 39.4168 21.4997C39.4168 11.6258 31.374 3.58301 21.5002 3.58301ZM21.5002 7.16634C29.4375 7.16634 35.8335 13.5624 35.8335 21.4997C35.8335 29.437 29.4375 35.833 21.5002 35.833C13.5629 35.833 7.16683 29.437 7.16683 21.4997C7.16683 13.5624 13.5629 7.16634 21.5002 7.16634Z" fill="white"/>
+                        <path d="M21.5002 16.125C21.025 16.125 20.5693 16.3138 20.2333 16.6498C19.8973 16.9858 19.7085 17.4415 19.7085 17.9167V30.4583C19.7085 30.9335 19.8973 31.3892 20.2333 31.7252C20.5693 32.0612 21.025 32.25 21.5002 32.25C21.9753 32.25 22.4311 32.0612 22.7671 31.7252C23.1031 31.3892 23.2918 30.9335 23.2918 30.4583V17.9167C23.2918 17.4415 23.1031 16.9858 22.7671 16.6498C22.4311 16.3138 21.9753 16.125 21.5002 16.125Z" fill="white"/>
+                        <path d="M23.2918 12.5407C23.2918 13.0159 23.1031 13.4716 22.7671 13.8076C22.4311 14.1436 21.9753 14.3324 21.5002 14.3324C21.025 14.3324 20.5693 14.1436 20.2333 13.8076C19.8973 13.4716 19.7085 13.0159 19.7085 12.5407C19.7085 12.0655 19.8973 11.6098 20.2333 11.2738C20.5693 10.9378 21.025 10.749 21.5002 10.749C21.9753 10.749 22.4311 10.9378 22.7671 11.2738C23.1031 11.6098 23.2918 12.0655 23.2918 12.5407Z" fill="white"/>
+                    </svg>
+                    <div className='modalIcon'></div>
+              </div>
               <div id='graffic' className='textBlock'>
-                {/* <img id='stat'src={VectorImage} loading="lazy" alt={'Vector'} /> */}
                 <PlotTop />
               </div>
             </div>
@@ -250,6 +258,15 @@ function Menu(props) {
         </div>
         <div className={`topContainer ${containerCurrent !== 1 ? 'hidden' : ''}`}>
           <div id='titleA' className='smallHeight'><h4>Favorite Artists Breakdown</h4></div>
+          <div className='iconInfo icon2'>
+                <span className="tooltiptext">Press on the chart piece to show artist's name!</span>
+                <svg width="100%" height="100%" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.5002 3.58301C11.6263 3.58301 3.5835 11.6258 3.5835 21.4997C3.5835 31.3735 11.6263 39.4163 21.5002 39.4163C31.374 39.4163 39.4168 31.3735 39.4168 21.4997C39.4168 11.6258 31.374 3.58301 21.5002 3.58301ZM21.5002 7.16634C29.4375 7.16634 35.8335 13.5624 35.8335 21.4997C35.8335 29.437 29.4375 35.833 21.5002 35.833C13.5629 35.833 7.16683 29.437 7.16683 21.4997C7.16683 13.5624 13.5629 7.16634 21.5002 7.16634Z" fill="white"/>
+                    <path d="M21.5002 16.125C21.025 16.125 20.5693 16.3138 20.2333 16.6498C19.8973 16.9858 19.7085 17.4415 19.7085 17.9167V30.4583C19.7085 30.9335 19.8973 31.3892 20.2333 31.7252C20.5693 32.0612 21.025 32.25 21.5002 32.25C21.9753 32.25 22.4311 32.0612 22.7671 31.7252C23.1031 31.3892 23.2918 30.9335 23.2918 30.4583V17.9167C23.2918 17.4415 23.1031 16.9858 22.7671 16.6498C22.4311 16.3138 21.9753 16.125 21.5002 16.125Z" fill="white"/>
+                    <path d="M23.2918 12.5407C23.2918 13.0159 23.1031 13.4716 22.7671 13.8076C22.4311 14.1436 21.9753 14.3324 21.5002 14.3324C21.025 14.3324 20.5693 14.1436 20.2333 13.8076C19.8973 13.4716 19.7085 13.0159 19.7085 12.5407C19.7085 12.0655 19.8973 11.6098 20.2333 11.2738C20.5693 10.9378 21.025 10.749 21.5002 10.749C21.9753 10.749 22.4311 10.9378 22.7671 11.2738C23.1031 11.6098 23.2918 12.0655 23.2918 12.5407Z" fill="white"/>
+                </svg>
+                <div className='modalIcon'></div>
+          </div>
           <div className='topMenu'>
             <h4 className={(topTerm === 'current' || topTerm === 'start') ? 'active' : ''} data-value='current' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Now</h4>
             <h4 className={(topTerm === 'short_term' || topTerm === 'start') ? 'active' : ''} data-value='short_term' onClick={(event)=> setTopTerm(event.target.dataset.value)}>Week</h4>
@@ -258,7 +275,6 @@ function Menu(props) {
           </div>
           <div id='info'>
             <div id='grafficA'>
-              {/* <img id='sircle'src={Sircle} loading="lazy" alt={'Vector'} /> */}
               <PlotSircle term={topTerm} />
             </div>
             <div className={`song_content center`} >
@@ -277,6 +293,15 @@ function Menu(props) {
         <div className={`featureContainer ${containerCurrent !== 2 ? 'hidden' : ''}`}>
           <div id='titleA'><h4>Exploring Peak Features</h4></div>
           <div id='info'>
+          <div className='iconInfo icon3'>
+                <span className="tooltiptext" >You can also navigate to the feature info by pressing on it's name on the chart!</span>
+                <svg width="100%" height="100%" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.5002 3.58301C11.6263 3.58301 3.5835 11.6258 3.5835 21.4997C3.5835 31.3735 11.6263 39.4163 21.5002 39.4163C31.374 39.4163 39.4168 31.3735 39.4168 21.4997C39.4168 11.6258 31.374 3.58301 21.5002 3.58301ZM21.5002 7.16634C29.4375 7.16634 35.8335 13.5624 35.8335 21.4997C35.8335 29.437 29.4375 35.833 21.5002 35.833C13.5629 35.833 7.16683 29.437 7.16683 21.4997C7.16683 13.5624 13.5629 7.16634 21.5002 7.16634Z" fill="white"/>
+                    <path d="M21.5002 16.125C21.025 16.125 20.5693 16.3138 20.2333 16.6498C19.8973 16.9858 19.7085 17.4415 19.7085 17.9167V30.4583C19.7085 30.9335 19.8973 31.3892 20.2333 31.7252C20.5693 32.0612 21.025 32.25 21.5002 32.25C21.9753 32.25 22.4311 32.0612 22.7671 31.7252C23.1031 31.3892 23.2918 30.9335 23.2918 30.4583V17.9167C23.2918 17.4415 23.1031 16.9858 22.7671 16.6498C22.4311 16.3138 21.9753 16.125 21.5002 16.125Z" fill="white"/>
+                    <path d="M23.2918 12.5407C23.2918 13.0159 23.1031 13.4716 22.7671 13.8076C22.4311 14.1436 21.9753 14.3324 21.5002 14.3324C21.025 14.3324 20.5693 14.1436 20.2333 13.8076C19.8973 13.4716 19.7085 13.0159 19.7085 12.5407C19.7085 12.0655 19.8973 11.6098 20.2333 11.2738C20.5693 10.9378 21.025 10.749 21.5002 10.749C21.9753 10.749 22.4311 10.9378 22.7671 11.2738C23.1031 11.6098 23.2918 12.0655 23.2918 12.5407Z" fill="white"/>
+                </svg>
+                <div className='modalIcon'></div>
+          </div>
             <div id='flex-half'>
               <div className='featureInfo'>
                 <FeatureViewer 

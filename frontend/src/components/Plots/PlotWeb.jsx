@@ -11,7 +11,7 @@ function PlotWeb({features, setCurrentFeatureIndex}) {
   const handleAreaClick = (title) => {
     const index = featureArray.indexOf(title);
     if (index !== -1) {
-      setCurrentFeatureIndex(index);
+      setCurrentFeatureIndex(index+1);
     }
   };
   const handleMapClick = (event) => {

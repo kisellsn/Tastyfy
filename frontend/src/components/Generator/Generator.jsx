@@ -1,40 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../PlaylistGenerator/styles.scss'
 import './styles.scss'
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
-import { clearLocalStorage, getUserFromStorage, storeUser } from 'src/util/local';
 import { usePlaylistContext } from 'src/context/playlistContext';
 import GeneratedTrack from './GeneratedTrack';
 import { addImage, addToPlaylist, createPlaylist, generateTracks } from 'src/util/functions';
 import { useNewtracksContext } from 'src/context/newtracksContext';
+import { getUserFromStorage } from 'src/util/local';
 
 
 function Generator(props) {
     const [userInfo, setUserInfo] = useState('');
     const navigate = useNavigate();
-    const startRef = useRef(Date.now());
     const {playlist, clearPlaylist} = usePlaylistContext();
     const {tracks, removeTrack, generateItems, clearTracks, playlist2} = useNewtracksContext();
 
 
     useEffect(() => {
-        const checkAuthorization = () => {
-          const user = getUserFromStorage();
-          if (Date.now() - startRef > 3600000) {
-            clearLocalStorage();
-            navigate('/');
-          } else {
-            storeUser(user);
-            setUserInfo(user);
-          }
-        };
         const checkPlaylist = () => {
             if(!playlist || !playlist.length)navigate('/playlists');
         }
-        checkAuthorization();
         checkPlaylist(); 
+        setUserInfo(getUserFromStorage())
       }, [navigate, playlist]);
 
     let url = ''
@@ -45,7 +34,6 @@ function Generator(props) {
       window.location.href = url;
     };
     const [flag, setFlag] = useState(0);
-    // const [newtracks, setNewtracks] = useState([]);
 
     useEffect(() => {
         const fetchTracks = async() =>{
@@ -61,7 +49,6 @@ function Generator(props) {
                 if(playlist && options)generateItems(playlist, options)
                 setFlag(0);
             } catch (error) {
-                // Handle any errors that might occur during the Promise resolution
                 console.error("Error fetching playlist songs:", error);
             }
         }
@@ -141,7 +128,7 @@ function Generator(props) {
     const closeGenerator = () =>{
         clearPlaylist();
         clearTracks();
-        navigate('/playlists')
+        navigate('/menu')
     }
 
     const regeneratePlaylist = () =>{
@@ -160,7 +147,6 @@ function Generator(props) {
                 if(playlist && options)generateItems(playlist, options)
                 setFlag(0);
             } catch (error) {
-                // Handle any errors that might occur during the Promise resolution
                 console.error("Error fetching playlist songs:", error);
             }
         }

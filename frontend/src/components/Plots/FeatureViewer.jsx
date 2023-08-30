@@ -7,37 +7,40 @@ import arrowLeft from 'src/assets/images/arrow-left.png';
 import noimage from 'src/assets/images/NOimage.png';
 import { swipeLeft, swipeRight } from 'src/util/swiper';
 
-// import Swiper from 'swiper'; // Import Swiper JS
-
 
 const FeatureViewer = ({ features, featuresPersent, currentFeatureIndex, setCurrentFeatureIndex }) => {
   const featureArray = Object.keys(features);
-  // const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  const newFeatureArray = ['What is this?', ...featureArray.map(item => features[item])];
   const [currentValue, setCurrentValue] = useState({}); 
   const [currentText, setCurrentText] = useState({}); 
 
 
   const switchToNextFeature = () => {
-    let newIndex = (prevIndex) => (prevIndex + 1) % featureArray.length;
+    let newIndex = (prevIndex) => (prevIndex + 1) % newFeatureArray.length;
     swipeRight(setCurrentFeatureIndex, newIndex);
-    // setCurrentFeatureIndex();
   };
 
   const switchToPreviousFeature = () => {
-    let newIndex = (prevIndex) => prevIndex === 0 ? featureArray.length - 1 : prevIndex - 1;
+    let newIndex = (prevIndex) => prevIndex === 0 ? newFeatureArray.length - 1 : prevIndex - 1;
     swipeLeft(setCurrentFeatureIndex, newIndex);
 
   };
+  let currentFeature;
+  if(currentFeatureIndex === 0){
+    currentFeature = 'What is this?'
+  }else{
+    currentFeature = featureArray[currentFeatureIndex-1];
+  }
 
-  const currentFeature = featureArray[currentFeatureIndex];
   const currentFeatureDescription = featureDescriptions.find(
     (feature) => feature.name === currentFeature
   );
 
 
   useEffect(() => {
-    setCurrentValue(features[featureArray[currentFeatureIndex]]);
-    setCurrentText(featuresPersent[featureArray[currentFeatureIndex]]);
+
+      setCurrentValue(features[featureArray[currentFeatureIndex-1]]);
+      setCurrentText(featuresPersent[featureArray[currentFeatureIndex-1]]);
 
   }, [currentFeatureIndex, features, featureArray, featuresPersent]);
 
@@ -49,28 +52,36 @@ const FeatureViewer = ({ features, featuresPersent, currentFeatureIndex, setCurr
           <div className='middleBody mySwiper' >
             <img className="arrowImg" src={arrowLeft} onClick={switchToPreviousFeature} alt='Arrow right'/>
             <div className='textBody' id="swipeContainer">
-                <div className='texBody-text'>
-                  <p>Your personal value for this feature is {currentText}%.</p>
-                  <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
+              {(currentFeatureIndex !== 0) ? (
+                <>
+                  <div className='texBody-text'>
+                    <p>Your personal value for this feature is {currentText}%.</p>
+                    <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
+                  </div>
+                  <div className='texBody-example'>
+                    {currentValue ? (
+                      <iframe 
+                        className='teframe'
+                        src={`https://open.spotify.com/embed/track/${currentValue.id}?utm_source=generator`}
+                        allowFullScreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                      </iframe>
+                    ) : (
+                      <img className='teimg' src={currentValue?.album.images[0].url || noimage} alt="Song"/>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className={`texBody-text ${currentFeatureIndex === 0 ? 'firstElement' : ''}`}>
+                    <p>{currentFeatureDescription?.text || 'Description not available.'}</p>
                 </div>
-                <div className='texBody-example'>
-                  {currentValue ? (
-                    <iframe 
-                      className='teframe'
-                      src={`https://open.spotify.com/embed/track/${currentValue.id}?utm_source=generator`}
-                      allowFullScreen="" 
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                      loading="lazy">
-                    </iframe>
-                  ) : (
-                    <img className='teimg' src={currentValue?.album.images[0].url || noimage} alt="Song"/>
-                  )}
-                </div>
+              )}
             </div>
             <img className="arrowImg swiper-button-prev" src={arrowRight} onClick={switchToNextFeature} alt='Arrow right'/>
           </div>
           <CircleWrapper>
-            {featureArray.map((feature, index) => (
+            {newFeatureArray.map((feature, index) => (
             <Circle
                 key={index}
                 $isActive={index === currentFeatureIndex}
@@ -139,6 +150,13 @@ const FeatureWrapper = styled.div`
                 p{
                   margin-block-start: 0;
                   margin-block-end: 0;
+                }
+            }
+            .firstElement{
+              width: 100%;
+              text-align: center;
+              p{
+                  font-size: 2vw;
                 }
             }
             .texBody-example{

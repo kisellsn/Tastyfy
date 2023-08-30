@@ -1,5 +1,10 @@
 const featureDescriptions = [
     {
+      name: 'What is this?',
+      text:
+        'This is set of music features, which analyze key attributes of different songs. These features help create personalized playlists and recommend music tailored to individual preferences, enriching the overall listening experience. We present you with the average values for your music library and the best example for each feature.'
+    },
+    {
       name: 'Acousticness',
       text:
         'This tells you how much a song uses acoustic instruments instead of electronic ones. A higher acousticness value indicates a more organic and natural sound, often lending a mellow and intimate vibe to the music.'

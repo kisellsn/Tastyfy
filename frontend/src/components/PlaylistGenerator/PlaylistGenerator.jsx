@@ -65,7 +65,7 @@ function PlaylistGenerator(props) {
             <div id='circle3'></div>
             <div className='body'>
                 <div className='mobileGenTitle'>
-                    <h3>Your playlist will be generated...</h3>
+                    <h3>Welcome to Playlist Generator!</h3>
                     <div className='iconInfo hiddenMobile'>
                         <span className="tooltiptext">Search for songs, choose the ones you like, and Tastyfy will generate the playlist based on selected songs!</span>
                         <svg width="100%" height="100%" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +77,6 @@ function PlaylistGenerator(props) {
                 </div>
                 <div className='playlistContainer'>
                     <div className='searching'>
-                        {/* <h1>SEARCH</h1> */}
                         <form onSubmit={(e) => 
                         {
                         e.preventDefault();
@@ -168,7 +167,8 @@ function PlaylistGenerator(props) {
                                 ):(
                                     <div className='pussyCat2'>
                                         <img src={cat2} alt="Pussy cat"/>
-                                        <p>I’m waiting for your songs...</p>
+                                        <p>I’m waiting for your songs...<br/>
+                                        Currently up to 5 songs are supported</p>
                                     </div>
                                 )}
 

@@ -4,8 +4,6 @@
   "private": true,
   "proxy": "https://tastyfy.me/",
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.11.9",
     "@mui/lab": "^5.0.0-alpha.102",
     "@mui/material": "^5.10.5",
@@ -14,9 +12,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "axios-cache-interceptor": "^1.2.0",
-    "gatsby": "^5.11.0",
-    "i18n-iso-countries": "^7.6.0",
-    "image-map-resizer": "^1.0.10",
     "node-sass": "^7.0.3",
     "plotly.js": "^2.23.2",
     "react": "^18.2.0",
@@ -31,7 +26,6 @@
     "react-spring": "^9.5.5",
     "sass": "^1.62.1",
     "styled-components": "^6.0.5",
-    "swiper": "^10.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

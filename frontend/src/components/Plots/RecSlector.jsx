@@ -8,7 +8,7 @@ const RecSelector = ({ funcArray, setFuncArray }) => {
 
   const handleSelectChange = (feature, index) => {
     setSelectedFeatureIndex(index);
-    setFuncArray(feature); // Assuming you want to set the current feature index somewhere
+    setFuncArray(feature); 
     setIsDropdownOpen(false);
   };
   console.log()

@@ -80,6 +80,51 @@
 }
 .Email.about{
   right: 7%;
+  bottom:auto;
+  height: auto;
+  min-height: 1px;
+  top:10%;
+  width: 9%;
+  aspect-ratio: 173/75;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  img{
+    position: relative;
+    top:auto;
+    left:auto;
+  }
+  p{
+    font-family: Sansation;
+    font-weight: 400;
+    font-size: 18px;
+  }
+}
+
+.Coffee.about{
+  position: absolute;
+  display: flex;
+  right: 4%;
+  height: auto;
+  min-height: 1px;
+  bottom:10%;
+  width: 12%;
+  aspect-ratio: 194/75;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  svg{
+    width: 22%;
+    aspect-ratio: 1/1;
+    margin-right: 2%;
+    cursor: pointer;
+  }
+  p{
+    font-family: Sansation;
+    font-weight: 400;
+    font-size: 18px;
+    margin-right: 3%;
+  }
 }
 
 .Vector.about {

@@ -155,6 +155,9 @@ const FeatureWrapper = styled.div`
             .firstElement{
               width: 100%;
               text-align: center;
+              display: flex;
+              align-items: center;
+              padding-bottom: 5%;
               p{
                   font-size: 2vw;
                 }

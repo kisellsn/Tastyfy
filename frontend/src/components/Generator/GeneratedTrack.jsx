@@ -3,7 +3,7 @@ import './styles.scss';
 import img from '../../assets/images/NOimage.png'
 
 const GeneratedTrack = ({song, removeTrack}) => {
-    let title = song.name.length > 22 ? song.name.substring(0, 22) + "..." : song.name;
+    let title = song.name.length > 23 ? song.name.substring(0, 23) + "..." : song.name;
     let artist = song.album?.artists[0]?.name.length > 22 ? song.album?.artists[0]?.name.substring(0, 22) + "..." : song.album?.artists[0]?.name;
     const removeSong = () => {
         removeTrack(song.id)

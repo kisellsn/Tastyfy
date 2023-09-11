@@ -153,24 +153,12 @@ function About(props) {
             <h2>About</h2>
             <div id='textAbout'>
 
-              <div className={`${mate !== 0 ? 'hidden' : ''}`}>
-                <h4>Sonya Kondratska - Back-end Developer</h4>
-                <p>Sonya is the mastermind behind the technical infrastructure that powers Tastyfy. With her expertise in back-end development, she ensures that our platform operates smoothly, securely, and efficiently. She is committed to delivering a seamless user experience, enabling you to explore your music preferences effortlessly.</p>
-              </div>
-
-              <div className={`${mate !== 1 ? 'hidden' : ''}`}>
-                <h4>Andrii Mieshkov - Front-end Developer</h4>
-                <p>Andrii is responsible for the visual and interactive aspects of Tastyfy. Using his skills in front-end development, he creates an intuitive and engaging user interface that makes navigating through the platform a delightful experience. Andrii works tirelessly to bring your music preferences to life and ensure that you have a seamless interaction with Tastyfy.</p>
-              </div>
-
-              <div className={`${mate !== 2 ? 'hidden' : ''}`}>  
-                <h4>Mykyta Tykhonenko - UI/UX Designer</h4>
-                <p>Mykyta's expertise lies in crafting captivating user experiences. As the UI/UX designer for Tastyfy, he combines aesthetics with functionality, designing a visually appealing interface that complements the overall user journey. Mykyta's goal is to make your time on Tastyfy enjoyable, visually stimulating, and easy to navigate.</p>
-              </div>
-
-              <div className={`${mate !== 3 ? 'hidden' : ''}`}>  
-                <h4>Metin Shabanov - Data Analyst</h4>
-                <p>Metin is the brains behind the data analysis at Tastyfy. With his analytical skills and music expertise, he dives into the vast world of music data to uncover hidden connections and patterns. By analyzing your music preferences, Metin continuously enhances the algorithms that power Tastyfy, ensuring that the music charts you receive are tailored specifically to your unique taste.</p>
+              <div>
+              <p>
+              Tastyfy is a music preference analyzer that helps users learn more about their taste and discover new music that matches their personal preferences.
+We believe that music has the power to enrich our lives and connect us on a deeper level. Our mission is to empower you to explore your music preferences, expand your musical horizons, and make discovering new music an exciting and personalized journey.
+Tastyfy uses Spotify's Web API to display your listening history, define your top genres, and to recommend under-the-radar songs you might like.
+</p>
               </div>
 
             </div>

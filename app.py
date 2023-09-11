@@ -5,8 +5,8 @@ from datetime import timedelta, datetime
 from PIL import Image
 from flask import Flask, request, session, jsonify, make_response, redirect
 
-from spotify_requests import spotify
-from analysis import analysis
+from backend.spotify_requests import spotify
+from backend.analysis import analysis
 
 app = Flask(__name__, static_folder="../frontend/build", static_url_path='')
 app.secret_key = 'some secret key ;)'

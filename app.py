@@ -8,7 +8,7 @@ from flask import Flask, request, session, jsonify, make_response, redirect
 from backend.spotify_requests import spotify
 from backend.analysis import analysis
 
-app = Flask(__name__, static_folder="../frontend/build", static_url_path='')
+app = Flask(__name__, static_folder="frontend/build", static_url_path='')
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 

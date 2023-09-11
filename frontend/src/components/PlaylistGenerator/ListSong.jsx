@@ -3,10 +3,10 @@ import './styles.scss';
 import img from '../../assets/images/NOimage.png'
 
 const ListSong = ({song, addToPlaylist}) => {
-    let title = song.name.length > 20 ? song.name.substring(0, 20) + "..." : song.name;
+    let title = song.name.length > 23 ? song.name.substring(0, 23) + "..." : song.name;
     let artist = song.album?.artists[0]?.name.length > 20 ? song.album?.artists[0]?.name.substring(0, 20) + "..." : song.album?.artists[0]?.name;
-    let album = song.album.name.length > 20 ? song.album.name.substring(0, 20) + "..." : song.album.name;
-    // song.name.length > 20 ? song.name.substring(0, 20) + "..." : song.name;
+    let album = song.album.name.length > 25 ? song.album.name.substring(0, 25) + "..." : song.album.name;
+
     const handleChoice = () => {
         addToPlaylist(song.id, song)
     }

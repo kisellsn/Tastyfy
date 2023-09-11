@@ -1,12 +1,10 @@
 import React from 'react';
 import './Menu.scss';
-// import AddImage from 'src/assets/images/menu/menu_add.png'
 import LinkI from 'src/assets/images/link.png'
-// import img from '../../images/imageNotFound.png'
 
 const Song2 = ({song}) => {
     let artist = song.artists[0].name
-    let title = song.name.length > 20 ? song.name.substring(0, 20) + "..." : song.name;
+    let title = song.name.length > 23 ? song.name.substring(0, 23) + "..." : song.name;
 
     const spotifySong = () => {
         const url = song.external_urls.spotify;

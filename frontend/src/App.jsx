@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { StyledEngineProvider } from '@mui/material/styles';
 import Login from 'src/components/Login/Login';
 import Footer from "./components/Footer/footer";
 import About from './components/About/About';
@@ -16,7 +16,6 @@ function App() {
   return (
       <HelmetProvider>
         <StyledEngineProvider injectFirst>
-          <ThemeProvider >
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/menu" element={<Menu />} />
@@ -26,7 +25,6 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
             </Routes>
             <Footer />
-          </ThemeProvider>
         </StyledEngineProvider>
       </HelmetProvider>
   );

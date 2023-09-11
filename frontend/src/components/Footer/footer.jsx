@@ -22,18 +22,22 @@ function Footer() {
 
     return (
         <div className={`footer ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}>
-            <div className={`Email ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}>
+            <div 
+                onClick={() => window.location.href = 'mailto:tastyfy.tech@gmail.com'}
+                className={`Email ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}>
                 <img className={`Vector ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`}
                 src={VectorImage} 
                 loading="lazy" 
                 alt={'Vector'} 
-                onClick={() => window.location.href = 'mailto:tastyfy.tech@gmail.com'}
+                
                 /> 
                 <p>Contact us</p>
             </div>
-            <div className={`Coffee ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`} style={{display:`${(currentPage === '/about' || currentPage === '/privacy') ? 'flex' : 'none'}`}}>
+            <div 
+                onClick={() => window.location.href = 'https://www.buymeacoffee.com/tastyfy'}
+                className={`Coffee ${currentPage === '/about' ? 'about' : (currentPage === '/privacy' ? 'about' : '')}`} style={{display:`${(currentPage === '/about' || currentPage === '/privacy') ? 'flex' : 'none'}`}}>
                 <svg  
-                    onClick={() => window.location.href = 'https://www.buymeacoffee.com/tastyfy'}
+                    
                     viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M33.5417 46.0001H10.5417C10.0357 46.0001 9.61687 45.6072 9.58525 45.1012L7.66858 14.4345C7.65229 14.171 7.74525 13.9112 7.92637 13.7186C8.1075 13.526 8.3605 13.4167 8.625 13.4167H35.4583C35.7228 13.4167 35.9758 13.526 36.157 13.7186C36.3381 13.9112 36.431 14.171 36.4147 14.4345L34.4981 45.1012C34.4665 45.6072 34.0477 46.0001 33.5417 46.0001ZM11.4415 44.0834H32.6408L34.4377 15.3334H9.64466L11.4415 44.0834Z" fill="white"/>
                     <path d="M37.375 15.3333H6.70833C6.17933 15.3333 5.75 14.905 5.75 14.375V6.70833C5.75 6.17838 6.17933 5.75 6.70833 5.75H37.375C37.904 5.75 38.3333 6.17838 38.3333 6.70833V14.375C38.3333 14.905 37.904 15.3333 37.375 15.3333ZM7.66667 13.4167H36.4167V7.66667H7.66667V13.4167Z" fill="white"/>

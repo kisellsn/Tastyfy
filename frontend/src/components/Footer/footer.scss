@@ -87,12 +87,15 @@
   width: 9%;
   aspect-ratio: 173/75;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   color: white;
+  cursor: pointer;
+  gap: 10px;
   img{
     position: relative;
     top:auto;
     left:auto;
+    width: 25px;
   }
   p{
     font-family: Sansation;
@@ -111,12 +114,13 @@
   width: 12%;
   aspect-ratio: 194/75;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   color: white;
+  cursor: pointer;
+  gap: 10px;
   svg{
-    width: 22%;
+    width: 25px;
     aspect-ratio: 1/1;
-    margin-right: 2%;
     cursor: pointer;
   }
   p{

@@ -2,12 +2,13 @@ const TOKEN_KEY = 'spotifyToken';
 const USER_KEY = 'spotifyUser';
 
 export const storeUser = (user) => {
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
+  if(user)localStorage.setItem(USER_KEY, JSON.stringify(user));
 };
 
 export const getUserFromStorage = () => {
   const user = localStorage.getItem(USER_KEY);
   if(user === undefined) return false;
+  if(user && JSON.parse(user)) console.log(JSON.parse(user));
   return (user && JSON.parse(user)) ? JSON.parse(user) : null;
 };
 
@@ -23,9 +24,6 @@ export const clearLocalStorage = () => {
   localStorage.removeItem('featureDiagram');
   localStorage.removeItem('playlist');
   localStorage.removeItem('tracks');
-
-  // localStorage.removeItem('playlist');
-  // localStorage.removeItem('tracks');
 };
 
 export const getCookie = (cname='session') => {

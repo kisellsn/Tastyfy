@@ -144,16 +144,23 @@ def get_genres_overview():
 
 @app.route('/api/user/recommendations', methods=('GET', 'POST'))
 def rec():
-    if 'auth_header' in session:
-        auth_header = session['auth_header']
-        if request.method == 'POST':
-            data = request.json
-            market = data.get('code')
-            genres = get_genres(auth_header)
-            if genres is None: return make_response("not enough data", 204)
-            first_genre = analysis.convert_genres(genres).loc[0, 'Genre'].split()
-            genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), ' '.join(first_genre))
+    if 'auth_header' not in session:
+        return make_response("Token not in session", 401)
 
+    auth_header = session['auth_header']
+
+    if request.method == 'POST':
+        data = request.json
+        market = data.get('code')
+        genres = get_genres(auth_header)
+
+        if genres is None:
+            return make_response("Not enough data", 204)
+
+        first_genre = analysis.convert_genres(genres).loc[0, 'Genre'].split()
+        genre_name = next((word for word in first_genre if word.lower() in spotify.music_genres), ' '.join(first_genre))
+
+        try:
             search = spotify.search(auth_header, name=f"{market.split('_')[0]} trending {genre_name} ",
                                     search_type="playlist", limit=1, market=market.split('_')[1])
 
@@ -167,12 +174,13 @@ def rec():
             tracks_ids = analysis.get_smarter_recommendations(tracks)
             recommendations = spotify.get_several_tracks(auth_header, tracks_ids)
             res = make_response(recommendations["tracks"], 200)
+            return res
 
-        else:
-            recommendations = spotify.get_recommendations(auth_header, limit=9)
-            res = make_response(recommendations["tracks"], 200)
-    else:
-        res = make_response("token not in session", 401)
+        except Exception as e:
+            print(f"Error: {str(e)}")
+
+    recommendations = spotify.get_recommendations(auth_header, limit=9)
+    res = make_response(recommendations["tracks"], 200)
     return res
 
 

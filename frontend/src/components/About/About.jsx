@@ -12,7 +12,8 @@ function About(props) {
   const [mate, setMate] = useState(0);
 
   const handleGoBack = () => {
-    navigate('/menu');
+    // navigate('/menu');
+    navigate(-1);
   };
 
   const handlePlusMate =() => {

@@ -6,25 +6,20 @@ export const storeUser = (user) => {
 };
 
 export const getUserFromStorage = () => {
-  try {
-    const user = localStorage.getItem(USER_KEY);
-    if (user === null) return null;
+  const user = localStorage.getItem(USER_KEY);
 
-    const parsedUser = JSON.parse(user);
-    if (typeof parsedUser === 'object' && parsedUser !== null) {
+  try {
+    const parsedUser = user ? JSON.parse(user) : null;
+    if (parsedUser) {
       console.log(parsedUser);
       return parsedUser;
-    } else {
-      console.error('Invalid JSON data in user storage.');
-      return null;
     }
   } catch (error) {
-    console.error('Error parsing JSON from user storage:', error);
-    return null;
+    console.error('error parse JSON:', error);
   }
+
+  return false;
 };
-
-
 
 
 

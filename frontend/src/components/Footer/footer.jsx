@@ -6,6 +6,13 @@ import './footer.scss';
 import axios from 'axios';
 import { clearLocalStorage } from 'src/util/local';
 
+const isMobile = () => {
+    const userAgent = navigator.userAgent;
+    const mobileKeywords = ["Android", "iPhone", "iPad", "iPod", "Windows Phone"];
+    return mobileKeywords.some(keyword => userAgent.includes(keyword));
+}
+  
+
 
 function Footer() {
     const navigate = useNavigate();
@@ -31,7 +38,7 @@ function Footer() {
                 alt={'Vector'} 
                 
                 /> 
-                <p>Contact us</p>
+                <p style={{display:`${(isMobile()) ? 'none' : ''}`}}>Contact us</p>
             </div>
             <div 
                 onClick={() => window.location.href = 'https://www.buymeacoffee.com/tastyfy'}
@@ -46,7 +53,9 @@ function Footer() {
                     <path d="M34.2604 32.5833H9.82294V34.4999H34.2604V32.5833Z" fill="white"/>
                     <path d="M24.9166 28.7499H19.1666C18.6376 28.7499 18.2083 28.3215 18.2083 27.7916C18.2083 27.2616 18.6376 26.8333 19.1666 26.8333H24.9166C25.4456 26.8333 25.875 27.2616 25.875 27.7916C25.875 28.3215 25.4456 28.7499 24.9166 28.7499Z" fill="white"/>
                 </svg>
-                <p>Buy us a coffee</p>
+
+                <p style={{display:`${(isMobile()) ? 'none' : ''}`}}>Buy us a coffee</p>
+
 
             </div>
             <div id={currentPage === '/about' ? 'PrivacyFaq' : (currentPage === '/privacy' ? 'PrivacyFaq' : 'AboutPrivacyFaq')}>

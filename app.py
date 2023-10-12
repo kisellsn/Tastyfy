@@ -286,7 +286,7 @@ def logout():
 def get_genres(auth_header):
     recently_played = spotify.get_recently_played(auth_header)
     if len(recently_played['items']) < 1: return make_response("not enough data", 204)
-    top_artists_ids = analysis.get_history_top_artists(recently_played)
+    top_artists_ids = analysis.get_history_top_artists(recently_played, limit = 100)
     top_artists = spotify.get_several_artists(auth_header, top_artists_ids)
     genres = spotify.get_user_genres(auth_header, top_artists)
     return genres

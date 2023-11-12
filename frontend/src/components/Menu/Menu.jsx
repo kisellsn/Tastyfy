@@ -14,6 +14,7 @@ import FeatureViewer from '../Plots/FeatureViewer';
 import Header from '../Header/Header';
 import { clearLocalStorage, getTopsLocal, getUserFromStorage, newLocal, storeUser } from 'src/util/local';
 import RecSelector from '../Plots/RecSlector';
+import SpotifyLogoWhite from 'src/assets/images/Spotify_Logo_RGB_White.png';
 
 
 
@@ -444,7 +445,16 @@ function Menu(props) {
             ))}
         </CircleWrapper>
       </div>
-
+      <div className='power'>
+        <div>Powered by</div>
+        <a href="https://spotify.com">
+          <img 
+            src={SpotifyLogoWhite} 
+            alt='Spotify'
+            loading="lazy"
+          />
+        </a>
+      </div>
     </div>
   );
 }

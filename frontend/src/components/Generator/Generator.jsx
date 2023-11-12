@@ -9,6 +9,7 @@ import GeneratedTrack from './GeneratedTrack';
 import { addImage, addToPlaylist, createPlaylist, generateTracks } from 'src/util/functions';
 import { useNewtracksContext } from 'src/context/newtracksContext';
 import { getUserFromStorage } from 'src/util/local';
+import SpotifyLogoWhite from 'src/assets/images/Spotify_Logo_RGB_White.png';
 
 
 function Generator(props) {
@@ -278,6 +279,16 @@ function Generator(props) {
                     <div className='buttonCreate'>
                         <button onClick={handleBack}>Back</button>
                     </div>
+                </div>
+                <div className='power'>
+                    <div>Powered by</div>
+                    <a href="https://spotify.com">
+                        <img 
+                            src={SpotifyLogoWhite} 
+                            alt='Spotify'
+                            loading="lazy"
+                        />
+                    </a>
                 </div>
             </div>
             

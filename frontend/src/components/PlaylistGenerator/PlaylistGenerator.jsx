@@ -9,6 +9,7 @@ import { usePlaylistContext } from 'src/context/playlistContext';
 import PlaylistSong from './PlaylistSong';
 import cat1 from '../../assets/images/cat1.png'
 import cat2 from '../../assets/images/cat2.png'
+import SpotifyLogoWhite from 'src/assets/images/Spotify_Logo_RGB_White.png';
 
 function PlaylistGenerator(props) {
     const [userInfo, setUserInfo] = useState('');
@@ -178,6 +179,16 @@ function PlaylistGenerator(props) {
                     <div className='done'>
                         <button className={playlist.length  ? '' : 'unactive_button'} onClick={playlist.length  ? handleGeneration : null}>Done</button>
                     </div>
+                </div>
+                <div className='power'>
+                    <div>Powered by</div>
+                    <a href="https://spotify.com">
+                        <img 
+                            src={SpotifyLogoWhite} 
+                            alt='Spotify'
+                            loading="lazy"
+                        />
+                    </a>
                 </div>
             </div>
             

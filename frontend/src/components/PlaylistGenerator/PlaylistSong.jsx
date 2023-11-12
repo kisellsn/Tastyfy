@@ -12,7 +12,9 @@ const PlaylistSong = ({song, removeItem}) => {
     return (
         <div className="playlist-card">
             <div className="playlist-card_img" id={song.id}>
-                <img src={song.album?.images[0]?.url || img} alt="Default song"/>
+                <a href={song.external_urls.spotify}> 
+                    <img src={song.album?.images[0]?.url || img} alt="Default song"/>
+                </a>
             </div>
             <div className="playlist-card_content">
                 <h4>{title}</h4>

@@ -6,10 +6,6 @@ const Song2 = ({song}) => {
     let artist = song.artists[0].name
     let title = song.name.length > 23 ? song.name.substring(0, 23) + "..." : song.name;
 
-    const spotifySong = () => {
-        const url = song.external_urls.spotify;
-        window.location.href = url;
-      };
     return (
         <div className="rec-card" id={song.id}>
             <div className="rec-card_img" id={song.id}>
@@ -20,7 +16,9 @@ const Song2 = ({song}) => {
                 <h4 className="rec-card_text2">{artist}</h4>
             </div>
             <div className="rec-card_plus">
-                <img className='plus' src={LinkI} alt="Default song" onClick={spotifySong}/>
+                <a href={song.external_urls.spotify}> 
+                    <img className='plus' src={LinkI} alt="Default song"/>
+                </a>
             </div>
         </div>
     )

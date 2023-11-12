@@ -7,22 +7,9 @@ export const storeUser = (user) => {
 
 export const getUserFromStorage = () => {
   const user = localStorage.getItem(USER_KEY);
-
-  try {
-    const parsedUser = user ? JSON.parse(user) : null;
-    if (parsedUser) {
-      console.log(parsedUser);
-      return parsedUser;
-    }
-  } catch (error) {
-    console.error('error parse JSON:', error);
-  }
-
-  return false;
+  if(user === undefined) return false;
+  return (user && JSON.parse(user)) ? JSON.parse(user) : null;
 };
-
-
-
 
 export const clearLocalStorage = () => {
   localStorage.removeItem(TOKEN_KEY);

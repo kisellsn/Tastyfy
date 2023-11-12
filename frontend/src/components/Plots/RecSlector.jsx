@@ -11,7 +11,6 @@ const RecSelector = ({ funcArray, setFuncArray }) => {
     setFuncArray(feature); 
     setIsDropdownOpen(false);
   };
-  console.log()
 
   return (
     <CustomSelectWrapper>

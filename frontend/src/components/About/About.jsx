@@ -158,7 +158,7 @@ function About(props) {
               <p>
               Tastyfy is a music preference analyzer that helps users learn more about their taste and discover new music that matches their personal preferences.
 We believe that music has the power to enrich our lives and connect us on a deeper level. Our mission is to empower you to explore your music preferences, expand your musical horizons, and make discovering new music an exciting and personalized journey.
-Tastyfy uses Spotify's Web API to display your listening history, define your top genres, and to recommend under-the-radar songs you might like. <br/> You can disable our app from your account <a href="https://www.spotify.com/account/apps/" style={{ textDecoration: 'underline' }}>here</a>.
+Tastyfy uses Spotify's Web API to display your listening history, define your top genres, and to recommend under-the-radar songs you might like. <br/> <br/> You can disable our app from your account <a href="https://www.spotify.com/account/apps/" style={{ textDecoration: 'underline' }}>here</a>.
 </p>
               </div>
 

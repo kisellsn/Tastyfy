@@ -1,22 +1,26 @@
 import base64
 import io
-import json
 import webbrowser
-from datetime import timedelta, datetime, timezone
-
+from datetime import timedelta, datetime
 from PIL import Image
-from flask import Flask, request, redirect, render_template, session, url_for, jsonify, make_response
-from backend.spotify_requests import spotify
-from backend.analysis import analysis
+from flask import Flask, request, session, jsonify, make_response, redirect
 
-from flask_cors import CORS
+from spotify_requests import spotify
+from analysis import analysis
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../frontend/build", static_url_path='')
 app.secret_key = 'some secret key ;)'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
-CORS(app)
 
+
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 # ----------------------- AUTH -------------------------
 
@@ -26,6 +30,7 @@ def auth():
         "link": spotify.AUTH_URL
     })
 
+
 @app.route("/callback/")
 def callback():
     auth_token = request.args['code']
@@ -34,7 +39,8 @@ def callback():
     session['refresh_token'] = refresh_token
     session['expires_at'] = expires_at
     session.permanent = True
-    return redirect("http://localhost:3000/menu")
+    return redirect("/menu")
+
 
 @app.route("/api/token")
 def get_code():
@@ -50,15 +56,12 @@ def get_code():
 
 # -------------------------- API REQUESTS ----------------------------
 
-
 @app.route('/api/user')
 def get_profile():
     if 'auth_header' in session:
         auth_header = session['auth_header']
         profile_data = spotify.get_current_profile(auth_header)
         res = make_response(profile_data, 200)
-        # res.set_cookie('auth_header', auth_header)
-
     else:
         res = make_response("token not in session", 401)
     return res
@@ -290,4 +293,5 @@ def get_genres(auth_header):
 
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=spotify.SERVER_PORT, debug=True)
+    app.run()
+

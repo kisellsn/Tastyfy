@@ -7,6 +7,7 @@ import string
 import random
 from collections import Counter
 from datetime import datetime, timedelta
+import os
 
 try:
     import urllib.request, urllib.error
@@ -35,9 +36,11 @@ SPOTIFY_AUTH_URL = SPOTIFY_AUTH_BASE_URL.format('authorize')
 SPOTIFY_TOKEN_URL = SPOTIFY_AUTH_BASE_URL.format('api/token')
 
 # client keys
-CLIENT = json.load(open('conf.json', 'r+'))
-CLIENT_ID = CLIENT['id']
-CLIENT_SECRET = CLIENT['secret']
+# CLIENT = json.load(open('conf.json', 'r+'))
+# CLIENT_ID = CLIENT['id']
+# CLIENT_SECRET = CLIENT['secret']
+CLIENT_ID = os.environ.get('ID')
+CLIENT_SECRET = os.environ.get('SECRET')
 
 # server side parameter
 CLIENT_SIDE_URL = "http://localhost"
